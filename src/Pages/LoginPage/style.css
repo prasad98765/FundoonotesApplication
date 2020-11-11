@@ -1,0 +1,34 @@
+.signCard{
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-top: 2%;
+}
+
+.text{
+    width: 100%;
+}
+.textEmail{
+    width: 100%;
+}
+
+.textLogin{
+    width: 77%;
+}
+
+
+
+@media only screen and (max-width : 600px) {
+    .signCard{
+        margin-left: 5%;
+        margin-right: 5%;
+        margin-top: 2%;
+    }
+  }
+
+  @media only screen and (max-width : 1200px) {
+    .signCard{
+        margin-left: 5%;
+        margin-right: 5%;
+        margin-top: 2%;
+    }
+  }
