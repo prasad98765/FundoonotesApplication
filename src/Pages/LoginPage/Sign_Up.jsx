@@ -9,7 +9,11 @@ import {
   Grid,
   Card,
   makeStyles,
+  Link,
 } from "@material-ui/core/";
+
+import FormHelperText from "@material-ui/core/FormHelperText";
+const mobileRegex = RegExp("^[a-z]{3,}$");
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,12 +30,56 @@ class SignUp extends React.Component {
   constructor() {
     super();
     this.state = {
+      staticText: "@gmail.com",
       NAME: null,
-      formErrors: {
-        NAME: "",
-      },
+      LASTNAME: null,
+      EMAIL: null,
+      PASSWORD: null,
+      CONFIRMPASS: null,
+      VALIDNAME: true,
+      VALIDLASTNAME: true,
+      VALIDEMAIL: true,
+      VALIDPASS: true,
+      MESSAGE: "",
     };
+    this.handleChange = this.handleChange.bind(this);
   }
+
+  handleChange = async (e) => {
+    const { name } = e.target;
+    this.setState({ [e.target.name]: await e.target.value });
+    console.log("a", this.state.LASTNAME);
+    console.log("b", this.state.EMAIL);
+
+    switch (name) {
+      case "NAME":
+        mobileRegex.test(this.state.NAME)
+          ? this.setState({ VALIDNAME: false })
+          : this.setState({ VALIDNAME: true });
+        break;
+      case "LASTNAME":
+        mobileRegex.test(this.state.LASTNAME)
+          ? this.setState({ VALIDLASTNAME: false })
+          : this.setState({ VALIDLASTNAME: true });
+        break;
+      case "EMAIL":
+        mobileRegex.test(this.state.EMAIL)
+          ? this.setState({ VALIDEMAIL: false })
+          : this.setState({ VALIDEMAIL: true });
+        break;
+      case "PASSWORD":
+        break;
+      case "CONFIRMPASS":
+        if (this.state.PASSWORD !== this.state.CONFIRMPASS) {
+          this.setState({ MESSAGE: "PassWord Not Match" });
+        } else {
+          this.setState({ VALIDPASS: false });
+        }
+        break;
+      default:
+        break;
+    }
+  };
   render() {
     return (
       <>
@@ -48,22 +96,43 @@ class SignUp extends React.Component {
                 <Grid container spacing={3}>
                   <Grid item xs={6}>
                     <TextField
+                      label="First name"
+                      type="text"
+                      value={this.state.NAME}
                       className="text"
                       name="NAME"
-                      id="outlined-helperText"
-                      label="First Name"
-                      defaultValue=""
                       variant="outlined"
+                      onChange={this.handleChange}
+                      required
                     />
+                    {this.state.VALIDNAME === true ? (
+                      <FormHelperText
+                        style={{ color: "red" }}
+                        id="outlined-weight-helper-text"
+                      >
+                        enter valid firstname
+                      </FormHelperText>
+                    ) : null}
                   </Grid>
                   <Grid item xs={6}>
                     <TextField
+                      label="First name"
+                      type="text"
+                      value={this.state.LASTNAME}
                       className="text"
-                      id="outlined-helperText"
-                      label="Last Name"
-                      defaultValue=""
+                      name="LASTNAME"
                       variant="outlined"
+                      onChange={this.handleChange}
+                      required
                     />
+                    {this.state.VALIDLASTNAME === true ? (
+                      <FormHelperText
+                        style={{ color: "red" }}
+                        id="outlined-weight-helper-text"
+                      >
+                        enter valid Lastname
+                      </FormHelperText>
+                    ) : null}
                   </Grid>
                 </Grid>
               </div>
@@ -73,12 +142,22 @@ class SignUp extends React.Component {
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
                     <TextField
-                      className="textEmail"
-                      id="outlined-helperText"
-                      label="Email Id"
-                      defaultValue=""
+                      label="First name"
+                      type="text"
+                      value={this.state.firstName}
+                      className="text"
+                      name="EMAIL"
                       variant="outlined"
+                      onChange={this.handleChange}
                     />
+                    {this.state.VALIDEMAIL === true ? (
+                      <FormHelperText
+                        style={{ color: "red" }}
+                        id="outlined-weight-helper-text"
+                      >
+                        enter valid Email
+                      </FormHelperText>
+                    ) : null}
                   </Grid>
                 </Grid>
               </div>
@@ -88,22 +167,37 @@ class SignUp extends React.Component {
                 <Grid container spacing={3}>
                   <Grid item xs={6}>
                     <TextField
+                      label="First name"
+                      type="text"
                       className="text"
-                      type="password"
-                      id="outlined-helperText"
-                      label="Password"
-                      defaultValue=""
+                      name="PASSWORD"
                       variant="outlined"
+                      onChange={this.handleChange}
                     />
+                    {this.state.VALIDPASS === true ? (
+                      <FormHelperText
+                        style={{ color: "red" }}
+                        id="outlined-weight-helper-text"
+                      >
+                        {this.state.MESSAGE}
+                      </FormHelperText>
+                    ) : (
+                      <FormHelperText
+                        style={{ color: "green" }}
+                        id="outlined-weight-helper-text"
+                      >
+                        Password Match
+                      </FormHelperText>
+                    )}
                   </Grid>
                   <Grid item xs={6}>
                     <TextField
+                      label="First name"
+                      type="text"
                       className="text"
-                      type="password"
-                      id="outlined-helperText"
-                      label="Confirm"
-                      defaultValue=""
+                      name="CONFIRMPASS"
                       variant="outlined"
+                      onChange={this.handleChange}
                     />
                   </Grid>
                 </Grid>
@@ -113,13 +207,17 @@ class SignUp extends React.Component {
               <div className={useStyles.root}>
                 <Grid container spacing={3}>
                   <Grid item xs={6}>
-                    <Button variant="outlined" color="secondary" href="/">
+                    <Link href="/" variant="body2">
                       Sign in instead
-                    </Button>
+                    </Link>
                   </Grid>
-                  <Grid item xs={6}>
-                    <Button variant="outlined" color="secondary">
-                      submit
+                  <Grid item xs={6} style={{ textAlign: "right" }}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      href="#contained-buttons"
+                    >
+                      Submit
                     </Button>
                   </Grid>
                 </Grid>
