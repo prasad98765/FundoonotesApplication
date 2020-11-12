@@ -16,7 +16,24 @@ class UserServices {
          callback(error.response);
        });
    }
+   userLogin = async (user,callback) => {
+    return await Axios.post(
+        `${Url}user/login`,
+        user
+      )
+        .then((response) => {
+          console.log(response);
+          callback(response);
+        })
+        .catch((error) => {
+          console.log(error);
+          callback(error);
+        });
+    }
+  
 }
+
+
 
 export default new UserServices();
 

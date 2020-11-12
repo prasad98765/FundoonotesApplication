@@ -1,6 +1,8 @@
 import React from "react";
 import "../LoginPage/style.scss";
 import Logo from "../../Imgaes/googleLogo";
+import UserServicesAPI from "../../Services/UserServicesAPI.js";
+
 import {
   CardContent,
   Button,
@@ -16,6 +18,7 @@ import {
   FormHelperText,
   FormControl,
   IconButton,
+  Snackbar,
 } from "@material-ui/core/";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
@@ -39,8 +42,11 @@ class SignIn extends React.Component {
     super();
     this.state = {
       EMAIL: null,
+      PASSWORD: null,
       VALIDEMAIL: true,
       hidden: true,
+      open: false,
+      message: "",
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -62,9 +68,45 @@ class SignIn extends React.Component {
   ShowPassword = () => {
     this.setState({ hidden: false });
   };
+
+  userLogin = async () => {
+    let data = {
+      email: this.state.EMAIL,
+      password: this.state.PASSWORD,
+    };
+    UserServicesAPI.userLogin(data, (res) => {
+      console.log("abababababa");
+      if (res.status === 200) {
+        console.log("get message", res);
+        this.setState({ message: "Login Done" });
+        this.setState({ open: true });
+      } else {
+        this.setState({ message: "unauthorized" });
+        this.setState({ open: true });
+      }
+    });
+  };
+
+  handleSnackbarClose = (event) => {
+    this.setState({
+      open: false,
+    });
+    this.props.history.push("/");
+  };
+
   render() {
     return (
       <>
+        <Snackbar
+          anchorOrigin={{
+            vertical: "center",
+            horizontal: "center",
+          }}
+          open={this.state.open}
+          autoHideDuration={3000}
+          onClose={this.handleSnackbarClose}
+          message={<span id="message-id">{this.state.message}</span>}
+        />
         <Card
           className="signCard"
           style={{ textAlign: "center", padding: "2%" }}
@@ -119,7 +161,7 @@ class SignIn extends React.Component {
                       </InputLabel>
                       <OutlinedInput
                         type={this.state.hidden ? "password" : "text"}
-                        name="CONFIRMPASS"
+                        name="PASSWORD"
                         value={this.state.CONFIRMPASS}
                         onChange={this.handleChange}
                         endAdornment={
@@ -201,7 +243,7 @@ class SignIn extends React.Component {
                     <Button
                       variant="contained"
                       color="primary"
-                      href="#contained-buttons"
+                      onClick={this.userLogin}
                     >
                       Login
                     </Button>

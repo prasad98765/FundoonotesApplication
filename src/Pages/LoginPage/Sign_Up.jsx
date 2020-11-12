@@ -124,7 +124,6 @@ class SignUp extends React.Component {
         console.log("get message", res);
         this.setState({ message: res.data.data.message });
         this.setState({ open: true });
-        this.props.history.push("/");
       } else {
         this.setState({ message: "Already Register" });
         this.setState({ open: true });
@@ -136,6 +135,7 @@ class SignUp extends React.Component {
     this.setState({
       open: false,
     });
+    this.props.history.push("/");
   };
 
   render() {
