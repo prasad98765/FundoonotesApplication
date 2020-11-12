@@ -1,6 +1,4 @@
 import Axios from "axios";
-
-
 const Url = 'http://fundoonotes.incubation.bridgelabz.com/api/'
 
 class UserServices {
@@ -22,14 +20,25 @@ class UserServices {
         user
       )
         .then((response) => {
-          console.log(response);
           callback(response);
         })
         .catch((error) => {
-          console.log(error);
           callback(error);
         });
     }
+    forgotPassword = async (user, callback)=>{
+      return  Axios.post(
+          `${Url}/user/reset`,
+          user
+        )
+          .then((response) => {
+            console.log(response);
+            callback(response);
+          })
+          .catch((error) => {
+            callback(error);
+          });
+      }
   
 }
 

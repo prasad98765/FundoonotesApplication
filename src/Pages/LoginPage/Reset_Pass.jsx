@@ -1,23 +1,24 @@
 import React from "react";
 import "../LoginPage/style.scss";
-import UserServicesAPI from "../../Services/UserServicesAPI.js";
-
 import {
-  Card,
-  makeStyles,
   CardContent,
   Button,
-  Link,
-  Grid,
-  TextField,
   Typography,
+  TextField,
+  Grid,
+  Card,
+  makeStyles,
+  Link,
+  InputLabel,
+  OutlinedInput,
+  InputAdornment,
   FormHelperText,
-  Snackbar,
+  FormControl,
+  IconButton,
 } from "@material-ui/core/";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 import Logo from "../../Imgaes/googleLogo";
-const EmailRegex = RegExp(
-  "^[a-zA-Z0-9]+[.+_-]?[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.][a-zA-Z]{2,4}[.]?[a-zA-Z]{0,3}"
-);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,13 +31,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-class ForgotPass extends React.Component {
+class ResetPass extends React.Component {
   constructor() {
     super();
     this.state = {
-      NAME: null,
-      EMAIL: null,
-      VALIDEMAIL: true,
+      PASSWORD: null,
+      CONFIRMPASS: null,
+      VALIDPASS: true,
+      hidden: true,
+      MESSAGE: "",
       open: false,
       message: "",
     };
@@ -45,48 +48,26 @@ class ForgotPass extends React.Component {
     const { name } = e.target;
     this.setState({ [e.target.name]: await e.target.value });
     switch (name) {
-      case "EMAIL":
-        EmailRegex.test(this.state.EMAIL)
-          ? this.setState({ VALIDEMAIL: false })
-          : this.setState({ VALIDEMAIL: true });
+      case "CONFIRMPASS":
+        if (this.state.PASSWORD === this.state.CONFIRMPASS) {
+          this.setState({ VALIDPASS: false });
+          this.setState({ SUBMIT: false });
+        } else {
+          this.setState({ VALIDPASS: true });
+          this.setState({ MESSAGE: "Both Password didn't match try again" });
+        }
         break;
       default:
         break;
     }
   };
-  handleSnackbarClose = (event) => {
-    this.setState({
-      open: false,
-    });
-    this.props.history.push("/resetPass");
-  };
-  restPasswod = () => {
-    let data = {
-      email: this.state.EMAIL,
-    };
-    UserServicesAPI.forgotPassword(data, (res) => {
-      if (res.status === 200) {
-        this.setState({ message: res.data.message });
-        this.setState({ open: true });
-      } else {
-        this.setState({ message: "Please Enter Valid Email" });
-        this.setState({ open: true });
-      }
-    });
+
+  ShowPassword = () => {
+    this.setState({ hidden: false });
   };
   render() {
     return (
       <>
-        <Snackbar
-          anchorOrigin={{
-            vertical: "center",
-            horizontal: "center",
-          }}
-          open={this.state.open}
-          autoHideDuration={3000}
-          onClose={this.handleSnackbarClose}
-          message={<span id="message-id">{this.state.message}</span>}
-        />
         <Card
           className="signCard"
           style={{ textAlign: "center", padding: "3%" }}
@@ -96,10 +77,7 @@ class ForgotPass extends React.Component {
               <Logo></Logo>
             </Typography>
             <Typography variant="h5" component="h2" style={{ marginTop: "2%" }}>
-              Account Recovery
-            </Typography>
-            <Typography variant="h6" component="h2" style={{ marginTop: "2%" }}>
-              Enter The Your Email
+              Reset Password
             </Typography>
             <Typography
               variant="body2"
@@ -110,26 +88,64 @@ class ForgotPass extends React.Component {
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
                     <TextField
+                      type="passwoed"
+                      name="PASSWORD"
                       className="textLogin"
-                      name="EMAIL"
                       id="outlined-helperText"
-                      label="Email Id"
+                      label="Enter Password"
                       defaultValue=""
                       variant="outlined"
                       onChange={this.handleChange}
                     />
-                    {this.state.VALIDEMAIL === true ? (
-                      <FormHelperText
-                        style={{ color: "red", marginLeft: "12%" }}
-                        id="outlined-weight-helper-text"
-                      >
-                        enter valid Email
-                      </FormHelperText>
-                    ) : null}
                   </Grid>
                 </Grid>
               </div>
             </Typography>
+
+            <Typography variant="body2" component="p">
+              <div className={useStyles.root}>
+                <Grid container spacing={3}>
+                  <Grid item xs={12}>
+                    <FormControl className="textLogin" variant="outlined">
+                      <InputLabel htmlFor="outlined-adornment-password">
+                        Confirm
+                      </InputLabel>
+                      <OutlinedInput
+                        type={this.state.hidden ? "password" : "text"}
+                        name="CONFIRMPASS"
+                        value={this.state.CONFIRMPASS}
+                        onChange={this.handleChange}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={this.ShowPassword}
+                              edge="end"
+                            >
+                              {this.state.hidden ? (
+                                <VisibilityOffIcon />
+                              ) : (
+                                <VisibilityIcon />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                        labelWidth={70}
+                      />
+                      {this.state.VALIDPASS === true ? (
+                        <FormHelperText
+                          style={{ color: "red" }}
+                          id="outlined-weight-helper-text"
+                        >
+                          {this.state.MESSAGE}
+                        </FormHelperText>
+                      ) : null}
+                    </FormControl>
+                  </Grid>
+                </Grid>
+              </div>
+            </Typography>
+
             <Typography color="textSecondary" style={{ marginTop: "3%" }}>
               <div className={useStyles.root}>
                 <Grid container spacing={3}>
@@ -159,7 +175,7 @@ class ForgotPass extends React.Component {
                       color="primary"
                       onClick={this.restPasswod}
                     >
-                      Next
+                      Submit
                     </Button>
                   </Grid>
                 </Grid>
@@ -172,4 +188,4 @@ class ForgotPass extends React.Component {
   }
 }
 
-export default ForgotPass;
+export default ResetPass;
