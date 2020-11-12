@@ -165,7 +165,7 @@ class SignIn extends React.Component {
                 style={{ textAlign: "left", marginLeft: "17%" }}
               >
                 <Link
-                  href="/"
+                  href="/forgotPass"
                   variant="body2"
                   class="forgotPass"
                   style={{ fontSize: "110%", fontWeight: "bold" }}
@@ -184,7 +184,7 @@ class SignIn extends React.Component {
                     style={{ textAlign: "left", marginLeft: "16%" }}
                   >
                     <Link
-                      href="/"
+                      href="/signUp"
                       variant="body2"
                       class="forgotPass"
                       style={{ fontSize: "110%" }}

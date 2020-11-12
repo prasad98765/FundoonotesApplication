@@ -309,7 +309,7 @@ class SignUp extends React.Component {
               <div className={useStyles.root}>
                 <Grid container spacing={3}>
                   <Grid item xs={6}>
-                    <Link href="/signIn" variant="body2">
+                    <Link href="/" variant="body2">
                       Sign in instead
                     </Link>
                   </Grid>
