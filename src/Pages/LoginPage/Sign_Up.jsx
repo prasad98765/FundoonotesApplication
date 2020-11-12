@@ -13,7 +13,10 @@ import {
 } from "@material-ui/core/";
 
 import FormHelperText from "@material-ui/core/FormHelperText";
-const mobileRegex = RegExp("^[a-z]{3,}$");
+const NameRegex = RegExp("^[A-Z]{1}[a-zA-Z]{2,}$");
+const EmailRegex = RegExp(
+  "^[a-zA-Z0-9]+[.+_-]?[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.][a-zA-Z]{2,4}[.]?[a-zA-Z]{0,3}"
+);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,53 +51,50 @@ class SignUp extends React.Component {
   handleChange = async (e) => {
     const { name } = e.target;
     this.setState({ [e.target.name]: await e.target.value });
-    console.log("a", this.state.LASTNAME);
-    console.log("b", this.state.EMAIL);
-
     switch (name) {
       case "NAME":
-        mobileRegex.test(this.state.NAME)
+        NameRegex.test(this.state.NAME)
           ? this.setState({ VALIDNAME: false })
           : this.setState({ VALIDNAME: true });
         break;
       case "LASTNAME":
-        mobileRegex.test(this.state.LASTNAME)
+        NameRegex.test(this.state.LASTNAME)
           ? this.setState({ VALIDLASTNAME: false })
           : this.setState({ VALIDLASTNAME: true });
         break;
       case "EMAIL":
-        mobileRegex.test(this.state.EMAIL)
+        EmailRegex.test(this.state.EMAIL)
           ? this.setState({ VALIDEMAIL: false })
           : this.setState({ VALIDEMAIL: true });
         break;
-      case "PASSWORD":
-        break;
       case "CONFIRMPASS":
-        if (this.state.PASSWORD !== this.state.CONFIRMPASS) {
-          this.setState({ MESSAGE: "PassWord Not Match" });
-        } else {
+        if (this.state.PASSWORD === this.state.CONFIRMPASS) {
           this.setState({ VALIDPASS: false });
+        } else {
+          this.setState({ VALIDPASS: true });
+          this.setState({ MESSAGE: "Both Password didn't match try again" });
         }
         break;
       default:
         break;
     }
   };
+
   render() {
     return (
       <>
-        <Card className="signCard">
+        <Card className="signCard" style={{ padding: "3%" }}>
           <CardContent>
             <Typography color="textSecondary" style={{ fontSize: "150%" }}>
               <Logo></Logo>
             </Typography>
-            <Typography variant="h5" component="h2">
+            <Typography variant="h5" component="h2" style={{ marginTop: "1%" }}>
               Create your Google Account
             </Typography>
             <Typography color="textSecondary" style={{ marginTop: "2%" }}>
               <div className={useStyles.root}>
                 <Grid container spacing={3}>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} sm={6}>
                     <TextField
                       label="First name"
                       type="text"
@@ -114,9 +114,9 @@ class SignUp extends React.Component {
                       </FormHelperText>
                     ) : null}
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} sm={6}>
                     <TextField
-                      label="First name"
+                      label="Last name"
                       type="text"
                       value={this.state.LASTNAME}
                       className="text"
@@ -142,7 +142,7 @@ class SignUp extends React.Component {
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
                     <TextField
-                      label="First name"
+                      label="Email id"
                       type="text"
                       value={this.state.firstName}
                       className="text"
@@ -165,12 +165,22 @@ class SignUp extends React.Component {
             <Typography color="textSecondary">
               <div className={useStyles.root}>
                 <Grid container spacing={3}>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} sm={6}>
                     <TextField
-                      label="First name"
-                      type="text"
+                      label="Password"
+                      type="password"
                       className="text"
                       name="PASSWORD"
+                      variant="outlined"
+                      onChange={this.handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      label="Confirm"
+                      type="password"
+                      className="text"
+                      name="CONFIRMPASS"
                       variant="outlined"
                       onChange={this.handleChange}
                     />
@@ -181,24 +191,7 @@ class SignUp extends React.Component {
                       >
                         {this.state.MESSAGE}
                       </FormHelperText>
-                    ) : (
-                      <FormHelperText
-                        style={{ color: "green" }}
-                        id="outlined-weight-helper-text"
-                      >
-                        Password Match
-                      </FormHelperText>
-                    )}
-                  </Grid>
-                  <Grid item xs={6}>
-                    <TextField
-                      label="First name"
-                      type="text"
-                      className="text"
-                      name="CONFIRMPASS"
-                      variant="outlined"
-                      onChange={this.handleChange}
-                    />
+                    ) : null}
                   </Grid>
                 </Grid>
               </div>
@@ -207,7 +200,7 @@ class SignUp extends React.Component {
               <div className={useStyles.root}>
                 <Grid container spacing={3}>
                   <Grid item xs={6}>
-                    <Link href="/" variant="body2">
+                    <Link href="/signIn" variant="body2">
                       Sign in instead
                     </Link>
                   </Grid>
@@ -229,5 +222,4 @@ class SignUp extends React.Component {
     );
   }
 }
-
 export default SignUp;

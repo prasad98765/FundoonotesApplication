@@ -15,6 +15,9 @@
     width: 77%;
 }
 
+.forgotPass{
+    margin-left: -11%;
+}
 
 
 @media only screen and (max-width : 600px) {
@@ -23,6 +26,12 @@
         margin-right: 5%;
         margin-top: 2%;
     }
+    
+.forgotPass{
+    margin-left: -30%;
+}
+
+
   }
 
   @media only screen and (max-width : 1200px) {
