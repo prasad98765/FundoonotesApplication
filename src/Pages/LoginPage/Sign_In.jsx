@@ -1,5 +1,5 @@
 import React from "react";
-import "../LoginPage/style.css";
+import "../LoginPage/style.scss";
 
 import Logo from "../../Imgaes/googleLogo";
 import {
@@ -114,11 +114,7 @@ class SignIn extends React.Component {
               <div className={useStyles.root}>
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
-                    <FormControl
-                      className="text"
-                      variant="outlined"
-                      className="textLogin"
-                    >
+                    <FormControl variant="outlined" className="textLogin">
                       <InputLabel htmlFor="outlined-adornment-password">
                         Confirm
                       </InputLabel>

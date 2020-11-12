@@ -1,5 +1,5 @@
 import React from "react";
-import "../LoginPage/style.css";
+import "../LoginPage/style.scss";
 import Logo from "../../Imgaes/googleLogo";
 import {
   CardContent,
@@ -24,6 +24,7 @@ const NameRegex = RegExp("^[A-Z]{1}[a-zA-Z]{2,}$");
 const EmailRegex = RegExp(
   "^[a-zA-Z0-9]+[.+_-]?[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.][a-zA-Z]{2,4}[.]?[a-zA-Z]{0,3}"
 );
+const ContactRegex = RegExp("^[0-9]{10}$");
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,7 +46,9 @@ class SignUp extends React.Component {
       LASTNAME: null,
       EMAIL: null,
       PASSWORD: null,
+      CONTACT: null,
       CONFIRMPASS: null,
+      VALIDCONTACT: true,
       VALIDNAME: true,
       VALIDLASTNAME: true,
       VALIDEMAIL: true,
@@ -76,6 +79,11 @@ class SignUp extends React.Component {
         EmailRegex.test(this.state.EMAIL)
           ? this.setState({ VALIDEMAIL: false })
           : this.setState({ VALIDEMAIL: true });
+        break;
+      case "CONTACT":
+        ContactRegex.test(this.state.CONTACT)
+          ? this.setState({ VALIDCONTACT: false })
+          : this.setState({ VALIDCONTACT: true });
         break;
       case "CONFIRMPASS":
         if (this.state.PASSWORD === this.state.CONFIRMPASS) {
@@ -152,18 +160,39 @@ class SignUp extends React.Component {
                 </Grid>
               </div>
             </Typography>
-            <Typography variant="body2" component="p">
+            <Typography color="textSecondary" style={{ marginTop: "2%" }}>
               <div className={useStyles.root}>
                 <Grid container spacing={3}>
-                  <Grid item xs={12}>
+                  <Grid item xs={12} sm={6}>
                     <TextField
-                      label="Email"
+                      label="Phone Number"
                       type="text"
-                      value={this.state.firstName}
+                      value={this.state.CONTACT}
+                      className="text"
+                      name="CONTACT"
+                      variant="outlined"
+                      onChange={this.handleChange}
+                      required
+                    />
+                    {this.state.VALIDCONTACT === true ? (
+                      <FormHelperText
+                        style={{ color: "red" }}
+                        id="outlined-weight-helper-text"
+                      >
+                        enter valid Contact
+                      </FormHelperText>
+                    ) : null}
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      label="Email Id"
+                      type="text"
+                      value={this.state.EMAIL}
                       className="text"
                       name="EMAIL"
                       variant="outlined"
                       onChange={this.handleChange}
+                      required
                     />
                     {this.state.VALIDEMAIL === true ? (
                       <FormHelperText
