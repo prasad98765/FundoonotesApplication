@@ -1,6 +1,5 @@
 import React from "react";
 import "../LoginPage/style.scss";
-
 import Logo from "../../Imgaes/googleLogo";
 import {
   CardContent,

@@ -1,6 +1,7 @@
 import React from "react";
 import "../LoginPage/style.scss";
 import Logo from "../../Imgaes/googleLogo";
+import UserServicesAPI from "../../Services/UserServicesAPI.js";
 import {
   CardContent,
   Button,
@@ -16,6 +17,7 @@ import {
   FormHelperText,
   FormControl,
   IconButton,
+  Snackbar,
 } from "@material-ui/core/";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
@@ -53,7 +55,10 @@ class SignUp extends React.Component {
       VALIDLASTNAME: true,
       VALIDEMAIL: true,
       VALIDPASS: true,
+      SUBMIT: true,
       MESSAGE: "",
+      open: false,
+      message: "",
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -88,6 +93,7 @@ class SignUp extends React.Component {
       case "CONFIRMPASS":
         if (this.state.PASSWORD === this.state.CONFIRMPASS) {
           this.setState({ VALIDPASS: false });
+          this.setState({ SUBMIT: false });
         } else {
           this.setState({ VALIDPASS: true });
           this.setState({ MESSAGE: "Both Password didn't match try again" });
@@ -102,10 +108,50 @@ class SignUp extends React.Component {
     this.setState({ hidden: false });
   };
 
+  createAccount = async () => {
+    let userData = {
+      firstName: this.state.NAME,
+      lastName: this.state.LASTNAME,
+      email: this.state.EMAIL,
+      contact: this.state.CONTACT,
+      password: this.state.CONFIRMPASS,
+      service: "advance",
+    };
+    console.log(userData);
+
+    UserServicesAPI.createAccount(userData, (res) => {
+      if (res.status === 200) {
+        console.log("get message", res);
+        this.setState({ message: res.data.data.message });
+        this.setState({ open: true });
+        this.props.history.push("/");
+      } else {
+        this.setState({ message: "Already Register" });
+        this.setState({ open: true });
+      }
+    });
+  };
+
+  handleSnackbarClose = (event) => {
+    this.setState({
+      open: false,
+    });
+  };
+
   render() {
     console.log("abc", this.state.CONFIRMPASS);
     return (
       <>
+        <Snackbar
+          anchorOrigin={{
+            vertical: "center",
+            horizontal: "center",
+          }}
+          open={this.state.open}
+          autoHideDuration={3000}
+          onClose={this.handleSnackbarClose}
+          message={<span id="message-id">{this.state.message}</span>}
+        />
         <Card className="signCard">
           <CardContent>
             <Typography color="textSecondary" style={{ fontSize: "150%" }}>
@@ -271,7 +317,8 @@ class SignUp extends React.Component {
                     <Button
                       variant="contained"
                       color="primary"
-                      href="#contained-buttons"
+                      onClick={this.createAccount}
+                      disabled={this.state.SUBMIT}
                     >
                       Submit
                     </Button>
