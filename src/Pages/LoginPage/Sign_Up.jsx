@@ -10,9 +10,16 @@ import {
   Card,
   makeStyles,
   Link,
+  InputLabel,
+  OutlinedInput,
+  InputAdornment,
+  FormHelperText,
+  FormControl,
+  IconButton,
 } from "@material-ui/core/";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 
-import FormHelperText from "@material-ui/core/FormHelperText";
 const NameRegex = RegExp("^[A-Z]{1}[a-zA-Z]{2,}$");
 const EmailRegex = RegExp(
   "^[a-zA-Z0-9]+[.+_-]?[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.][a-zA-Z]{2,4}[.]?[a-zA-Z]{0,3}"
@@ -33,7 +40,7 @@ class SignUp extends React.Component {
   constructor() {
     super();
     this.state = {
-      staticText: "@gmail.com",
+      hidden: true,
       NAME: null,
       LASTNAME: null,
       EMAIL: null,
@@ -51,6 +58,9 @@ class SignUp extends React.Component {
   handleChange = async (e) => {
     const { name } = e.target;
     this.setState({ [e.target.name]: await e.target.value });
+    console.log("a", this.state.LASTNAME);
+    console.log("b", this.state.EMAIL);
+
     switch (name) {
       case "NAME":
         NameRegex.test(this.state.NAME)
@@ -80,15 +90,20 @@ class SignUp extends React.Component {
     }
   };
 
+  ShowPassword = () => {
+    this.setState({ hidden: false });
+  };
+
   render() {
+    console.log("abc", this.state.CONFIRMPASS);
     return (
       <>
-        <Card className="signCard" style={{ padding: "3%" }}>
+        <Card className="signCard">
           <CardContent>
             <Typography color="textSecondary" style={{ fontSize: "150%" }}>
               <Logo></Logo>
             </Typography>
-            <Typography variant="h5" component="h2" style={{ marginTop: "1%" }}>
+            <Typography variant="h5" component="h2">
               Create your Google Account
             </Typography>
             <Typography color="textSecondary" style={{ marginTop: "2%" }}>
@@ -110,7 +125,7 @@ class SignUp extends React.Component {
                         style={{ color: "red" }}
                         id="outlined-weight-helper-text"
                       >
-                        enter valid firstname
+                        enter valid name
                       </FormHelperText>
                     ) : null}
                   </Grid>
@@ -142,7 +157,7 @@ class SignUp extends React.Component {
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
                     <TextField
-                      label="Email id"
+                      label="Email"
                       type="text"
                       value={this.state.firstName}
                       className="text"
@@ -168,7 +183,7 @@ class SignUp extends React.Component {
                   <Grid item xs={12} sm={6}>
                     <TextField
                       label="Password"
-                      type="password"
+                      type={this.state.hidden ? "password" : "text"}
                       className="text"
                       name="PASSWORD"
                       variant="outlined"
@@ -176,14 +191,33 @@ class SignUp extends React.Component {
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
-                    <TextField
-                      label="Confirm"
-                      type="password"
-                      className="text"
-                      name="CONFIRMPASS"
-                      variant="outlined"
-                      onChange={this.handleChange}
-                    />
+                    <FormControl className="text" variant="outlined">
+                      <InputLabel htmlFor="outlined-adornment-password">
+                        Confirm
+                      </InputLabel>
+                      <OutlinedInput
+                        type={this.state.hidden ? "password" : "text"}
+                        name="CONFIRMPASS"
+                        value={this.state.CONFIRMPASS}
+                        onChange={this.handleChange}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={this.ShowPassword}
+                              edge="end"
+                            >
+                              {this.state.hidden ? (
+                                <VisibilityOffIcon />
+                              ) : (
+                                <VisibilityIcon />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                        labelWidth={70}
+                      />
+                    </FormControl>
                     {this.state.VALIDPASS === true ? (
                       <FormHelperText
                         style={{ color: "red" }}
@@ -222,4 +256,5 @@ class SignUp extends React.Component {
     );
   }
 }
+
 export default SignUp;

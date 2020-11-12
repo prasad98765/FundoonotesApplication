@@ -3,17 +3,23 @@ import "../LoginPage/style.css";
 
 import Logo from "../../Imgaes/googleLogo";
 import {
-  Card,
-  makeStyles,
   CardContent,
   Button,
   Typography,
   TextField,
   Grid,
+  Card,
+  makeStyles,
   Link,
+  InputLabel,
+  OutlinedInput,
+  InputAdornment,
   FormHelperText,
-} from "@material-ui/core";
-
+  FormControl,
+  IconButton,
+} from "@material-ui/core/";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 const EmailRegex = RegExp(
   "^[a-zA-Z0-9]+[.+_-]?[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.][a-zA-Z]{2,4}[.]?[a-zA-Z]{0,3}"
 );
@@ -35,6 +41,7 @@ class SignIn extends React.Component {
     this.state = {
       EMAIL: null,
       VALIDEMAIL: true,
+      hidden: true,
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -51,6 +58,10 @@ class SignIn extends React.Component {
       default:
         break;
     }
+  };
+
+  ShowPassword = () => {
+    this.setState({ hidden: false });
   };
   render() {
     return (
@@ -103,14 +114,45 @@ class SignIn extends React.Component {
               <div className={useStyles.root}>
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
-                    <TextField
-                      className="textLogin"
-                      type="password"
-                      id="outlined-helperText"
-                      label="Password"
-                      defaultValue=""
+                    <FormControl
+                      className="text"
                       variant="outlined"
-                    />
+                      className="textLogin"
+                    >
+                      <InputLabel htmlFor="outlined-adornment-password">
+                        Confirm
+                      </InputLabel>
+                      <OutlinedInput
+                        type={this.state.hidden ? "password" : "text"}
+                        name="CONFIRMPASS"
+                        value={this.state.CONFIRMPASS}
+                        onChange={this.handleChange}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={this.ShowPassword}
+                              edge="end"
+                            >
+                              {this.state.hidden ? (
+                                <VisibilityOffIcon />
+                              ) : (
+                                <VisibilityIcon />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                        labelWidth={70}
+                      />
+                    </FormControl>
+                    {this.state.VALIDPASS === true ? (
+                      <FormHelperText
+                        style={{ color: "red" }}
+                        id="outlined-weight-helper-text"
+                      >
+                        {this.state.MESSAGE}
+                      </FormHelperText>
+                    ) : null}
                   </Grid>
                 </Grid>
               </div>
@@ -121,7 +163,12 @@ class SignIn extends React.Component {
               component="p"
               style={{ marginTop: "1%" }}
             >
-              <Grid item item xs={12} sm={6}>
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                style={{ textAlign: "left", marginLeft: "17%" }}
+              >
                 <Link
                   href="/"
                   variant="body2"
@@ -135,7 +182,12 @@ class SignIn extends React.Component {
             <Typography color="textSecondary" style={{ marginTop: "3%" }}>
               <div className={useStyles.root}>
                 <Grid container spacing={3}>
-                  <Grid item xs={12} sm={6}>
+                  <Grid
+                    item
+                    xs={12}
+                    sm={6}
+                    style={{ textAlign: "left", marginLeft: "16%" }}
+                  >
                     <Link
                       href="/"
                       variant="body2"
@@ -149,7 +201,7 @@ class SignIn extends React.Component {
                     item
                     xs={12}
                     sm={6}
-                    style={{ textAlign: "right", marginLeft: "-11%" }}
+                    style={{ textAlign: "right", marginLeft: "-27%" }}
                   >
                     <Button
                       variant="contained"
