@@ -23,18 +23,6 @@ class Logo extends React.Component {
           <a href="/" style={{ color: "blue" }}>
             o
           </a>
-          <a href="/" style={{ color: "greeen" }}>
-            _
-          </a>
-          <a href="/" style={{ color: "red" }}>
-            A
-          </a>
-          <a href="/" style={{ color: "green" }}>
-            p
-          </a>
-          <a href="/" style={{ color: "blue" }}>
-            p
-          </a>
         </div>
       </>
     );

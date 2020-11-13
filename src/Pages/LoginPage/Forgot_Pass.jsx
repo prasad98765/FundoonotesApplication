@@ -39,6 +39,7 @@ class ForgotPass extends React.Component {
       VALIDEMAIL: true,
       open: false,
       message: "",
+      RESTPASS: false,
     };
   }
   handleChange = async (e) => {
@@ -58,7 +59,9 @@ class ForgotPass extends React.Component {
     this.setState({
       open: false,
     });
-    this.props.history.push("/resetPass");
+    if (this.state.RESTPASS === true) {
+      this.props.history.push("/resetPass");
+    }
   };
   restPasswod = () => {
     let data = {
@@ -67,7 +70,7 @@ class ForgotPass extends React.Component {
     UserServicesAPI.forgotPassword(data, (res) => {
       if (res.status === 200) {
         this.setState({ message: res.data.message });
-        this.setState({ open: true });
+        this.setState({ open: true, RESTPASS: true });
       } else {
         this.setState({ message: "Please Enter Valid Email" });
         this.setState({ open: true });

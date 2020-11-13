@@ -4,6 +4,7 @@ import signUp from "./Pages/LoginPage/Sign_Up.jsx"
 import signIn from "./Pages/LoginPage/Sign_In.jsx"
 import forgotPass from "./Pages/LoginPage/Forgot_Pass.jsx"
 import resetPass from "./Pages/LoginPage/Reset_Pass.jsx"
+import noteDashboard from "./Pages/Dashboard/Note_Dashboard.jsx"
 
 import "./App.scss";
 
@@ -12,10 +13,11 @@ class App extends Component {
     return (
        <BrowserRouter>
          <Switch>
-         <Route path="/" component={signIn} exact = {true} />
+          <Route path="/" component={signIn} exact = {true} />
            <Route path="/signUp" component={signUp}  />
            <Route path="/forgotPass" component={forgotPass} />
            <Route path="/resetPass" component={resetPass} />
+           <Route path="/dashboard" component={noteDashboard} />
          </Switch>
        </BrowserRouter>
     );

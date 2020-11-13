@@ -66,9 +66,6 @@ class SignUp extends React.Component {
   handleChange = async (e) => {
     const { name } = e.target;
     this.setState({ [e.target.name]: await e.target.value });
-    console.log("a", this.state.LASTNAME);
-    console.log("b", this.state.EMAIL);
-
     switch (name) {
       case "NAME":
         NameRegex.test(this.state.NAME)

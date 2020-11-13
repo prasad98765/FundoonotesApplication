@@ -75,13 +75,19 @@ class SignIn extends React.Component {
       password: this.state.PASSWORD,
     };
     UserServicesAPI.userLogin(data, (res) => {
-      console.log("abababababa");
       if (res.status === 200) {
-        console.log("get message", res);
-        this.setState({ message: "Login Done" });
-        this.setState({ open: true });
+        console.log("get message", res.data.firstName);
+        let userdetails = {
+          name: res.data.firstName,
+          lastName: res.data.lastName,
+          email: res.data.email,
+        };
+        this.props.history.push({
+          pathname: "/dashboard",
+          state: { userdetails },
+        });
       } else {
-        this.setState({ message: "unauthorized" });
+        this.setState({ message: "Please Enter Valid Email/Password" });
         this.setState({ open: true });
       }
     });
@@ -91,7 +97,7 @@ class SignIn extends React.Component {
     this.setState({
       open: false,
     });
-    this.props.history.push("/");
+    // this.props.history.push("/");
   };
 
   render() {

@@ -20,6 +20,7 @@ class UserServices {
         user
       )
         .then((response) => {
+          console.log(response);
           callback(response);
         })
         .catch((error) => {
