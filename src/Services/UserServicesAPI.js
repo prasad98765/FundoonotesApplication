@@ -1,10 +1,10 @@
 import Axios from "axios";
-const Url = 'http://fundoonotes.incubation.bridgelabz.com/api/'
+import Api from "../config/FundooLoopbackAPI.js"
 
 class UserServices {
   createAccount =  (user,callback) => {
     return Axios.post(
-       `${Url}user/userSignUp`,
+      `${Api.Url}${Api.userSignUp}`,
        user
      )
        .then((response) => {
@@ -16,7 +16,7 @@ class UserServices {
    }
    userLogin = async (user,callback) => {
     return await Axios.post(
-        `${Url}user/login`,
+      `${Api.Url}${Api.userSignIn}`,
         user
       )
         .then((response) => {
@@ -29,7 +29,7 @@ class UserServices {
     }
     forgotPassword = async (user, callback)=>{
       return  Axios.post(
-          `${Url}/user/reset`,
+        `${Api.Url}${Api.userResetPass}`,
           user
         )
           .then((response) => {
