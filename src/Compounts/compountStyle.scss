@@ -1,12 +1,27 @@
 .profile{
-    margin-left: 95%;
+    margin-left: 2%;
+    color: #000;
+}
+.menu{
+    margin-left: 80%;
+    color: #000;
 }
 
+.search{
+    width:350%;
+    margin-left: 110%;
+}
 
 @media only screen and (max-width : 600px) {
  
     .profile{
-        margin-left: 80%;
+        margin-left: 2%;
     }
-    
+    .menu{
+        margin-left: 50%;
+    }
+    .search{
+        margin-left: 40%;
+        width: 200%;
+    }
   }

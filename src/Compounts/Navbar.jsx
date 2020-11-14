@@ -8,9 +8,10 @@ import IconButton from "@material-ui/core/IconButton";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Box from "@material-ui/core/Box";
 import Popover from "@material-ui/core/Popover";
+import SearchBar from "material-ui-search-bar";
 import { Avatar, Button, makeStyles } from "@material-ui/core/";
 import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state";
-
+import MenuIcon from "@material-ui/icons/Menu";
 const useStyles = makeStyles((theme) => ({
   large: {
     width: theme.spacing(7),
@@ -29,8 +30,19 @@ class Navbar extends React.Component {
     console.log("in navbar class", this.state.item.userdetails.name);
     return (
       <>
-        <AppBar>
+        <AppBar style={{ backgroundColor: "white" }}>
           <Toolbar>
+            <div class="searchbar">
+              <SearchBar
+                className="search"
+                value={this.state.value}
+                onChange={(newValue) => this.setState({ value: newValue })}
+                // onRequestSearch={() => doSomethingWith(this.state.value)}
+              />
+            </div>
+            <div class="menu">
+              <MenuIcon></MenuIcon>
+            </div>
             <div color="inherit" class="profile">
               <PopupState variant="popover" popupId="demo-popup-popover">
                 {(popupState) => (
