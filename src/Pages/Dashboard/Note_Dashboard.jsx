@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "../../Compounts/Navbar.jsx";
+import Notes from "../../Compounts/Notecard.jsx";
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -10,10 +11,10 @@ class Dashboard extends React.Component {
     this.state.item = this.props.history.location.state;
   }
   render() {
-    console.log("in Dashboard", this.state.item);
     return (
       <>
         <Navbar details={this.state.item}></Navbar>
+        <Notes></Notes>
       </>
     );
   }
