@@ -14,7 +14,7 @@ class SimplePopover extends React.Component {
     this.state = {
       open: false,
       anchorEl: null,
-      colour: [
+      color: [
         "red",
         "lightblue",
         "lightgreen",
@@ -36,8 +36,8 @@ class SimplePopover extends React.Component {
     this.setState({ open: false });
   };
 
-  getcolour = (abc) => () => {
-    this.props.color(abc);
+  getcolour = (event) => () => {
+    this.props.color(event);
   };
 
   render() {
@@ -47,7 +47,8 @@ class SimplePopover extends React.Component {
           style={{ marginLeft: "4%", color: "black" }}
           variant="contained"
           color="primary"
-          onMouseEnter={this.handleClick}
+          title="Change color"
+          onClick={this.handleClick}
         ></ColorLensIcon>
         <Popover
           open={this.state.open}
@@ -66,10 +67,11 @@ class SimplePopover extends React.Component {
           }}
         >
           <Typography className={useStyles.typography}>
-            <Grid container spacing={3}>
-              {this.state.colour.map((value, index) => {
+            <Grid container spacing={2}>
+              {this.state.color.map((value, index) => {
                 return (
                   <FiberManualRecordIcon
+                    spacing={0}
                     style={{
                       color: value,
                       marginTop: "6%",

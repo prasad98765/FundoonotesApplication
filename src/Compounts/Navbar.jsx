@@ -27,7 +27,6 @@ class Navbar extends React.Component {
     this.state.item = this.props.details;
   }
   render() {
-    console.log("in navbar class", this.state.item.userdetails.name);
     return (
       <>
         <AppBar style={{ backgroundColor: "white" }}>
@@ -40,7 +39,7 @@ class Navbar extends React.Component {
                 // onRequestSearch={() => doSomethingWith(this.state.value)}
               />
             </div>
-            <div class="menu">
+            <div class="menu" title="List view">
               <MenuIcon></MenuIcon>
             </div>
             <div color="inherit" class="profile">

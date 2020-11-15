@@ -12,13 +12,13 @@ import {
   ClickAwayListener,
 } from "@material-ui/core";
 
-import Colour from "../Compounts/Displaycolour";
+import Colour from "./Displaycolor";
+import Remind from "./Remind";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 import EditIcon from "@material-ui/icons/Edit";
 import Pin from "../Imgaes/pin.png";
-import AddAlertIcon from "@material-ui/icons/AddAlert";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import ArchiveIcon from "@material-ui/icons/Archive";
 
@@ -57,7 +57,6 @@ class Cards extends React.Component {
     this.setState({ setExpanded: false });
   };
   getcolor = (value) => {
-    console.log("in noteCard class", value);
     this.setState({ color: value });
   };
   render() {
@@ -101,15 +100,10 @@ class Cards extends React.Component {
                 style={{ width: "90%", marginLeft: "3%" }}
                 placeholder="Take a note..."
               />
-              <AddAlertIcon
-                style={{ marginLeft: "4%", marginTop: "3%" }}
-              ></AddAlertIcon>
+              <Remind></Remind>
               <PersonAddIcon
                 style={{ marginLeft: "4%", marginTop: "3%" }}
               ></PersonAddIcon>
-              {/* <ColorLensIcon
-                style={{ marginLeft: "4%", marginTop: "3%" }}
-              ></ColorLensIcon> */}
               <Colour color={this.getcolor}></Colour>
               <InsertPhotoIcon style={{ marginLeft: "4%" }}></InsertPhotoIcon>
               <ArchiveIcon style={{ marginLeft: "4%" }}></ArchiveIcon>
