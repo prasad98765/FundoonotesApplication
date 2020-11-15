@@ -29,6 +29,25 @@
 .time{
     margin-top: 4.5%;
 }
+.more{
+    width: 12%;
+    height: 16%;
+    margin-top: 1%;
+    margin-left: 6%;
+}
+.moreCard{
+    
+}
+.MuiDrawer-paper{
+    margin-top: 75px;
+} 
+
+.MuiListItem-button:active {
+    background-color: #feefc3!important;
+    border-radius: 0px 25px 25px 0px;
+}
+
+
 
 @media only screen and (max-width : 600px) {
  
@@ -56,6 +75,9 @@
     .time{
         margin-top: -15%;
         margin-left: 5%;
+    }
+    .more{
+        width: 40%;
     }
     
   }

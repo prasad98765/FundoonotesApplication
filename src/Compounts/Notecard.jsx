@@ -14,7 +14,7 @@ import {
 
 import Colour from "./Displaycolor";
 import Remind from "./Remind";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+import More from "./More";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 import EditIcon from "@material-ui/icons/Edit";
@@ -107,9 +107,19 @@ class Cards extends React.Component {
               <Colour color={this.getcolor}></Colour>
               <InsertPhotoIcon style={{ marginLeft: "4%" }}></InsertPhotoIcon>
               <ArchiveIcon style={{ marginLeft: "4%" }}></ArchiveIcon>
-              <MoreVertIcon style={{ marginLeft: "4%" }}></MoreVertIcon>
+              <More></More>
               <div>
-                <Button style={{ marginLeft: "87%", marginTop: "-9%" }}>
+                <Button
+                  style={{ marginLeft: "87%", marginTop: "-9%" }}
+                  onClick={() => {
+                    this.setState({
+                      expanded: false,
+                      setExpanded: false,
+                      show: "block",
+                      pin: "none",
+                    });
+                  }}
+                >
                   Close
                 </Button>
               </div>
