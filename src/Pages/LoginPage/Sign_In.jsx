@@ -11,7 +11,6 @@ import {
   Grid,
   Card,
   makeStyles,
-  Link,
   InputLabel,
   OutlinedInput,
   InputAdornment,
@@ -212,14 +211,14 @@ class SignIn extends React.Component {
                 sm={6}
                 style={{ textAlign: "left", marginLeft: "17%" }}
               >
-                <Link
-                  href="/forgotPass"
-                  variant="body2"
-                  class="forgotPass"
+                <p
+                  className="forgotPass"
                   style={{ fontSize: "110%", fontWeight: "bold" }}
                 >
-                  Forgot Password ?
-                </Link>
+                  <Button color="primary" href="/forgotPass">
+                    Forgot Password ?
+                  </Button>
+                </p>
               </Grid>
             </Typography>
             <Typography color="textSecondary" style={{ marginTop: "3%" }}>
@@ -231,14 +230,14 @@ class SignIn extends React.Component {
                     sm={6}
                     style={{ textAlign: "left", marginLeft: "16%" }}
                   >
-                    <Link
-                      href="/signUp"
-                      variant="body2"
-                      class="forgotPass"
-                      style={{ fontSize: "110%" }}
+                    <p
+                      className="forgotPass"
+                      style={{ fontSize: "110%", fontWeight: "bold" }}
                     >
-                      Create Account
-                    </Link>
+                      <Button color="primary" href="/signUp">
+                        Create Account
+                      </Button>
+                    </p>
                   </Grid>
                   <Grid
                     item

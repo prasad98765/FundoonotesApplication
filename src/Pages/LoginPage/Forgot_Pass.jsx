@@ -7,7 +7,6 @@ import {
   makeStyles,
   CardContent,
   Button,
-  Link,
   Grid,
   TextField,
   Typography,
@@ -142,14 +141,14 @@ class ForgotPass extends React.Component {
                     sm={6}
                     style={{ textAlign: "left", marginLeft: "16%" }}
                   >
-                    <Link
-                      href="/"
-                      variant="body2"
-                      class="forgotPass"
-                      style={{ fontSize: "110%" }}
+                    <p
+                      className="forgotPass"
+                      style={{ fontSize: "110%", fontWeight: "bold" }}
                     >
-                      Sign in instead
-                    </Link>
+                      <Button color="primary" href="/">
+                        Sign in instead
+                      </Button>
+                    </p>
                   </Grid>
                   <Grid
                     item

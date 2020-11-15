@@ -43,7 +43,7 @@ class RemindMe extends React.Component {
           style={{ marginLeft: "4%", color: "black" }}
           variant="contained"
           color="primary"
-          title="Change color"
+          title="Remind me"
           onClick={this.handleClick}
         ></AddAlertIcon>
         <Popover

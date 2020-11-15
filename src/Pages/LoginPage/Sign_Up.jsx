@@ -10,7 +10,6 @@ import {
   Grid,
   Card,
   makeStyles,
-  Link,
   InputLabel,
   OutlinedInput,
   InputAdornment,
@@ -306,9 +305,18 @@ class SignUp extends React.Component {
               <div className={useStyles.root}>
                 <Grid container spacing={3}>
                   <Grid item xs={6}>
-                    <Link href="/" variant="body2">
-                      Sign in instead
-                    </Link>
+                    <p
+                      href="/"
+                      style={{
+                        fontSize: "110%",
+                        fontWeight: "bold",
+                        marginTop: "-2%",
+                      }}
+                    >
+                      <Button color="primary" href="/">
+                        Sign in instead
+                      </Button>
+                    </p>
                   </Grid>
                   <Grid item xs={6} style={{ textAlign: "right" }}>
                     <Button
