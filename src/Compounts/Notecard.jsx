@@ -12,6 +12,7 @@ import {
   ClickAwayListener,
 } from "@material-ui/core";
 
+import Colour from "../Compounts/Displaycolour";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
@@ -19,7 +20,6 @@ import EditIcon from "@material-ui/icons/Edit";
 import Pin from "../Imgaes/pin.png";
 import AddAlertIcon from "@material-ui/icons/AddAlert";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
-import ColorLensIcon from "@material-ui/icons/ColorLens";
 import ArchiveIcon from "@material-ui/icons/Archive";
 
 class Cards extends React.Component {
@@ -31,6 +31,7 @@ class Cards extends React.Component {
       show: "",
       pin: "none",
       message: "Take a note...",
+      color: "",
     };
   }
 
@@ -42,7 +43,7 @@ class Cards extends React.Component {
     } else {
       this.setState({ show: "block" });
       this.setState({ pin: "none" });
-      this.setState({ message: "Take A Note..." });
+      this.setState({ message: "Take a note..." });
     }
     this.setState({ expanded: !this.state.expanded });
     this.setState({ setExpanded: !this.state.setExpanded });
@@ -51,25 +52,31 @@ class Cards extends React.Component {
   handleClickAway = () => {
     this.setState({ show: "block" });
     this.setState({ pin: "none" });
-    this.setState({ message: "Take A Note..." });
+    this.setState({ message: "Take a note..." });
     this.setState({ expanded: false });
     this.setState({ setExpanded: false });
   };
-
+  getcolor = (value) => {
+    console.log("in noteCard class", value);
+    this.setState({ color: value });
+  };
   render() {
     return (
       <ClickAwayListener onClickAway={this.handleClickAway}>
-        <Card class="note">
+        <Card class="note" style={{ backgroundColor: this.state.color }}>
           <CardActions>
             <InputBase
-              style={{ width: "1000%", marginLeft: "4%" }}
+              style={{
+                marginLeft: "4%",
+                width: "100%",
+              }}
               onClick={this.handleExpandClick}
               aria-expanded={this.state.expanded}
               placeholder={this.state.message}
-            />
+            ></InputBase>
 
             <CheckBoxIcon
-              style={{ marginLeft: "50%", display: this.state.show }}
+              style={{ marginLeft: "0%", display: this.state.show }}
             ></CheckBoxIcon>
 
             <EditIcon
@@ -81,7 +88,7 @@ class Cards extends React.Component {
             <Avatar
               alt="Remy Sharp"
               style={{
-                marginLeft: "60%",
+                marginLeft: "8%",
                 display: this.state.pin,
                 fontSize: "50%",
               }}
@@ -100,14 +107,15 @@ class Cards extends React.Component {
               <PersonAddIcon
                 style={{ marginLeft: "4%", marginTop: "3%" }}
               ></PersonAddIcon>
-              <ColorLensIcon
+              {/* <ColorLensIcon
                 style={{ marginLeft: "4%", marginTop: "3%" }}
-              ></ColorLensIcon>
+              ></ColorLensIcon> */}
+              <Colour color={this.getcolor}></Colour>
               <InsertPhotoIcon style={{ marginLeft: "4%" }}></InsertPhotoIcon>
               <ArchiveIcon style={{ marginLeft: "4%" }}></ArchiveIcon>
               <MoreVertIcon style={{ marginLeft: "4%" }}></MoreVertIcon>
               <div>
-                <Button style={{ marginLeft: "80%", marginTop: "-9%" }}>
+                <Button style={{ marginLeft: "87%", marginTop: "-9%" }}>
                   Close
                 </Button>
               </div>

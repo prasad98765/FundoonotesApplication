@@ -163,7 +163,7 @@ class SignIn extends React.Component {
                   <Grid item xs={12}>
                     <FormControl variant="outlined" className="textLogin">
                       <InputLabel htmlFor="outlined-adornment-password">
-                        Confirm
+                        Password
                       </InputLabel>
                       <OutlinedInput
                         type={this.state.hidden ? "password" : "text"}
