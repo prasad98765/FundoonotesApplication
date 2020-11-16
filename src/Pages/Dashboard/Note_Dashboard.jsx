@@ -33,7 +33,10 @@ class Dashboard extends React.Component {
           menuClose={this.handleDrawerClose}
           drawerOpen={this.state.drawerOpen}
         ></Sidebar>
-        <Navbar details={this.state.item}></Navbar>
+        <Navbar
+          details={this.state.item}
+          menuOpen={this.handleDrawerOpen}
+        ></Navbar>
         <Notes></Notes>
       </>
     );

@@ -48,7 +48,7 @@ class SimplePopover extends React.Component {
           variant="contained"
           color="primary"
           title="Change color"
-          onClick={this.handleClick}
+          onMouseOver={this.handleClick}
         ></ColorLensIcon>
         <Popover
           open={this.state.open}

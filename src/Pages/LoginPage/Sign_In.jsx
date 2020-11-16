@@ -75,7 +75,6 @@ class SignIn extends React.Component {
     };
     UserServicesAPI.userLogin(data, (res) => {
       if (res.status === 200) {
-        console.log("get message", res.data.firstName);
         let userdetails = {
           name: res.data.firstName,
           lastName: res.data.lastName,
@@ -86,7 +85,7 @@ class SignIn extends React.Component {
           state: { userdetails },
         });
       } else {
-        this.setState({ message: "Please Enter Valid Email/Password" });
+        this.setState({ message: "Login failed" });
         this.setState({ open: true });
       }
     });

@@ -1,5 +1,7 @@
 import React from "react";
 import "../Compounts/compountStyle.scss";
+import FormatAlignJustifyIcon from "@material-ui/icons/FormatAlignJustify";
+import Logo from "../Imgaes/googleLogo";
 import Profile from "../Imgaes/prasad.jpg";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -31,6 +33,15 @@ class Navbar extends React.Component {
       <>
         <AppBar style={{ backgroundColor: "white" }}>
           <Toolbar>
+            <div style={{ color: "black" }}>
+              <FormatAlignJustifyIcon
+                onMouseOver={this.props.menuOpen}
+              ></FormatAlignJustifyIcon>
+            </div>
+            <div style={{ fontSize: "200%", marginLeft: "2%" }}>
+              <Logo></Logo>
+            </div>
+
             <div class="searchbar">
               <SearchBar
                 className="search"

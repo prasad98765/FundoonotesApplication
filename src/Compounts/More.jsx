@@ -54,14 +54,20 @@ class More extends React.Component {
           }}
         >
           <Typography className={useStyles.typography}>
-            <p style={{ marginTop: "-1%" }}>
-              <Button color="primary">Add label</Button>
+            <p style={{ marginTop: "-1%", color: "black" }}>
+              <Button color="primary" style={{ color: "black" }}>
+                Add label
+              </Button>
             </p>
             <p style={{ marginTop: "-11%" }}>
-              <Button color="primary">Add drawing</Button>
+              <Button color="primary" style={{ color: "black" }}>
+                Add drawing
+              </Button>
             </p>
             <p style={{ marginTop: "-11%" }}>
-              <Button color="primary">show checkboxes</Button>
+              <Button color="primary" style={{ color: "black" }}>
+                show checkboxes
+              </Button>
             </p>
           </Typography>
         </Popover>
