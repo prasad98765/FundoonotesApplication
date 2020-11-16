@@ -1,7 +1,8 @@
 import React from "react";
 import Navbar from "../../Compounts/Navbar.jsx";
-import Notes from "../../Compounts/Notecard.jsx";
+import Notes from "../../Compounts/CreateNote.jsx";
 import Sidebar from "../../Compounts/Sidebar";
+import Cards from "../../Compounts/Cards";
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -38,6 +39,7 @@ class Dashboard extends React.Component {
           menuOpen={this.handleDrawerOpen}
         ></Navbar>
         <Notes></Notes>
+        <Cards></Cards>
       </>
     );
   }

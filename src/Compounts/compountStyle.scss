@@ -35,18 +35,22 @@
     margin-top: 1%;
     margin-left: 6%;
 }
-.moreCard{
-    
-}
+
 .MuiDrawer-paper{
     margin-top: 75px;
 } 
 
-.MuiListItem-button:active {
-    background-color: #feefc3!important;
-    border-radius: 0px 25px 25px 0px;
-}
+// .MuiListItem-button:active {
+//     // background-color: #feefc3!important;
+//     // border-radius: 0px 25px 25px 0px;
+// }
 
+.cards{
+    background-color: wheat;
+    width: 20%;
+    margin-left: 10%;
+    margin-top: 4%;
+}
 
 
 @media only screen and (max-width : 600px) {
@@ -78,6 +82,12 @@
     }
     .more{
         width: 40%;
+    }
+    .cards{
+        background-color: wheat;
+        width: 50%;
+        margin-left: 30%;
+        margin-top: 4%;
     }
     
   }
