@@ -67,7 +67,7 @@ class SimplePopover extends React.Component {
           }}
         >
           <Typography className={useStyles.typography}>
-            <Grid container spacing={2}>
+            <Grid container spacing={3}>
               {this.state.color.map((value, index) => {
                 return (
                   <FiberManualRecordIcon

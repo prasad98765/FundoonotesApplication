@@ -50,6 +50,7 @@ class RemindMe extends React.Component {
           open={this.state.open}
           anchorEl={this.state.anchorEl}
           onClose={this.handleClose}
+          style={{ marginTop: "-2%" }}
           anchorOrigin={{
             vertical: "bottom",
             horizontal: "center",

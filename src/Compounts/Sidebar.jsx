@@ -11,19 +11,30 @@ import EmojiObjectsOutlinedIcon from "@material-ui/icons/EmojiObjectsOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
 import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
+import Cards from "../Compounts/Cards.jsx";
+
 import "../Compounts/compountStyle.scss";
 
-const drawerWidth = 280;
+const drawerWidth = 200;
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
     whiteSpace: "nowrap",
+    display: "flex",
   },
   drawerOpen: {
     width: drawerWidth,
     transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
@@ -45,54 +56,57 @@ const useStyles = makeStyles((theme) => ({
 export default function MiniDrawer(props) {
   const classes = useStyles();
   return (
-    <Drawer
-      variant="permanent"
-      marginBottom="5px"
-      className={clsx(classes.drawer, {
-        [classes.drawerOpen]: props.drawerOpen,
-        [classes.drawerClose]: !props.drawerOpen,
-      })}
-      classes={{
-        paper: clsx({
+    <div class="sidebar">
+      <Drawer
+        variant="permanent"
+        marginBottom="5px"
+        className={clsx(classes.drawer, {
           [classes.drawerOpen]: props.drawerOpen,
           [classes.drawerClose]: !props.drawerOpen,
-        }),
-      }}
-      onMouseOver={props.menuOpen}
-      onMouseOut={props.menuClose}
-    >
-      <List className="list-icons">
-        {["Notes", "Reminders", "Edit labels", "Archive", "Trash"].map(
-          (text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index === 0 ? (
-                  <div>
-                    <EmojiObjectsOutlinedIcon />
-                  </div>
-                ) : index === 1 ? (
-                  <div>
-                    <NotificationsNoneIcon />
-                  </div>
-                ) : index === 2 ? (
-                  <div>
-                    <EditOutlinedIcon />
-                  </div>
-                ) : index === 3 ? (
-                  <div>
-                    <ArchiveOutlinedIcon />
-                  </div>
-                ) : (
-                  <div>
-                    <DeleteOutlineOutlinedIcon />
-                  </div>
-                )}
-              </ListItemIcon>
-              <ListItemText className="textss" primary={text} />
-            </ListItem>
-          )
-        )}
-      </List>
-    </Drawer>
+        })}
+        classes={{
+          paper: clsx({
+            [classes.drawerOpen]: props.drawerOpen,
+            [classes.drawerClose]: !props.drawerOpen,
+          }),
+        }}
+        onMouseOver={props.menuOpen}
+        onMouseOut={props.menuClose}
+      >
+        <List className="list-icons">
+          {["Notes", "Reminders", "Edit labels", "Archive", "Trash"].map(
+            (text, index) => (
+              <ListItem button key={text}>
+                <ListItemIcon>
+                  {index === 0 ? (
+                    <div>
+                      <EmojiObjectsOutlinedIcon />
+                    </div>
+                  ) : index === 1 ? (
+                    <div>
+                      <NotificationsNoneIcon />
+                    </div>
+                  ) : index === 2 ? (
+                    <div>
+                      <EditOutlinedIcon />
+                    </div>
+                  ) : index === 3 ? (
+                    <div>
+                      <ArchiveOutlinedIcon />
+                    </div>
+                  ) : (
+                    <div>
+                      <DeleteOutlineOutlinedIcon />
+                    </div>
+                  )}
+                </ListItemIcon>
+                <ListItemText className="textss" primary={text} />
+              </ListItem>
+            )
+          )}
+        </List>
+      </Drawer>
+      <Cards></Cards>
+    </div>
   );
 }

@@ -5,7 +5,6 @@ import signIn from "./Pages/LoginPage/Sign_In.jsx"
 import forgotPass from "./Pages/LoginPage/Forgot_Pass.jsx"
 import resetPass from "./Pages/LoginPage/Reset_Pass.jsx"
 import noteDashboard from "./Pages/Dashboard/Note_Dashboard.jsx"
-
 import "./App.scss";
 
 class App extends Component {

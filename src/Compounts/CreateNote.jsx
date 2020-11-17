@@ -61,72 +61,79 @@ class Cards extends React.Component {
   };
   render() {
     return (
-      <ClickAwayListener onClickAway={this.handleClickAway}>
-        <Card class="note" style={{ backgroundColor: this.state.color }}>
-          <CardActions>
-            <InputBase
-              style={{
-                marginLeft: "4%",
-                width: "100%",
-              }}
-              onClick={this.handleExpandClick}
-              aria-expanded={this.state.expanded}
-              placeholder={this.state.message}
-            ></InputBase>
-
-            <CheckBoxIcon
-              style={{ marginLeft: "0%", display: this.state.show }}
-            ></CheckBoxIcon>
-
-            <EditIcon
-              style={{ marginLeft: "4%", display: this.state.show }}
-            ></EditIcon>
-            <InsertPhotoIcon
-              style={{ marginLeft: "4%", display: this.state.show }}
-            ></InsertPhotoIcon>
-            <Avatar
-              alt="Remy Sharp"
-              style={{
-                marginLeft: "8%",
-                display: this.state.pin,
-                fontSize: "50%",
-              }}
-              src={Pin}
-            />
-          </CardActions>
-          <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
-            <CardContent>
+      <>
+        <ClickAwayListener onClickAway={this.handleClickAway}>
+          <Card class="note" style={{ backgroundColor: this.state.color }}>
+            <CardActions>
               <InputBase
-                style={{ width: "90%", marginLeft: "3%" }}
-                placeholder="Take a note..."
+                style={{
+                  marginLeft: "4%",
+                  width: "100%",
+                }}
+                onClick={this.handleExpandClick}
+                aria-expanded={this.state.expanded}
+                placeholder={this.state.message}
+              ></InputBase>
+
+              <CheckBoxIcon
+                style={{ marginLeft: "0%", display: this.state.show }}
+              ></CheckBoxIcon>
+
+              <EditIcon
+                style={{ marginLeft: "4%", display: this.state.show }}
+              ></EditIcon>
+              <InsertPhotoIcon
+                style={{ marginLeft: "4%", display: this.state.show }}
+              ></InsertPhotoIcon>
+              <Avatar
+                alt="Remy Sharp"
+                style={{
+                  marginLeft: "8%",
+                  display: this.state.pin,
+                  fontSize: "50%",
+                }}
+                src={Pin}
               />
-              <Remind></Remind>
-              <PersonAddIcon
-                style={{ marginLeft: "4%", marginTop: "3%" }}
-              ></PersonAddIcon>
-              <Colour color={this.getcolor}></Colour>
-              <InsertPhotoIcon style={{ marginLeft: "4%" }}></InsertPhotoIcon>
-              <ArchiveIcon style={{ marginLeft: "4%" }}></ArchiveIcon>
-              <More></More>
-              <div>
-                <Button
-                  style={{ marginLeft: "87%", marginTop: "-9%" }}
-                  onClick={() => {
-                    this.setState({
-                      expanded: false,
-                      setExpanded: false,
-                      show: "block",
-                      pin: "none",
-                    });
-                  }}
-                >
-                  Close
-                </Button>
-              </div>
-            </CardContent>
-          </Collapse>
-        </Card>
-      </ClickAwayListener>
+            </CardActions>
+            <Collapse
+              in={this.state.expanded}
+              timeout="auto"
+              unmountOnExit
+              style={{ marginBottom: "-2%" }}
+            >
+              <CardContent style={{ marginBottom: "-6%" }}>
+                <InputBase
+                  style={{ width: "90%", marginLeft: "2.5%" }}
+                  placeholder="Take a note..."
+                />
+                <Remind></Remind>
+                <PersonAddIcon
+                  style={{ marginLeft: "4%", marginTop: "3%" }}
+                ></PersonAddIcon>
+                <Colour color={this.getcolor}></Colour>
+                <InsertPhotoIcon style={{ marginLeft: "4%" }}></InsertPhotoIcon>
+                <ArchiveIcon style={{ marginLeft: "4%" }}></ArchiveIcon>
+                <More></More>
+                <div>
+                  <Button
+                    style={{ marginLeft: "87%", marginTop: "-9%" }}
+                    onClick={() => {
+                      this.setState({
+                        expanded: false,
+                        setExpanded: false,
+                        show: "block",
+                        pin: "none",
+                      });
+                    }}
+                  >
+                    Close
+                  </Button>
+                </div>
+              </CardContent>
+            </Collapse>
+          </Card>
+        </ClickAwayListener>
+      </>
     );
   }
 }

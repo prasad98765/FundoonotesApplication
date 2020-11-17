@@ -2,7 +2,6 @@ import React from "react";
 import Navbar from "../../Compounts/Navbar.jsx";
 import Notes from "../../Compounts/CreateNote.jsx";
 import Sidebar from "../../Compounts/Sidebar";
-import Cards from "../../Compounts/Cards";
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -11,7 +10,7 @@ class Dashboard extends React.Component {
       item: null,
       drawerOpen: false,
     };
-    this.state.item = this.props.history.location.state;
+    // this.state.item = this.props.history.location.state;
   }
 
   handleDrawerOpen = () => {
@@ -26,9 +25,24 @@ class Dashboard extends React.Component {
       drawerOpen: false,
     });
   };
+
+  componentWillMount = () => {
+    if (!this.props.history.location.state) {
+      this.props.history.push({
+        pathname: "/error",
+      });
+    } else {
+      this.setState({
+        item: this.props.history.location.state,
+      });
+    }
+  };
+
+  handleClose = () => {};
   render() {
     return (
       <>
+        <Notes></Notes>
         <Sidebar
           menuOpen={this.handleDrawerOpen}
           menuClose={this.handleDrawerClose}
@@ -38,8 +52,6 @@ class Dashboard extends React.Component {
           details={this.state.item}
           menuOpen={this.handleDrawerOpen}
         ></Navbar>
-        <Notes></Notes>
-        <Cards></Cards>
       </>
     );
   }

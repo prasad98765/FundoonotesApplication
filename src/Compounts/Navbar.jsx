@@ -28,6 +28,7 @@ class Navbar extends React.Component {
     };
     this.state.item = this.props.details;
   }
+
   render() {
     return (
       <>
@@ -38,7 +39,7 @@ class Navbar extends React.Component {
                 onMouseOver={this.props.menuOpen}
               ></FormatAlignJustifyIcon>
             </div>
-            <div style={{ fontSize: "200%", marginLeft: "2%" }}>
+            <div class="logo" style={{ fontSize: "200%", marginLeft: "2%" }}>
               <Logo></Logo>
             </div>
 
@@ -99,7 +100,9 @@ class Navbar extends React.Component {
                           <h4 style={{ marginTop: "-11%", opacity: "70%" }}>
                             {this.state.item.userdetails.email}
                           </h4>
-                          <Button variant="outlined">Sign out</Button>
+                          <Button variant="outlined" href="/">
+                            Sign out
+                          </Button>
                         </Typography>
                       </Box>
                     </Popover>
