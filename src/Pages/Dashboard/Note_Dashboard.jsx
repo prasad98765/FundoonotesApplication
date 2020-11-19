@@ -46,6 +46,7 @@ class Dashboard extends React.Component {
           menuClose={this.handleDrawerClose}
           drawerOpen={this.state.drawerOpen}
           notes={this.state.allNotes}
+          update={this.componentWillMount}
         ></Sidebar>
         <Navbar
           details={this.state.item}

@@ -107,7 +107,7 @@ export default function MiniDrawer(props) {
           )}
         </List>
       </Drawer>
-      <Cards allNotes={props.notes}></Cards>
+      <Cards allNotes={props.notes} update={props.update}></Cards>
     </div>
   );
 }

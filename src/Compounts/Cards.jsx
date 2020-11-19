@@ -1,6 +1,6 @@
 import React from "react";
 import "../Compounts/compountStyle.scss";
-import { Card, Button, Grid } from "@material-ui/core/";
+import { Card, Button, Grid, Snackbar } from "@material-ui/core/";
 import Remind from "./Remind";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import Colour from "./Displaycolor";
@@ -13,6 +13,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import IconButton from "@material-ui/core/IconButton";
+import Noteservice from "../Services/NoteServices.js";
 
 class Cards extends React.Component {
   constructor(props) {
@@ -20,30 +21,81 @@ class Cards extends React.Component {
     this.state = {
       color: "",
       open: false,
+      snackbarOpen: false,
       allNotes: [],
+      message: "Delete Note",
+      title: "",
+      description: "",
+      id: "",
     };
     this.state.allNotes = this.props.allNotes;
   }
+  handleChange = async (e) => {
+    this.setState({ [e.target.name]: await e.target.value });
+  };
   getcolor = (value) => {
     this.setState({ color: value });
   };
-  handleClickOpen = () => {
-    this.setState({ open: true });
+  handleClickOpen = (title, description, id) => {
+    this.setState({
+      open: true,
+      title: title,
+      description: description,
+      id: id,
+    });
+  };
+  close = () => {
+    this.setState({ open: false });
   };
   handleClose = () => {
-    this.setState({ open: false });
+    let data = {
+      title: this.state.title,
+      description: this.state.description,
+      noteId: this.state.id,
+    };
+    Noteservice.updateNotes(data, (res) => {
+      if (res.status === 200) {
+        this.props.update();
+        this.setState({ open: false });
+      } else {
+        this.setState({ snackbarOpen: true });
+      }
+    });
+  };
+  handleSnackbarClose = (event) => {
+    this.setState({
+      snackbarOpen: false,
+    });
   };
 
   render() {
     return (
       <>
+        <Snackbar
+          anchorOrigin={{
+            vertical: "center",
+            horizontal: "center",
+          }}
+          open={this.state.snackbarOpen}
+          autoHideDuration={3000}
+          onClose={this.handleSnackbarClose}
+          message={<span id="message-id">Somthing is Wrong</span>}
+        />
         <Grid container spacing={0}>
           {this.props.allNotes.reverse().map((value, index) => {
             return (
               <>
                 <Grid class="cards" item xs={12} sm={6}>
                   <Card style={{ backgroundColor: this.state.color }}>
-                    <CardContent onClick={this.handleClickOpen}>
+                    <CardContent
+                      onClick={() =>
+                        this.handleClickOpen(
+                          value.title,
+                          value.description,
+                          value.id
+                        )
+                      }
+                    >
                       <Typography
                         color="textSecondary"
                         variant="h5"
@@ -87,7 +139,7 @@ class Cards extends React.Component {
                         <ArchiveIcon></ArchiveIcon>
                       </IconButton>
                       <IconButton style={{ marginLeft: "-1%" }}>
-                        <More></More>
+                        <More action={this.state.message}></More>
                       </IconButton>
                     </CardActions>
                   </Card>
@@ -109,19 +161,7 @@ class Cards extends React.Component {
             <CardContent style={{ marginTop: "-19%" }}>
               <Typography color="textSecondary" gutterBottom>
                 <textarea
-                  style={{
-                    width: "100%",
-                    backgroundColor: "transparent",
-                    borderColor: "transparent",
-                    outline: "none",
-                    resize: "none",
-                  }}
-                >
-                  Title
-                </textarea>
-              </Typography>
-              <Typography variant="h5" component="h2">
-                <textarea
+                  value={this.state.title}
                   style={{
                     width: "100%",
                     backgroundColor: "transparent",
@@ -129,9 +169,23 @@ class Cards extends React.Component {
                     outline: "none",
                     resize: "none",
                   }}
-                >
-                  Title Body
-                </textarea>
+                  name="title"
+                  onChange={this.handleChange}
+                />
+              </Typography>
+              <Typography variant="h5" component="h2">
+                <textarea
+                  value={this.state.description}
+                  style={{
+                    width: "100%",
+                    backgroundColor: "transparent",
+                    border: "none",
+                    outline: "none",
+                    resize: "none",
+                  }}
+                  name="description"
+                  onChange={this.handleChange}
+                />
               </Typography>
             </CardContent>
 
@@ -146,64 +200,7 @@ class Cards extends React.Component {
             </div>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
-              Disagree
-            </Button>
-            <Button onClick={this.handleClose} color="primary" autoFocus>
-              Agree
-            </Button>
-          </DialogActions>
-        </Dialog>
-        <Dialog
-          open={this.state.open}
-          onClose={this.thishandleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogContent>
-            <h1 style={{ color: "white" }}>
-              jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
-            </h1>
-            <CardContent style={{ marginTop: "-19%" }}>
-              <Typography color="textSecondary" gutterBottom>
-                <textarea
-                  style={{
-                    width: "100%",
-                    backgroundColor: "transparent",
-                    border: "none",
-                    borderColor: "transparent",
-                    outline: "none",
-                  }}
-                >
-                  Title
-                </textarea>
-              </Typography>
-              <Typography variant="h5" component="h2">
-                <textarea
-                  style={{
-                    width: "100%",
-                    backgroundColor: "transparent",
-                    border: "none",
-                    outline: "none",
-                  }}
-                >
-                  Title Body
-                </textarea>
-              </Typography>
-            </CardContent>
-
-            <div>
-              <CardActions>
-                <Remind></Remind>
-                <PersonAddIcon></PersonAddIcon>
-                <Colour color={this.getcolor}></Colour>
-                <ArchiveIcon></ArchiveIcon>
-                <More></More>
-              </CardActions>
-            </div>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
+            <Button onClick={this.close} color="primary">
               Disagree
             </Button>
             <Button onClick={this.handleClose} color="primary" autoFocus>

@@ -5,6 +5,7 @@ const Api = {
     userResetPass :'/user/reset',
     getAllNotes :'/notes/getNotesList',
     addNotes: '/notes/addNotes',
+    updateNotes : '/notes/updateNotes'
 
 }
 

@@ -134,6 +134,7 @@ class Cards extends React.Component {
                     outline: "none",
                     resize: "none",
                     fontSize: "110%",
+                    opacity: "80%",
                   }}
                   placeholder="Description"
                   name="description"

@@ -15,10 +15,17 @@ class More extends React.Component {
     this.state = {
       open: false,
       anchorEl: null,
+      message: "",
     };
+    this.state.message = this.props.action;
   }
 
   handleClick = (event) => {
+    if (!this.props.action) {
+      this.setState({ message: "Add label" });
+    } else {
+      this.setState({ message: "Delete Note" });
+    }
     this.setState({ open: true });
     this.setState({ anchorEl: event.currentTarget });
   };
@@ -56,7 +63,7 @@ class More extends React.Component {
           <Typography className={useStyles.typography}>
             <p style={{ marginTop: "-1%", color: "black" }}>
               <Button color="primary" style={{ color: "black" }}>
-                Add label
+                {this.state.message}
               </Button>
             </p>
             <p style={{ marginTop: "-11%" }}>
