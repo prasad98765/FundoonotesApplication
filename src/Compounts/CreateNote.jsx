@@ -18,9 +18,10 @@ import More from "./More";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 import EditIcon from "@material-ui/icons/Edit";
-import Pin from "../Imgaes/pin.png";
+import Pin from "../Imgaes/pinBeforeClick.svg";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import ArchiveIcon from "@material-ui/icons/Archive";
+import Noteservice from "../Services/NoteServices.js";
 
 class Cards extends React.Component {
   constructor(props) {
@@ -32,8 +33,14 @@ class Cards extends React.Component {
       pin: "none",
       message: "Take a note...",
       color: "",
+      title: "",
+      description: "",
     };
   }
+
+  handleChange = async (e) => {
+    this.setState({ [e.target.name]: await e.target.value });
+  };
 
   handleExpandClick = () => {
     if (this.state.expanded === false) {
@@ -50,6 +57,16 @@ class Cards extends React.Component {
   };
 
   handleClickAway = () => {
+    if (this.state.title !== "" || this.state.description !== "") {
+      let noteDetails = {
+        title: this.state.title,
+        description: this.state.description,
+      };
+      Noteservice.saveNote(noteDetails, (res) => {
+        this.setState({ title: "", description: "" });
+        this.props.note("");
+      });
+    }
     this.setState({ show: "block" });
     this.setState({ pin: "none" });
     this.setState({ message: "Take a note..." });
@@ -60,6 +77,8 @@ class Cards extends React.Component {
     this.setState({ color: value });
   };
   render() {
+    console.log(this.state.title);
+    console.log(this.state.description);
     return (
       <>
         <ClickAwayListener onClickAway={this.handleClickAway}>
@@ -73,6 +92,9 @@ class Cards extends React.Component {
                 onClick={this.handleExpandClick}
                 aria-expanded={this.state.expanded}
                 placeholder={this.state.message}
+                onChange={this.handleChange}
+                name="title"
+                value={this.state.title}
               ></InputBase>
 
               <CheckBoxIcon
@@ -102,9 +124,21 @@ class Cards extends React.Component {
               style={{ marginBottom: "-2%" }}
             >
               <CardContent style={{ marginBottom: "-6%" }}>
-                <InputBase
-                  style={{ width: "90%", marginLeft: "2.5%" }}
-                  placeholder="Take a note..."
+                <textarea
+                  style={{
+                    marginLeft: "2%",
+                    width: "100%",
+                    backgroundColor: "transparent",
+                    border: "none",
+                    borderColor: "transparent",
+                    outline: "none",
+                    resize: "none",
+                    fontSize: "110%",
+                  }}
+                  placeholder="Description"
+                  name="description"
+                  onChange={this.handleChange}
+                  value={this.state.description}
                 />
                 <Remind></Remind>
                 <PersonAddIcon

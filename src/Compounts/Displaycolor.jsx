@@ -48,7 +48,7 @@ class SimplePopover extends React.Component {
           variant="contained"
           color="primary"
           title="Change color"
-          onMouseOver={this.handleClick}
+          onClick={this.handleClick}
         ></ColorLensIcon>
         <Popover
           open={this.state.open}
@@ -79,7 +79,7 @@ class SimplePopover extends React.Component {
                       fontSize: "220%",
                     }}
                     onClick={this.getcolour(value)}
-                  ></FiberManualRecordIcon>
+                  />
                 );
               })}
             </Grid>

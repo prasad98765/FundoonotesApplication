@@ -73,16 +73,25 @@ class SignIn extends React.Component {
       email: this.state.EMAIL,
       password: this.state.PASSWORD,
     };
+    console.log("user data", data);
     UserServicesAPI.userLogin(data, (res) => {
       if (res.status === 200) {
         let userdetails = {
+          name: res.data.firstName,
+          lastname: res.data.lastName,
+          email: res.data.email,
+          id: res.data.id,
+          userId: res.data.userId,
+        };
+        localStorage.setItem("details", JSON.stringify(userdetails));
+        let customerdetails = {
           name: res.data.firstName,
           lastName: res.data.lastName,
           email: res.data.email,
         };
         this.props.history.push({
           pathname: "/dashboard",
-          state: { userdetails },
+          state: { customerdetails },
         });
       } else {
         this.setState({ message: "Login failed" });

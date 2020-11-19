@@ -1,6 +1,7 @@
 import Axios from "axios";
 import Api from "../config/FundooLoopbackAPI.js"
 
+
 class UserServices {
   createAccount =  (user,callback) => {
     return Axios.post(
@@ -39,6 +40,8 @@ class UserServices {
             callback(error);
           });
       }
+
+    
   
 }
 

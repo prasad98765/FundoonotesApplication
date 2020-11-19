@@ -54,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function MiniDrawer(props) {
+  console.log("xyz", props.notes);
   const classes = useStyles();
   return (
     <div class="sidebar">
@@ -106,7 +107,7 @@ export default function MiniDrawer(props) {
           )}
         </List>
       </Drawer>
-      <Cards></Cards>
+      <Cards allNotes={props.notes}></Cards>
     </div>
   );
 }

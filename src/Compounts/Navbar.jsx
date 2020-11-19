@@ -94,11 +94,11 @@ class Navbar extends React.Component {
                           />
 
                           <h4 style={{ marginTop: "8%" }}>
-                            {this.state.item.userdetails.name} {}
-                            {this.state.item.userdetails.lastName}{" "}
+                            {this.state.item.customerdetails.name} {}
+                            {this.state.item.customerdetails.lastName}{" "}
                           </h4>
                           <h4 style={{ marginTop: "-11%", opacity: "70%" }}>
-                            {this.state.item.userdetails.email}
+                            {this.state.item.customerdetails.email}
                           </h4>
                           <Button variant="outlined" href="/">
                             Sign out
