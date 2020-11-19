@@ -33,9 +33,11 @@ class Cards extends React.Component {
   handleChange = async (e) => {
     this.setState({ [e.target.name]: await e.target.value });
   };
+
   getcolor = (value) => {
     this.setState({ color: value });
   };
+
   handleClickOpen = (title, description, id) => {
     this.setState({
       open: true,
@@ -82,7 +84,7 @@ class Cards extends React.Component {
           message={<span id="message-id">Somthing is Wrong</span>}
         />
         <Grid container spacing={0}>
-          {this.props.allNotes.reverse().map((value, index) => {
+          {this.props.allNotes.map((value, index) => {
             return (
               <>
                 <Grid class="cards" item xs={12} sm={6}>
@@ -129,13 +131,13 @@ class Cards extends React.Component {
                       <IconButton style={{ marginLeft: "-1%" }}>
                         <Remind></Remind>
                       </IconButton>
-                      <IconButton style={{ marginLeft: "-1%" }}>
+                      <IconButton style={{ marginLeft: "-1%", color: "black" }}>
                         <PersonAddIcon></PersonAddIcon>
                       </IconButton>
                       <IconButton style={{ marginLeft: "-1%" }}>
                         <Colour color={this.getcolor}></Colour>
                       </IconButton>
-                      <IconButton style={{ marginLeft: "-1%" }}>
+                      <IconButton style={{ marginLeft: "-1%", color: "black" }}>
                         <ArchiveIcon></ArchiveIcon>
                       </IconButton>
                       <IconButton style={{ marginLeft: "-1%" }}>
@@ -194,7 +196,7 @@ class Cards extends React.Component {
                 <Remind></Remind>
                 <PersonAddIcon></PersonAddIcon>
                 <Colour color={this.getcolor}></Colour>
-                <ArchiveIcon></ArchiveIcon>
+                <ArchiveIcon style={{ marginLeft: "3%" }}></ArchiveIcon>
                 <More></More>
               </CardActions>
             </div>

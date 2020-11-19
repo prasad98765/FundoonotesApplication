@@ -15,14 +15,14 @@ class SimplePopover extends React.Component {
       open: false,
       anchorEl: null,
       color: [
-        "red",
-        "lightblue",
-        "lightgreen",
-        "lightgray",
-        "lightpink",
-        "yellow",
-        "brown",
-        "purple",
+        "#C97878",
+        "#94BBE6",
+        "#6AD56C",
+        "#D4C4FB",
+        "#FAD0C3",
+        "#E4D080",
+        "#70D7E2",
+        "#CE637F",
       ],
     };
   }

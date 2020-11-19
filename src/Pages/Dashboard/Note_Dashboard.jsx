@@ -31,7 +31,7 @@ class Dashboard extends React.Component {
     console.log("ahsdkjfhsfahsdkfjhsadafjkdfhk");
     Noteservice.getAllNotes((res) => {
       this.setState({
-        allNotes: res.data.data.data,
+        allNotes: res.data.data.data.reverse(),
       });
     });
   };
