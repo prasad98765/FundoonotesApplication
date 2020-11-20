@@ -27,7 +27,9 @@ class Cards extends React.Component {
       title: "",
       description: "",
       id: "",
+      condition: null,
     };
+    this.state.condition = this.props.trashNote;
     this.state.allNotes = this.props.allNotes;
   }
   handleChange = async (e) => {
@@ -35,7 +37,14 @@ class Cards extends React.Component {
   };
 
   getcolor = (value) => {
-    this.setState({ color: value });
+    let data = {
+      noteIdList: [this.state.id],
+      color: value,
+    };
+    Noteservice.changesColorNotes(data, (res) => {
+      this.props.update();
+      console.log("after change color", res);
+    });
   };
 
   handleClickOpen = (title, description, id) => {
@@ -46,9 +55,11 @@ class Cards extends React.Component {
       id: id,
     });
   };
+
   close = () => {
     this.setState({ open: false });
   };
+
   handleClose = () => {
     let data = {
       title: this.state.title,
@@ -69,7 +80,6 @@ class Cards extends React.Component {
       snackbarOpen: false,
     });
   };
-
   render() {
     return (
       <>
@@ -83,69 +93,88 @@ class Cards extends React.Component {
           onClose={this.handleSnackbarClose}
           message={<span id="message-id">Somthing is Wrong</span>}
         />
-        <Grid container spacing={0}>
+        <Grid container spacing={0} style={{ marginTop: "4%" }}>
           {this.props.allNotes.map((value, index) => {
             return (
               <>
-                <Grid class="cards" item xs={12} sm={6}>
-                  <Card style={{ backgroundColor: this.state.color }}>
-                    <CardContent
-                      onClick={() =>
-                        this.handleClickOpen(
-                          value.title,
-                          value.description,
-                          value.id
-                        )
-                      }
+                {value.isDeleted === this.state.condition ? (
+                  <Grid class="cards" item xs={12} sm={6}>
+                    <Card
+                      style={{
+                        backgroundColor: value.color,
+                      }}
                     >
-                      <Typography
-                        color="textSecondary"
-                        variant="h5"
-                        component="h2"
+                      <CardContent
+                        onClick={() =>
+                          this.handleClickOpen(
+                            value.title,
+                            value.description,
+                            value.id
+                          )
+                        }
                       >
-                        <textarea
-                          disabled
-                          value={value.title}
-                          style={{
-                            width: "100%",
-                            backgroundColor: "transparent",
-                            border: "none",
-                            resize: "none",
-                          }}
-                        />
-                      </Typography>
-                      <Typography variant="h5" component="h2">
-                        <textarea
-                          value={value.description}
-                          disabled
-                          style={{
-                            width: "100%",
-                            backgroundColor: "transparent",
-                            border: "none",
-                            resize: "none",
-                          }}
-                        />
-                      </Typography>
-                    </CardContent>
-                    <CardActions>
-                      <IconButton style={{ marginLeft: "-1%" }}>
-                        <Remind></Remind>
-                      </IconButton>
-                      <IconButton style={{ marginLeft: "-1%", color: "black" }}>
-                        <PersonAddIcon></PersonAddIcon>
-                      </IconButton>
-                      <IconButton style={{ marginLeft: "-1%" }}>
-                        <Colour color={this.getcolor}></Colour>
-                      </IconButton>
-                      <IconButton style={{ marginLeft: "-1%", color: "black" }}>
-                        <ArchiveIcon></ArchiveIcon>
-                      </IconButton>
-                      <IconButton style={{ marginLeft: "-1%" }}>
-                        <More action={this.state.message}></More>
-                      </IconButton>
-                    </CardActions>
-                  </Card>
-                </Grid>
+                        <Typography
+                          color="textSecondary"
+                          variant="h5"
+                          component="h2"
+                        >
+                          <textarea
+                            disabled
+                            value={value.title}
+                            style={{
+                              width: "100%",
+                              color: "black",
+                              backgroundColor: "transparent",
+                              border: "none",
+                              resize: "none",
+                            }}
+                          />
+                        </Typography>
+                        <Typography variant="h5" component="h2">
+                          <textarea
+                            value={value.description}
+                            disabled
+                            style={{
+                              width: "100%",
+                              color: "black",
+                              backgroundColor: "transparent",
+                              border: "none",
+                              resize: "none",
+                            }}
+                          />
+                        </Typography>
+                      </CardContent>
+                      <CardActions
+                        onClick={() => this.setState({ id: value.id })}
+                      >
+                        <IconButton style={{ marginLeft: "-1%" }}>
+                          <Remind></Remind>
+                        </IconButton>
+                        <IconButton
+                          style={{ marginLeft: "-1%", color: "black" }}
+                        >
+                          <PersonAddIcon></PersonAddIcon>
+                        </IconButton>
+                        <IconButton style={{ marginLeft: "-1%" }}>
+                          <Colour color={this.getcolor}></Colour>
+                        </IconButton>
+                        <IconButton
+                          style={{ marginLeft: "-1%", color: "black" }}
+                        >
+                          <ArchiveIcon></ArchiveIcon>
+                        </IconButton>
+                        <IconButton style={{ marginLeft: "-1%" }}>
+                          <More
+                            action={this.state.message}
+                            delete={this.isDelete}
+                          ></More>
+                        </IconButton>
+                      </CardActions>
+                    </Card>
+                  </Grid>
+                ) : (
+                  ""
+                )}
               </>
             );
           })}
@@ -198,17 +227,17 @@ class Cards extends React.Component {
                 <Colour color={this.getcolor}></Colour>
                 <ArchiveIcon style={{ marginLeft: "3%" }}></ArchiveIcon>
                 <More></More>
+                <Button
+                  onClick={this.handleClose}
+                  color="primary"
+                  style={{ marginLeft: "45%", marginTop: "1%" }}
+                >
+                  Close
+                </Button>
               </CardActions>
             </div>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={this.close} color="primary">
-              Disagree
-            </Button>
-            <Button onClick={this.handleClose} color="primary" autoFocus>
-              Agree
-            </Button>
-          </DialogActions>
+          <DialogActions></DialogActions>
         </Dialog>
       </>
     );

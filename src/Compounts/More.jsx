@@ -34,6 +34,10 @@ class More extends React.Component {
     this.setState({ open: false });
   };
 
+  deleteNote = () => {
+    this.props.delete("aba");
+  };
+
   render() {
     return (
       <>
@@ -62,7 +66,11 @@ class More extends React.Component {
         >
           <Typography className={useStyles.typography}>
             <p style={{ marginTop: "-1%", color: "black" }}>
-              <Button color="primary" style={{ color: "black" }}>
+              <Button
+                color="primary"
+                style={{ color: "black" }}
+                onClick={this.deleteNote}
+              >
                 {this.state.message}
               </Button>
             </p>

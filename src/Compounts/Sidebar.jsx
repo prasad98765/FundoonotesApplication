@@ -54,7 +54,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function MiniDrawer(props) {
-  console.log("xyz", props.notes);
   const classes = useStyles();
   return (
     <div class="sidebar">
@@ -74,14 +73,18 @@ export default function MiniDrawer(props) {
         onMouseOver={props.menuOpen}
         onMouseOut={props.menuClose}
       >
-        <List className="list-icons">
+        <List>
           {["Notes", "Reminders", "Edit labels", "Archive", "Trash"].map(
             (text, index) => (
-              <ListItem button key={text}>
+              <ListItem
+                button
+                key={text}
+                onClick={() => props.drawerclick(text)}
+              >
                 <ListItemIcon>
                   {index === 0 ? (
                     <div>
-                      <EmojiObjectsOutlinedIcon />
+                      <EmojiObjectsOutlinedIcon></EmojiObjectsOutlinedIcon>
                     </div>
                   ) : index === 1 ? (
                     <div>
@@ -101,13 +104,17 @@ export default function MiniDrawer(props) {
                     </div>
                   )}
                 </ListItemIcon>
-                <ListItemText className="textss" primary={text} />
+                <ListItemText primary={text} />
               </ListItem>
             )
           )}
         </List>
       </Drawer>
-      <Cards allNotes={props.notes} update={props.update}></Cards>
+      <Cards
+        allNotes={props.notes}
+        update={props.update}
+        trashNote={props.trashNote}
+      ></Cards>
     </div>
   );
 }

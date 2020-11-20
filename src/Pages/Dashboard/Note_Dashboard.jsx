@@ -10,12 +10,13 @@ class Dashboard extends React.Component {
       item: null,
       drawerOpen: false,
       allNotes: [],
+      condition: true,
+      trashNote: false,
     };
     this.state.item = this.props.history.location.state;
   }
 
   handleDrawerOpen = () => {
-    console.log("Ajakjajk");
     this.setState({
       drawerOpen: true,
     });
@@ -28,7 +29,6 @@ class Dashboard extends React.Component {
   };
 
   componentWillMount = () => {
-    console.log("ahsdkjfhsfahsdkfjhsadafjkdfhk");
     Noteservice.getAllNotes((res) => {
       this.setState({
         allNotes: res.data.data.data.reverse(),
@@ -36,17 +36,25 @@ class Dashboard extends React.Component {
     });
   };
 
+  onclickdrawer = (value) => {};
+
   handleClose = () => {};
   render() {
     return (
       <>
-        <Notes note={this.componentWillMount}></Notes>
+        {this.state.condition === true ? (
+          <Notes note={this.componentWillMount}></Notes>
+        ) : (
+          ""
+        )}
         <Sidebar
           menuOpen={this.handleDrawerOpen}
           menuClose={this.handleDrawerClose}
           drawerOpen={this.state.drawerOpen}
           notes={this.state.allNotes}
           update={this.componentWillMount}
+          drawerclick={this.onclickdrawer}
+          trashNote={this.state.trashNote}
         ></Sidebar>
         <Navbar
           details={this.state.item}

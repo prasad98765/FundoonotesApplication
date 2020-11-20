@@ -5,8 +5,8 @@ const Api = {
     userResetPass :'/user/reset',
     getAllNotes :'/notes/getNotesList',
     addNotes: '/notes/addNotes',
-    updateNotes : '/notes/updateNotes'
-
+    updateNotes : '/notes/updateNotes',
+    changesColorNotes : '/notes/changesColorNotes'
 }
 
 export default Api

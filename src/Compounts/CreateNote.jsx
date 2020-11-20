@@ -77,8 +77,6 @@ class Cards extends React.Component {
     this.setState({ color: value });
   };
   render() {
-    console.log(this.state.title);
-    console.log(this.state.description);
     return (
       <>
         <ClickAwayListener onClickAway={this.handleClickAway}>

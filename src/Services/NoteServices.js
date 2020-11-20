@@ -42,6 +42,19 @@ class UserNoteServices {
            });
        }
 
+       changesColorNotes = (data,callback) => {
+         return Axios.post(
+           `${Api.Url}${Api.changesColorNotes}?access_token=${details.id}`,
+           data
+         )
+         .then((response) => {
+           callback(response)
+         })
+         .catch((error)=> {
+           callback(error)
+         })
+       }
+
 }
 
 export default new UserNoteServices();
