@@ -6,7 +6,8 @@ const Api = {
     getAllNotes :'/notes/getNotesList',
     addNotes: '/notes/addNotes',
     updateNotes : '/notes/updateNotes',
-    changesColorNotes : '/notes/changesColorNotes'
+    changesColorNotes : '/notes/changesColorNotes',
+    trashNotes : '/notes/trashNotes',
 }
 
 export default Api

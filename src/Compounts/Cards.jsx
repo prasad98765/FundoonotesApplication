@@ -14,6 +14,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import IconButton from "@material-ui/core/IconButton";
 import Noteservice from "../Services/NoteServices.js";
+import RestoreFromTrashIcon from "@material-ui/icons/RestoreFromTrash";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 class Cards extends React.Component {
   constructor(props) {
@@ -27,9 +29,9 @@ class Cards extends React.Component {
       title: "",
       description: "",
       id: "",
-      condition: null,
+      condition: this.props.trashNote,
+      trashAction: true,
     };
-    this.state.condition = this.props.trashNote;
     this.state.allNotes = this.props.allNotes;
   }
   handleChange = async (e) => {
@@ -43,7 +45,6 @@ class Cards extends React.Component {
     };
     Noteservice.changesColorNotes(data, (res) => {
       this.props.update();
-      console.log("after change color", res);
     });
   };
 
@@ -80,6 +81,17 @@ class Cards extends React.Component {
       snackbarOpen: false,
     });
   };
+
+  isDelete = () => {
+    let data = {
+      noteIdList: [this.state.id],
+      isDeleted: true,
+    };
+    Noteservice.trashNotes(data, (res) => {
+      this.props.update();
+    });
+  };
+
   render() {
     return (
       <>
@@ -97,7 +109,7 @@ class Cards extends React.Component {
           {this.props.allNotes.map((value, index) => {
             return (
               <>
-                {value.isDeleted === this.state.condition ? (
+                {value.isDeleted === this.props.trashNote ? (
                   <Grid class="cards" item xs={12} sm={6}>
                     <Card
                       style={{
@@ -144,32 +156,49 @@ class Cards extends React.Component {
                           />
                         </Typography>
                       </CardContent>
-                      <CardActions
-                        onClick={() => this.setState({ id: value.id })}
-                      >
-                        <IconButton style={{ marginLeft: "-1%" }}>
-                          <Remind></Remind>
-                        </IconButton>
-                        <IconButton
-                          style={{ marginLeft: "-1%", color: "black" }}
+                      {this.props.trashNote === false ? (
+                        <CardActions
+                          onClick={() => this.setState({ id: value.id })}
                         >
-                          <PersonAddIcon></PersonAddIcon>
-                        </IconButton>
-                        <IconButton style={{ marginLeft: "-1%" }}>
-                          <Colour color={this.getcolor}></Colour>
-                        </IconButton>
-                        <IconButton
-                          style={{ marginLeft: "-1%", color: "black" }}
+                          <IconButton style={{ marginLeft: "-1%" }}>
+                            <Remind></Remind>
+                          </IconButton>
+                          <IconButton
+                            style={{ marginLeft: "-1%", color: "black" }}
+                          >
+                            <PersonAddIcon></PersonAddIcon>
+                          </IconButton>
+                          <IconButton style={{ marginLeft: "-1%" }}>
+                            <Colour color={this.getcolor}></Colour>
+                          </IconButton>
+                          <IconButton
+                            style={{ marginLeft: "-1%", color: "black" }}
+                          >
+                            <ArchiveIcon></ArchiveIcon>
+                          </IconButton>
+                          <IconButton style={{ marginLeft: "-1%" }}>
+                            <More
+                              action={this.state.message}
+                              delete={this.isDelete}
+                            ></More>
+                          </IconButton>
+                        </CardActions>
+                      ) : (
+                        <CardActions
+                          onClick={() => this.setState({ id: value.id })}
                         >
-                          <ArchiveIcon></ArchiveIcon>
-                        </IconButton>
-                        <IconButton style={{ marginLeft: "-1%" }}>
-                          <More
-                            action={this.state.message}
-                            delete={this.isDelete}
-                          ></More>
-                        </IconButton>
-                      </CardActions>
+                          <IconButton
+                            style={{ marginLeft: "-1%", color: "black" }}
+                          >
+                            <DeleteIcon></DeleteIcon>
+                          </IconButton>
+                          <IconButton
+                            style={{ marginLeft: "-1%", color: "black" }}
+                          >
+                            <RestoreFromTrashIcon></RestoreFromTrashIcon>
+                          </IconButton>
+                        </CardActions>
+                      )}
                     </Card>
                   </Grid>
                 ) : (

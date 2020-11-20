@@ -113,7 +113,7 @@ export default function MiniDrawer(props) {
       <Cards
         allNotes={props.notes}
         update={props.update}
-        trashNote={props.trashNote}
+        trashNote={props.trashNotes}
       ></Cards>
     </div>
   );

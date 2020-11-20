@@ -36,7 +36,13 @@ class Dashboard extends React.Component {
     });
   };
 
-  onclickdrawer = (value) => {};
+  onclickdrawer = (value) => {
+    if (value === "Notes") {
+      this.setState({ trashNote: false, condition: true });
+    } else if (value === "Trash") {
+      this.setState({ trashNote: true, condition: false });
+    }
+  };
 
   handleClose = () => {};
   render() {
@@ -54,7 +60,7 @@ class Dashboard extends React.Component {
           notes={this.state.allNotes}
           update={this.componentWillMount}
           drawerclick={this.onclickdrawer}
-          trashNote={this.state.trashNote}
+          trashNotes={this.state.trashNote}
         ></Sidebar>
         <Navbar
           details={this.state.item}
