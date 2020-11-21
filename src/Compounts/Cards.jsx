@@ -10,7 +10,6 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import ArchiveIcon from "@material-ui/icons/Archive";
 import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import IconButton from "@material-ui/core/IconButton";
 import Noteservice from "../Services/NoteServices.js";
@@ -21,7 +20,7 @@ class Cards extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      color: "",
+      color: null,
       open: false,
       snackbarOpen: false,
       allNotes: [],
@@ -31,6 +30,7 @@ class Cards extends React.Component {
       id: "",
       condition: this.props.trashNote,
       trashAction: true,
+      snackbarMessage: "",
     };
     this.state.allNotes = this.props.allNotes;
   }
@@ -48,12 +48,13 @@ class Cards extends React.Component {
     });
   };
 
-  handleClickOpen = (title, description, id) => {
+  handleClickOpen = (title, description, id, color) => {
     this.setState({
       open: true,
       title: title,
       description: description,
       id: id,
+      color: color,
     });
   };
 
@@ -88,22 +89,50 @@ class Cards extends React.Component {
       isDeleted: true,
     };
     Noteservice.trashNotes(data, (res) => {
+      this.setState({ snackbarOpen: true, snackbarMessage: "Note Trashed" });
+      this.props.update();
+    });
+  };
+
+  Restore = (id) => {
+    console.log(id);
+    let data = {
+      noteIdList: [id],
+      isDeleted: false,
+    };
+    Noteservice.restoreTrashNotes(data, (res) => {
+      console.log(res);
+      if (res.status === 200) {
+        this.setState({ snackbarOpen: true, snackbarMessage: "Note Restored" });
+        this.props.update();
+      }
+    });
+  };
+
+  deleteForever = (id) => {
+    let data = {
+      noteIdList: [id],
+      isDeleted: true,
+    };
+    Noteservice.deleteForeverNotes(data, (res) => {
+      this.setState({ snackbarOpen: true, snackbarMessage: "Note Deleted" });
       this.props.update();
     });
   };
 
   render() {
+    console.log(this.state.color);
     return (
       <>
         <Snackbar
           anchorOrigin={{
-            vertical: "center",
+            vertical: "bottom",
             horizontal: "center",
           }}
           open={this.state.snackbarOpen}
-          autoHideDuration={3000}
+          autoHideDuration={2000}
           onClose={this.handleSnackbarClose}
-          message={<span id="message-id">Somthing is Wrong</span>}
+          message={<span id="message-id">{this.state.snackbarMessage}</span>}
         />
         <Grid container spacing={0} style={{ marginTop: "4%" }}>
           {this.props.allNotes.map((value, index) => {
@@ -121,7 +150,8 @@ class Cards extends React.Component {
                           this.handleClickOpen(
                             value.title,
                             value.description,
-                            value.id
+                            value.id,
+                            value.color
                           )
                         }
                       >
@@ -190,12 +220,16 @@ class Cards extends React.Component {
                           <IconButton
                             style={{ marginLeft: "-1%", color: "black" }}
                           >
-                            <DeleteIcon></DeleteIcon>
+                            <DeleteIcon
+                              onClick={() => this.deleteForever(value.id)}
+                            ></DeleteIcon>
                           </IconButton>
                           <IconButton
                             style={{ marginLeft: "-1%", color: "black" }}
                           >
-                            <RestoreFromTrashIcon></RestoreFromTrashIcon>
+                            <RestoreFromTrashIcon
+                              onClick={() => this.Restore(value.id)}
+                            ></RestoreFromTrashIcon>
                           </IconButton>
                         </CardActions>
                       )}
@@ -214,59 +248,64 @@ class Cards extends React.Component {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogContent>
-            <h1 style={{ color: "white" }}>
-              jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
-            </h1>
-            <CardContent style={{ marginTop: "-19%" }}>
-              <Typography color="textSecondary" gutterBottom>
-                <textarea
-                  value={this.state.title}
-                  style={{
-                    width: "100%",
-                    backgroundColor: "transparent",
-                    border: "none",
-                    outline: "none",
-                    resize: "none",
-                  }}
-                  name="title"
-                  onChange={this.handleChange}
-                />
-              </Typography>
-              <Typography variant="h5" component="h2">
-                <textarea
-                  value={this.state.description}
-                  style={{
-                    width: "100%",
-                    backgroundColor: "transparent",
-                    border: "none",
-                    outline: "none",
-                    resize: "none",
-                  }}
-                  name="description"
-                  onChange={this.handleChange}
-                />
-              </Typography>
-            </CardContent>
+          <div style={{ backgroundColor: this.state.color }}>
+            <DialogContent>
+              <h1 style={{ color: this.state.color }}>
+                jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
+              </h1>
+              <CardContent style={{ marginTop: "-19%" }}>
+                <Typography color="textSecondary" gutterBottom>
+                  <textarea
+                    value={this.state.title}
+                    style={{
+                      width: "100%",
+                      backgroundColor: "transparent",
+                      border: "none",
+                      outline: "none",
+                      resize: "none",
+                    }}
+                    name="title"
+                    onChange={this.handleChange}
+                  />
+                </Typography>
+                <Typography variant="h5" component="h2">
+                  <textarea
+                    value={this.state.description}
+                    style={{
+                      width: "100%",
+                      backgroundColor: "transparent",
+                      border: "none",
+                      outline: "none",
+                      resize: "none",
+                    }}
+                    name="description"
+                    onChange={this.handleChange}
+                  />
+                </Typography>
+              </CardContent>
 
-            <div>
-              <CardActions>
-                <Remind></Remind>
-                <PersonAddIcon></PersonAddIcon>
-                <Colour color={this.getcolor}></Colour>
-                <ArchiveIcon style={{ marginLeft: "3%" }}></ArchiveIcon>
-                <More></More>
-                <Button
-                  onClick={this.handleClose}
-                  color="primary"
-                  style={{ marginLeft: "45%", marginTop: "1%" }}
-                >
-                  Close
-                </Button>
-              </CardActions>
-            </div>
-          </DialogContent>
-          <DialogActions></DialogActions>
+              <div>
+                <CardActions>
+                  <Remind></Remind>
+                  <PersonAddIcon></PersonAddIcon>
+                  <Colour color={this.getcolor}></Colour>
+                  <ArchiveIcon style={{ marginLeft: "3%" }}></ArchiveIcon>
+                  <More></More>
+                  <Button
+                    onClick={this.handleClose}
+                    color="primary"
+                    style={{
+                      marginLeft: "45%",
+                      marginTop: "1%",
+                      color: "black",
+                    }}
+                  >
+                    Close
+                  </Button>
+                </CardActions>
+              </div>
+            </DialogContent>
+          </div>
         </Dialog>
       </>
     );

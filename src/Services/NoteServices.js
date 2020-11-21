@@ -68,6 +68,31 @@ class UserNoteServices {
         })
       }
 
+      restoreTrashNotes = (data,callback) => {
+        return Axios.post(
+          `${Api.Url}${Api.restoreTrashNotes}?access_token=${details.id}`,
+          data
+        )
+        .then((response) => {
+          callback(response)
+        })
+        .catch((error)=> {
+          callback(error)
+        })
+      }
+      deleteForeverNotes = (data,callback) => {
+        return Axios.post(
+          `${Api.Url}${Api.deleteForeverNotes}?access_token=${details.id}`,
+          data
+        )
+        .then((response) => {
+          callback(response)
+        })
+        .catch((error)=> {
+          callback(error)
+        })
+      }
+
    
 
       
