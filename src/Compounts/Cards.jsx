@@ -15,6 +15,8 @@ import IconButton from "@material-ui/core/IconButton";
 import Noteservice from "../Services/NoteServices.js";
 import RestoreFromTrashIcon from "@material-ui/icons/RestoreFromTrash";
 import DeleteIcon from "@material-ui/icons/Delete";
+import UnarchiveIcon from "@material-ui/icons/Unarchive";
+// import PinIcone from "../Imgaes/pinBeforeClick.svg";
 
 class Cards extends React.Component {
   constructor(props) {
@@ -120,8 +122,28 @@ class Cards extends React.Component {
     });
   };
 
+  archive = (id) => {
+    let data = {
+      noteIdList: [id],
+      isArchived: true,
+    };
+    Noteservice.archiveNotes(data, (res) => {
+      this.setState({ snackbarOpen: true, snackbarMessage: "Note archived" });
+      this.props.update();
+    });
+  };
+
+  unArchive = (id) => {
+    let data = {
+      noteIdList: [id],
+      isArchived: false,
+    };
+    Noteservice.archiveNotes(data, (res) => {
+      this.setState({ snackbarOpen: true, snackbarMessage: "Note unArchived" });
+      this.props.update();
+    });
+  };
   render() {
-    console.log(this.state.color);
     return (
       <>
         <Snackbar
@@ -138,7 +160,8 @@ class Cards extends React.Component {
           {this.props.allNotes.map((value, index) => {
             return (
               <>
-                {value.isDeleted === this.props.trashNote ? (
+                {value.isDeleted === this.props.trashNote &&
+                value.isArchived === this.props.archiveNote ? (
                   <Grid class="cards" item xs={12} sm={6}>
                     <Card
                       style={{
@@ -201,11 +224,24 @@ class Cards extends React.Component {
                           <IconButton style={{ marginLeft: "-1%" }}>
                             <Colour color={this.getcolor}></Colour>
                           </IconButton>
-                          <IconButton
-                            style={{ marginLeft: "-1%", color: "black" }}
-                          >
-                            <ArchiveIcon></ArchiveIcon>
-                          </IconButton>
+                          {this.props.archiveNote === false ? (
+                            <IconButton
+                              style={{ marginLeft: "-1%", color: "black" }}
+                            >
+                              <ArchiveIcon
+                                onClick={() => this.archive(value.id)}
+                              ></ArchiveIcon>
+                            </IconButton>
+                          ) : (
+                            <IconButton
+                              style={{ marginLeft: "-1%", color: "black" }}
+                            >
+                              <UnarchiveIcon
+                                onClick={() => this.unArchive(value.id)}
+                              ></UnarchiveIcon>
+                            </IconButton>
+                          )}
+
                           <IconButton style={{ marginLeft: "-1%" }}>
                             <More
                               action={this.state.message}

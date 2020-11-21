@@ -12,6 +12,7 @@ class Dashboard extends React.Component {
       allNotes: [],
       condition: true,
       trashNote: false,
+      archiveNote: false,
     };
     this.state.item = this.props.history.location.state;
   }
@@ -38,9 +39,11 @@ class Dashboard extends React.Component {
 
   onclickdrawer = (value) => {
     if (value === "Notes") {
-      this.setState({ trashNote: false, condition: true });
+      this.setState({ trashNote: false, archiveNote: false, condition: true });
     } else if (value === "Trash") {
-      this.setState({ trashNote: true, condition: false });
+      this.setState({ trashNote: true, archiveNote: false, condition: false });
+    } else if (value === "Archive") {
+      this.setState({ archiveNote: true, trashNote: false, condition: false });
     }
   };
 
@@ -61,6 +64,7 @@ class Dashboard extends React.Component {
           update={this.componentWillMount}
           drawerclick={this.onclickdrawer}
           trashNotes={this.state.trashNote}
+          archiveNotes={this.state.archiveNote}
         ></Sidebar>
         <Navbar
           details={this.state.item}

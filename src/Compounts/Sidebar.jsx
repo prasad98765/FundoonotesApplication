@@ -114,6 +114,7 @@ export default function MiniDrawer(props) {
         allNotes={props.notes}
         update={props.update}
         trashNote={props.trashNotes}
+        archiveNote={props.archiveNotes}
       ></Cards>
     </div>
   );

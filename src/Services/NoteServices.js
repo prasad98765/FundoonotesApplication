@@ -93,6 +93,19 @@ class UserNoteServices {
         })
       }
 
+      archiveNotes = (data,callback) => {
+        return Axios.post(
+          `${Api.Url}${Api.archiveNotes}?access_token=${details.id}`,
+          data
+        )
+        .then((response) => {
+          callback(response)
+        })
+        .catch((error)=> {
+          callback(error)
+        })
+      }
+
    
 
       
