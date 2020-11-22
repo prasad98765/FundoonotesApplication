@@ -7,7 +7,6 @@ import {
   CardActions,
   Collapse,
   InputBase,
-  Avatar,
   Button,
   ClickAwayListener,
 } from "@material-ui/core";
@@ -22,6 +21,7 @@ import Pin from "../Imgaes/pinBeforeClick.svg";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import ArchiveIcon from "@material-ui/icons/Archive";
 import Noteservice from "../Services/NoteServices.js";
+import Unpinicon from "../Imgaes/pinAfterClick(1).svg";
 
 class Cards extends React.Component {
   constructor(props) {
@@ -36,6 +36,7 @@ class Cards extends React.Component {
       title: "",
       description: "",
       isarchived: false,
+      displypin: Pin,
     };
   }
 
@@ -89,6 +90,10 @@ class Cards extends React.Component {
     this.setState({ color: value });
   };
 
+  pinNote = () => {
+    this.setState({ displypin: Unpinicon });
+  };
+
   render() {
     console.log("get color", this.state.isarchived);
     return (
@@ -119,15 +124,22 @@ class Cards extends React.Component {
               <InsertPhotoIcon
                 style={{ marginLeft: "4%", display: this.state.show }}
               ></InsertPhotoIcon>
-              <Avatar
-                alt="Remy Sharp"
+              <Button
                 style={{
-                  marginLeft: "8%",
                   display: this.state.pin,
-                  fontSize: "50%",
                 }}
-                src={Pin}
-              />
+                onClick={this.pinNote}
+              >
+                <img
+                  alt="Remy Sharp"
+                  style={{
+                    fontSize: "20%",
+                    marginTop: "16%",
+                    display: this.state.displypin,
+                  }}
+                  src={this.state.displypin}
+                />
+              </Button>
             </CardActions>
             <Collapse
               in={this.state.expanded}

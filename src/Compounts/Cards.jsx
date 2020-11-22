@@ -16,6 +16,8 @@ import Noteservice from "../Services/NoteServices.js";
 import RestoreFromTrashIcon from "@material-ui/icons/RestoreFromTrash";
 import DeleteIcon from "@material-ui/icons/Delete";
 import UnarchiveIcon from "@material-ui/icons/Unarchive";
+import Pinicon from "../Imgaes/pinBeforeClick.svg";
+import Unpinicon from "../Imgaes/pinAfterClick(1).svg";
 
 class Cards extends React.Component {
   constructor(props) {
@@ -32,6 +34,7 @@ class Cards extends React.Component {
       condition: this.props.trashNote,
       trashAction: true,
       snackbarMessage: "",
+      displypin: Pinicon,
     };
     this.state.allNotes = this.props.allNotes;
   }
@@ -150,6 +153,10 @@ class Cards extends React.Component {
     });
   };
 
+  pinNote = () => {
+    this.setState({ displypin: Unpinicon });
+  };
+
   render() {
     return (
       <>
@@ -186,23 +193,21 @@ class Cards extends React.Component {
                           )
                         }
                       >
-                        <Typography
-                          color="textSecondary"
-                          variant="h5"
-                          component="h2"
-                        >
-                          <textarea
-                            disabled
-                            value={value.title}
-                            style={{
-                              width: "100%",
-                              color: "black",
-                              backgroundColor: "transparent",
-                              border: "none",
-                              resize: "none",
-                            }}
-                          />
-                        </Typography>
+                        <Grid container spacing={3}>
+                          <Grid item xs={10}>
+                            <textarea
+                              disabled
+                              value={value.title}
+                              style={{
+                                width: "100%",
+                                color: "black",
+                                backgroundColor: "transparent",
+                                border: "none",
+                                resize: "none",
+                              }}
+                            />
+                          </Grid>
+                        </Grid>
                         <Typography variant="h5" component="h2">
                           <textarea
                             value={value.description}
@@ -217,6 +222,29 @@ class Cards extends React.Component {
                           />
                         </Typography>
                       </CardContent>
+                      <Grid item xs={2} style={{ marginTop: "-5%" }}>
+                        {this.props.trashNote === false ? (
+                          <Button
+                            style={{
+                              marginLeft: "456%",
+                              marginTop: "-420%",
+                            }}
+                            onClick={this.pinNote}
+                          >
+                            <img
+                              alt="Remy Sharp"
+                              style={{
+                                fontSize: "20%",
+                                marginTop: "16%",
+                                display: this.state.displypin,
+                              }}
+                              src={this.state.displypin}
+                            />
+                          </Button>
+                        ) : (
+                          ""
+                        )}
+                      </Grid>
                       {this.props.trashNote === false ? (
                         <CardActions
                           onClick={() => this.setState({ id: value.id })}
