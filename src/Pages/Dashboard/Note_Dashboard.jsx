@@ -13,6 +13,7 @@ class Dashboard extends React.Component {
       condition: true,
       trashNote: false,
       archiveNote: false,
+      searchValue: "",
     };
     this.state.item = this.props.history.location.state;
   }
@@ -27,6 +28,21 @@ class Dashboard extends React.Component {
     this.setState({
       drawerOpen: false,
     });
+  };
+  searchValue = (value) => {
+    console.log(value);
+    if (value !== "") {
+      this.setState({ searchValue: value });
+      this.setState({ condition: false });
+    } else {
+      if (this.state.archiveNote === false && this.state.trashNote === false) {
+        this.setState({ searchValue: "" });
+        this.setState({ condition: true });
+      } else {
+        this.setState({ searchValue: "" });
+        this.setState({ condition: false });
+      }
+    }
   };
 
   componentWillMount = () => {
@@ -65,10 +81,12 @@ class Dashboard extends React.Component {
           drawerclick={this.onclickdrawer}
           trashNotes={this.state.trashNote}
           archiveNotes={this.state.archiveNote}
+          searchValue={this.state.searchValue}
         ></Sidebar>
         <Navbar
           details={this.state.item}
           menuOpen={this.handleDrawerOpen}
+          searchValue={this.searchValue}
         ></Navbar>
       </>
     );

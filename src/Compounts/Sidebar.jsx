@@ -115,6 +115,7 @@ export default function MiniDrawer(props) {
         update={props.update}
         trashNote={props.trashNotes}
         archiveNote={props.archiveNotes}
+        searchValue={props.searchValue}
       ></Cards>
     </div>
   );

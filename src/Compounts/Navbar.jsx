@@ -25,11 +25,18 @@ class Navbar extends React.Component {
     super(props);
     this.state = {
       item: null,
+      value: "",
     };
     this.state.item = this.props.details;
   }
 
+  handleChange = async (e) => {
+    console.log(e.target.value);
+    // this.setState({ [e.target.name]: await e.target.value });
+  };
+
   render() {
+    console.log(this.state.value);
     return (
       <>
         <AppBar style={{ backgroundColor: "white" }}>
@@ -47,8 +54,7 @@ class Navbar extends React.Component {
               <SearchBar
                 className="search"
                 value={this.state.value}
-                onChange={(newValue) => this.setState({ value: newValue })}
-                // onRequestSearch={() => doSomethingWith(this.state.value)}
+                onChange={(newValue) => this.props.searchValue(newValue)}
               />
             </div>
             <div class="menu" title="List view">

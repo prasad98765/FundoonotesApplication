@@ -16,7 +16,6 @@ import Noteservice from "../Services/NoteServices.js";
 import RestoreFromTrashIcon from "@material-ui/icons/RestoreFromTrash";
 import DeleteIcon from "@material-ui/icons/Delete";
 import UnarchiveIcon from "@material-ui/icons/Unarchive";
-// import PinIcone from "../Imgaes/pinBeforeClick.svg";
 
 class Cards extends React.Component {
   constructor(props) {
@@ -86,9 +85,16 @@ class Cards extends React.Component {
   };
 
   isDelete = () => {
+    let data1 = {
+      noteIdList: [this.state.id],
+      isArchived: false,
+    };
+    Noteservice.archiveNotes(data1, (res) => {});
+
     let data = {
       noteIdList: [this.state.id],
       isDeleted: true,
+      isArchived: false,
     };
     Noteservice.trashNotes(data, (res) => {
       this.setState({ snackbarOpen: true, snackbarMessage: "Note Trashed" });
@@ -143,6 +149,7 @@ class Cards extends React.Component {
       this.props.update();
     });
   };
+
   render() {
     return (
       <>
@@ -161,7 +168,8 @@ class Cards extends React.Component {
             return (
               <>
                 {value.isDeleted === this.props.trashNote &&
-                value.isArchived === this.props.archiveNote ? (
+                value.isArchived === this.props.archiveNote &&
+                value.title.includes(this.props.searchValue) === true ? (
                   <Grid class="cards" item xs={12} sm={6}>
                     <Card
                       style={{

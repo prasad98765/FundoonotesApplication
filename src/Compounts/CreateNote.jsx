@@ -35,6 +35,7 @@ class Cards extends React.Component {
       color: "",
       title: "",
       description: "",
+      isarchived: false,
     };
   }
 
@@ -61,9 +62,15 @@ class Cards extends React.Component {
       let noteDetails = {
         title: this.state.title,
         description: this.state.description,
+        color: this.state.color,
+        isArchived: this.state.isarchived,
       };
       Noteservice.saveNote(noteDetails, (res) => {
-        this.setState({ title: "", description: "" });
+        this.setState({
+          title: "",
+          description: "",
+          color: "",
+        });
         this.props.note("");
       });
     }
@@ -73,10 +80,17 @@ class Cards extends React.Component {
     this.setState({ expanded: false });
     this.setState({ setExpanded: false });
   };
+  archived = async () => {
+    await this.setState({ isarchived: true });
+    this.handleClickAway();
+  };
+
   getcolor = (value) => {
     this.setState({ color: value });
   };
+
   render() {
+    console.log("get color", this.state.isarchived);
     return (
       <>
         <ClickAwayListener onClickAway={this.handleClickAway}>
@@ -145,7 +159,10 @@ class Cards extends React.Component {
                 ></PersonAddIcon>
                 <Colour color={this.getcolor}></Colour>
                 <InsertPhotoIcon style={{ marginLeft: "4%" }}></InsertPhotoIcon>
-                <ArchiveIcon style={{ marginLeft: "4%" }}></ArchiveIcon>
+                <ArchiveIcon
+                  style={{ marginLeft: "4%" }}
+                  onClick={this.archived}
+                ></ArchiveIcon>
                 <More></More>
                 <div>
                   <Button
