@@ -40,7 +40,7 @@ class RemindMe extends React.Component {
     return (
       <>
         <AddAlertIcon
-          style={{ marginLeft: "4%", color: "black" }}
+          style={{ marginLeft: "4%", color: "black", cursor: "pointer" }}
           variant="contained"
           color="primary"
           title="Remind me"

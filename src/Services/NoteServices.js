@@ -106,6 +106,19 @@ class UserNoteServices {
         })
       }
 
+      pinUnpinNotes = (data,callback) => {
+        return Axios.post(
+          `${Api.Url}${Api.pinUnpinNotes}?access_token=${details.id}`,
+          data
+        )
+        .then((response) => {
+          callback(response)
+        })
+        .catch((error)=> {
+          callback(error)
+        })
+      }
+
    
 
       

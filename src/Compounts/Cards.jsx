@@ -34,7 +34,6 @@ class Cards extends React.Component {
       condition: this.props.trashNote,
       trashAction: true,
       snackbarMessage: "",
-      displypin: Pinicon,
     };
     this.state.allNotes = this.props.allNotes;
   }
@@ -153,9 +152,29 @@ class Cards extends React.Component {
     });
   };
 
-  pinNote = () => {
-    this.setState({ displypin: Unpinicon });
+  pinNote = (id) => {
+    let data = {
+      noteIdList: [id],
+      isPined: true,
+    };
+    Noteservice.pinUnpinNotes(data, (res) => {
+      this.setState({ snackbarOpen: true, snackbarMessage: "Note Pined" });
+      this.props.update();
+    });
   };
+
+  unPinNote = (id) => {
+    let data = {
+      noteIdList: [id],
+      isPined: false,
+    };
+    Noteservice.pinUnpinNotes(data, (res) => {
+      this.setState({ snackbarOpen: true, snackbarMessage: "Note Unpined" });
+      this.props.update();
+    });
+  };
+
+  handleDelete = () => {};
 
   render() {
     return (
@@ -176,7 +195,10 @@ class Cards extends React.Component {
               <>
                 {value.isDeleted === this.props.trashNote &&
                 value.isArchived === this.props.archiveNote &&
-                value.title.includes(this.props.searchValue) === true ? (
+                value.title.includes(
+                  this.props.searchValue.replace(/ /g, "")
+                ) === true &&
+                value.isPined === this.props.pin ? (
                   <Grid class="cards" item xs={12} sm={6}>
                     <Card
                       style={{
@@ -222,6 +244,7 @@ class Cards extends React.Component {
                           />
                         </Typography>
                       </CardContent>
+
                       <Grid item xs={2} style={{ marginTop: "-5%" }}>
                         {this.props.trashNote === false ? (
                           <Button
@@ -229,17 +252,30 @@ class Cards extends React.Component {
                               marginLeft: "456%",
                               marginTop: "-420%",
                             }}
-                            onClick={this.pinNote}
                           >
-                            <img
-                              alt="Remy Sharp"
-                              style={{
-                                fontSize: "20%",
-                                marginTop: "16%",
-                                display: this.state.displypin,
-                              }}
-                              src={this.state.displypin}
-                            />
+                            {this.props.pin === false ? (
+                              <img
+                                alt="Remy Sharp"
+                                style={{
+                                  fontSize: "20%",
+                                  marginTop: "16%",
+                                  display: this.state.displypin,
+                                }}
+                                onClick={() => this.pinNote(value.id)}
+                                src={Pinicon}
+                              />
+                            ) : (
+                              <img
+                                alt="Remy Sharp"
+                                style={{
+                                  fontSize: "20%",
+                                  marginTop: "16%",
+                                  display: this.state.displypin,
+                                }}
+                                onClick={() => this.unPinNote(value.id)}
+                                src={Unpinicon}
+                              />
+                            )}
                           </Button>
                         ) : (
                           ""
@@ -314,6 +350,7 @@ class Cards extends React.Component {
             );
           })}
         </Grid>
+
         <Dialog
           open={this.state.open}
           onClose={this.thishandleClose}

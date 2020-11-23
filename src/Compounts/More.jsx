@@ -42,7 +42,7 @@ class More extends React.Component {
     return (
       <>
         <MoreVertIcon
-          style={{ marginLeft: "4%", color: "black" }}
+          style={{ marginLeft: "4%", color: "black", cursor: "pointer" }}
           variant="contained"
           color="primary"
           title="Remind me"

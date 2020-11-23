@@ -36,6 +36,7 @@ class Cards extends React.Component {
       title: "",
       description: "",
       isarchived: false,
+      ispined: false,
       displypin: Pin,
     };
   }
@@ -65,6 +66,7 @@ class Cards extends React.Component {
         description: this.state.description,
         color: this.state.color,
         isArchived: this.state.isarchived,
+        isPined: this.state.ispined,
       };
       Noteservice.saveNote(noteDetails, (res) => {
         this.setState({
@@ -91,6 +93,7 @@ class Cards extends React.Component {
   };
 
   pinNote = () => {
+    this.setState({ ispined: true });
     this.setState({ displypin: Unpinicon });
   };
 
@@ -167,12 +170,21 @@ class Cards extends React.Component {
                 />
                 <Remind></Remind>
                 <PersonAddIcon
-                  style={{ marginLeft: "4%", marginTop: "3%" }}
+                  style={{
+                    marginLeft: "4%",
+                    marginTop: "3%",
+                    cursor: "pointer",
+                  }}
                 ></PersonAddIcon>
                 <Colour color={this.getcolor}></Colour>
-                <InsertPhotoIcon style={{ marginLeft: "4%" }}></InsertPhotoIcon>
+                <InsertPhotoIcon
+                  style={{ marginLeft: "4%", cursor: "pointer" }}
+                ></InsertPhotoIcon>
                 <ArchiveIcon
-                  style={{ marginLeft: "4%" }}
+                  style={{
+                    marginLeft: "4%",
+                    cursor: "pointer",
+                  }}
                   onClick={this.archived}
                 ></ArchiveIcon>
                 <More></More>

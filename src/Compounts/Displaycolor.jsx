@@ -44,7 +44,7 @@ class SimplePopover extends React.Component {
     return (
       <>
         <ColorLensIcon
-          style={{ marginLeft: "4%", color: "black" }}
+          style={{ marginLeft: "4%", color: "black", cursor: "pointer" }}
           variant="contained"
           color="primary"
           title="Change color"

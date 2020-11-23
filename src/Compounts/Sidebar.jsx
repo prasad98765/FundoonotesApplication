@@ -1,6 +1,6 @@
 import React from "react";
 import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, Grid } from "@material-ui/core/";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -12,7 +12,7 @@ import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
 import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
 import Cards from "../Compounts/Cards.jsx";
-
+import Pin from "../Compounts/PinCard.jsx";
 import "../Compounts/compountStyle.scss";
 
 const drawerWidth = 200;
@@ -110,13 +110,27 @@ export default function MiniDrawer(props) {
           )}
         </List>
       </Drawer>
-      <Cards
-        allNotes={props.notes}
-        update={props.update}
-        trashNote={props.trashNotes}
-        archiveNote={props.archiveNotes}
-        searchValue={props.searchValue}
-      ></Cards>
+      <Grid container spacing={0}>
+        <Grid container item xs={12} spacing={0}>
+          <Pin
+            allNotes={props.notes}
+            update={props.update}
+            trashNote={props.trashNotes}
+            archiveNote={props.archiveNotes}
+            searchValue={props.searchValue}
+          ></Pin>
+        </Grid>
+        <Grid container item xs={12} spacing={0}>
+          <Cards
+            pin={false}
+            allNotes={props.notes}
+            update={props.update}
+            trashNote={props.trashNotes}
+            archiveNote={props.archiveNotes}
+            searchValue={props.searchValue}
+          ></Cards>
+        </Grid>
+      </Grid>
     </div>
   );
 }
