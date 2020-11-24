@@ -43,13 +43,19 @@
 .cards{
     background-color: wheat;
     width: 18%;
-    margin-left: 10%;
-    margin-top: 2%;
+    margin-left: 13%;
+    margin-top: 6%;
     margin-bottom: 1%;
+
 }
 
 .sidebar{
     display: flex;
+}
+
+.cardicon{
+    justify-content: space-between;
+    color: black;
 }
 
 

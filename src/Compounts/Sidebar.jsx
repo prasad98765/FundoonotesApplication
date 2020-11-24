@@ -15,7 +15,7 @@ import Cards from "../Compounts/Cards.jsx";
 import Pin from "../Compounts/PinCard.jsx";
 import "../Compounts/compountStyle.scss";
 
-const drawerWidth = 200;
+const drawerWidth = 180;
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -56,60 +56,62 @@ const useStyles = makeStyles((theme) => ({
 export default function MiniDrawer(props) {
   const classes = useStyles();
   return (
-    <div class="sidebar">
-      <Drawer
-        variant="permanent"
-        marginBottom="5px"
-        className={clsx(classes.drawer, {
-          [classes.drawerOpen]: props.drawerOpen,
-          [classes.drawerClose]: !props.drawerOpen,
-        })}
-        classes={{
-          paper: clsx({
+    <>
+      <div class="sidebar">
+        <Drawer
+          variant="permanent"
+          marginBottom="5px"
+          className={clsx(classes.drawer, {
             [classes.drawerOpen]: props.drawerOpen,
             [classes.drawerClose]: !props.drawerOpen,
-          }),
-        }}
-        onMouseOver={props.menuOpen}
-        onMouseOut={props.menuClose}
-      >
-        <List>
-          {["Notes", "Reminders", "Edit labels", "Archive", "Trash"].map(
-            (text, index) => (
-              <ListItem
-                button
-                key={text}
-                onClick={() => props.drawerclick(text)}
-              >
-                <ListItemIcon>
-                  {index === 0 ? (
-                    <div>
-                      <EmojiObjectsOutlinedIcon></EmojiObjectsOutlinedIcon>
-                    </div>
-                  ) : index === 1 ? (
-                    <div>
-                      <NotificationsNoneIcon />
-                    </div>
-                  ) : index === 2 ? (
-                    <div>
-                      <EditOutlinedIcon />
-                    </div>
-                  ) : index === 3 ? (
-                    <div>
-                      <ArchiveOutlinedIcon />
-                    </div>
-                  ) : (
-                    <div>
-                      <DeleteOutlineOutlinedIcon />
-                    </div>
-                  )}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            )
-          )}
-        </List>
-      </Drawer>
+          })}
+          classes={{
+            paper: clsx({
+              [classes.drawerOpen]: props.drawerOpen,
+              [classes.drawerClose]: !props.drawerOpen,
+            }),
+          }}
+          onMouseOver={props.menuOpen}
+          onMouseOut={props.menuClose}
+        >
+          <List>
+            {["Notes", "Reminders", "Edit labels", "Archive", "Trash"].map(
+              (text, index) => (
+                <ListItem
+                  button
+                  key={text}
+                  onClick={() => props.drawerclick(text)}
+                >
+                  <ListItemIcon>
+                    {index === 0 ? (
+                      <div>
+                        <EmojiObjectsOutlinedIcon></EmojiObjectsOutlinedIcon>
+                      </div>
+                    ) : index === 1 ? (
+                      <div>
+                        <NotificationsNoneIcon />
+                      </div>
+                    ) : index === 2 ? (
+                      <div>
+                        <EditOutlinedIcon />
+                      </div>
+                    ) : index === 3 ? (
+                      <div>
+                        <ArchiveOutlinedIcon />
+                      </div>
+                    ) : (
+                      <div>
+                        <DeleteOutlineOutlinedIcon />
+                      </div>
+                    )}
+                  </ListItemIcon>
+                  <ListItemText primary={text} />
+                </ListItem>
+              )
+            )}
+          </List>
+        </Drawer>
+      </div>
       <Grid container spacing={0}>
         <Grid container item xs={12} spacing={0}>
           <Pin
@@ -131,6 +133,6 @@ export default function MiniDrawer(props) {
           ></Cards>
         </Grid>
       </Grid>
-    </div>
+    </>
   );
 }

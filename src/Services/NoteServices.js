@@ -119,6 +119,32 @@ class UserNoteServices {
         })
       }
 
+      updateReminderNotes = (data,callback) => {
+        return Axios.post(
+          `${Api.Url}${Api.updateReminderNotes}?access_token=${details.id}`,
+          data
+        )
+        .then((response) => {
+          callback(response)
+        })
+        .catch((error)=> {
+          callback(error)
+        })
+      }
+
+      removeReminderNotes = (data,callback) => {
+        return Axios.post(
+          `${Api.Url}${Api.removeReminderNotes}?access_token=${details.id}`,
+          data
+        )
+        .then((response) => {
+          callback(response)
+        })
+        .catch((error)=> {
+          callback(error)
+        })
+      }
+
    
 
       

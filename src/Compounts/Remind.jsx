@@ -1,6 +1,6 @@
 import React from "react";
 import "../Compounts/compountStyle.scss";
-
+import moment from "moment";
 import {
   makeStyles,
   Grid,
@@ -23,7 +23,8 @@ class RemindMe extends React.Component {
       open: false,
       anchorEl: null,
       remind: ["Later today", "Tomorrow", "Next week"],
-      time: "8:00 PM",
+      time: "8 PM",
+      todayDate: new Date().toJSON(),
     };
   }
 
@@ -34,6 +35,24 @@ class RemindMe extends React.Component {
 
   handleClose = () => {
     this.setState({ open: false });
+  };
+
+  getReminder = (value) => {
+    if (value === "Later today") {
+      this.props.reminder(
+        moment(this.state.todayDate).format("yyyy-MM-DD") + "T20:30:00.000Z"
+      );
+    } else if (value === "Tomorrow") {
+      this.props.reminder(
+        moment(this.state.todayDate).add(1, "day").format("yyyy-MM-DD") +
+          "T20:30:00.000Z"
+      );
+    } else if (value === "Next week") {
+      this.props.reminder(
+        moment(this.state.todayDate).add(7, "day").format("yyyy-MM-DD") +
+          "T20:30:00.000Z"
+      );
+    }
   };
 
   render() {
@@ -70,9 +89,22 @@ class RemindMe extends React.Component {
               {this.state.remind.map((value, index) => {
                 return (
                   <div class="reminder">
-                    <Link variant="outlined">
-                      <Grid container spacing={3} style={{ color: "black" }}>
-                        <Grid container item xs={12} sm={6}>
+                    <Link
+                      variant="outlined"
+                      onClick={() => this.getReminder(value)}
+                    >
+                      <Grid
+                        container
+                        spacing={1}
+                        style={{ color: "black", cursor: "pointer" }}
+                      >
+                        <Grid
+                          container
+                          item
+                          xs={12}
+                          sm={6}
+                          style={{ marginTop: "2.5%" }}
+                        >
                           <h4>{value}</h4>
                         </Grid>
                         <Grid container item xs={12} sm={6} class="time">

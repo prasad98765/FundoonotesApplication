@@ -18,7 +18,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import UnarchiveIcon from "@material-ui/icons/Unarchive";
 import Pinicon from "../Imgaes/pinBeforeClick.svg";
 import Unpinicon from "../Imgaes/pinAfterClick(1).svg";
-
+import Chip from "@material-ui/core/Chip";
+import AccessAlarmIcon from "@material-ui/icons/AccessAlarm";
 class Cards extends React.Component {
   constructor(props) {
     super(props);
@@ -47,7 +48,11 @@ class Cards extends React.Component {
       color: value,
     };
     Noteservice.changesColorNotes(data, (res) => {
+      console.log("get colour", value);
       this.props.update();
+      this.setState({
+        color: value,
+      });
     });
   };
 
@@ -87,9 +92,11 @@ class Cards extends React.Component {
   };
 
   isDelete = () => {
+    this.handleDelete(this.state.id);
     let data1 = {
       noteIdList: [this.state.id],
       isArchived: false,
+      reminder: "",
     };
     Noteservice.archiveNotes(data1, (res) => {});
 
@@ -136,7 +143,10 @@ class Cards extends React.Component {
       isArchived: true,
     };
     Noteservice.archiveNotes(data, (res) => {
-      this.setState({ snackbarOpen: true, snackbarMessage: "Note archived" });
+      this.setState({
+        snackbarOpen: true,
+        snackbarMessage: "Note archived",
+      });
       this.props.update();
     });
   };
@@ -174,9 +184,37 @@ class Cards extends React.Component {
     });
   };
 
-  handleDelete = () => {};
+  handleDelete = (id) => {
+    console.log("after the cick remind button", id);
+    let data = {
+      noteIdList: [id],
+      reminder: "",
+    };
+    Noteservice.removeReminderNotes(data, (res) => {
+      this.setState({
+        snackbarOpen: true,
+        snackbarMessage: "Note Reminder remove",
+      });
+      this.props.update();
+    });
+  };
+
+  getReminder = (value) => {
+    let data = {
+      noteIdList: [this.state.id],
+      reminder: value,
+    };
+    Noteservice.updateReminderNotes(data, (res) => {
+      this.setState({
+        snackbarOpen: true,
+        snackbarMessage: "Note Reminder Add",
+      });
+      this.props.update();
+    });
+  };
 
   render() {
+    console.log();
     return (
       <>
         <Snackbar
@@ -189,51 +227,36 @@ class Cards extends React.Component {
           onClose={this.handleSnackbarClose}
           message={<span id="message-id">{this.state.snackbarMessage}</span>}
         />
-        <Grid container spacing={0} style={{ marginTop: "4%" }}>
-          {this.props.allNotes.map((value, index) => {
-            return (
-              <>
-                {value.isDeleted === this.props.trashNote &&
-                value.isArchived === this.props.archiveNote &&
-                value.title.includes(
-                  this.props.searchValue.replace(/ /g, "")
-                ) === true &&
-                value.isPined === this.props.pin ? (
-                  <Grid class="cards" item xs={12} sm={6}>
-                    <Card
-                      style={{
-                        backgroundColor: value.color,
-                      }}
+
+        {this.props.allNotes.map((value, index) => {
+          return (
+            <>
+              {value.isDeleted === this.props.trashNote &&
+              value.isArchived === this.props.archiveNote &&
+              value.title.includes(this.props.searchValue.replace(/ /g, "")) ===
+                true &&
+              value.isPined === this.props.pin ? (
+                <Grid class="cards" item xs={12} sm={6}>
+                  <Card
+                    style={{
+                      backgroundColor: value.color,
+                    }}
+                  >
+                    <CardContent
+                      onClick={() =>
+                        this.handleClickOpen(
+                          value.title,
+                          value.description,
+                          value.id,
+                          value.color
+                        )
+                      }
                     >
-                      <CardContent
-                        onClick={() =>
-                          this.handleClickOpen(
-                            value.title,
-                            value.description,
-                            value.id,
-                            value.color
-                          )
-                        }
-                      >
-                        <Grid container spacing={3}>
-                          <Grid item xs={10}>
-                            <textarea
-                              disabled
-                              value={value.title}
-                              style={{
-                                width: "100%",
-                                color: "black",
-                                backgroundColor: "transparent",
-                                border: "none",
-                                resize: "none",
-                              }}
-                            />
-                          </Grid>
-                        </Grid>
-                        <Typography variant="h5" component="h2">
+                      <Grid container spacing={3}>
+                        <Grid item xs={10}>
                           <textarea
-                            value={value.description}
                             disabled
+                            value={value.title}
                             style={{
                               width: "100%",
                               color: "black",
@@ -242,115 +265,150 @@ class Cards extends React.Component {
                               resize: "none",
                             }}
                           />
-                        </Typography>
-                      </CardContent>
-
-                      <Grid item xs={2} style={{ marginTop: "-5%" }}>
-                        {this.props.trashNote === false ? (
-                          <Button
-                            style={{
-                              marginLeft: "456%",
-                              marginTop: "-420%",
-                            }}
-                          >
-                            {this.props.pin === false ? (
-                              <img
-                                alt="Remy Sharp"
-                                style={{
-                                  fontSize: "20%",
-                                  marginTop: "16%",
-                                  display: this.state.displypin,
-                                }}
-                                onClick={() => this.pinNote(value.id)}
-                                src={Pinicon}
-                              />
-                            ) : (
-                              <img
-                                alt="Remy Sharp"
-                                style={{
-                                  fontSize: "20%",
-                                  marginTop: "16%",
-                                  display: this.state.displypin,
-                                }}
-                                onClick={() => this.unPinNote(value.id)}
-                                src={Unpinicon}
-                              />
-                            )}
-                          </Button>
-                        ) : (
-                          ""
-                        )}
+                        </Grid>
                       </Grid>
-                      {this.props.trashNote === false ? (
-                        <CardActions
-                          onClick={() => this.setState({ id: value.id })}
-                        >
-                          <IconButton style={{ marginLeft: "-1%" }}>
-                            <Remind></Remind>
-                          </IconButton>
-                          <IconButton
-                            style={{ marginLeft: "-1%", color: "black" }}
-                          >
-                            <PersonAddIcon></PersonAddIcon>
-                          </IconButton>
-                          <IconButton style={{ marginLeft: "-1%" }}>
-                            <Colour color={this.getcolor}></Colour>
-                          </IconButton>
-                          {this.props.archiveNote === false ? (
-                            <IconButton
-                              style={{ marginLeft: "-1%", color: "black" }}
-                            >
-                              <ArchiveIcon
-                                onClick={() => this.archive(value.id)}
-                              ></ArchiveIcon>
-                            </IconButton>
-                          ) : (
-                            <IconButton
-                              style={{ marginLeft: "-1%", color: "black" }}
-                            >
-                              <UnarchiveIcon
-                                onClick={() => this.unArchive(value.id)}
-                              ></UnarchiveIcon>
-                            </IconButton>
-                          )}
-
-                          <IconButton style={{ marginLeft: "-1%" }}>
-                            <More
-                              action={this.state.message}
-                              delete={this.isDelete}
-                            ></More>
-                          </IconButton>
-                        </CardActions>
+                      <Typography variant="h5" component="h2">
+                        <textarea
+                          value={value.description}
+                          disabled
+                          style={{
+                            width: "100%",
+                            color: "black",
+                            backgroundColor: "transparent",
+                            border: "none",
+                            resize: "none",
+                          }}
+                        />
+                      </Typography>
+                    </CardContent>
+                    <div style={{ marginTop: "-10%", marginBottom: "-11%" }}>
+                      {value.reminder[0] != null ? (
+                        <Chip
+                          icon={<AccessAlarmIcon />}
+                          label={value.reminder[0].substring(0, 16) + "8.00PM"}
+                          onDelete={() => this.handleDelete(value.id)}
+                          color="transparent"
+                          variant="outlined"
+                          style={{
+                            marginLeft: "6%",
+                            backgroundColor: "lightgray",
+                          }}
+                        />
                       ) : (
-                        <CardActions
-                          onClick={() => this.setState({ id: value.id })}
-                        >
-                          <IconButton
-                            style={{ marginLeft: "-1%", color: "black" }}
-                          >
-                            <DeleteIcon
-                              onClick={() => this.deleteForever(value.id)}
-                            ></DeleteIcon>
-                          </IconButton>
-                          <IconButton
-                            style={{ marginLeft: "-1%", color: "black" }}
-                          >
-                            <RestoreFromTrashIcon
-                              onClick={() => this.Restore(value.id)}
-                            ></RestoreFromTrashIcon>
-                          </IconButton>
-                        </CardActions>
+                        <Chip
+                          // icon={<AccessAlarmIcon />}
+                          label=""
+                          // onDelete={this.handleDelete}
+                          color="transparent"
+                          variant="transparent"
+                          style={{ border: "none" }}
+                        />
                       )}
-                    </Card>
-                  </Grid>
-                ) : (
-                  ""
-                )}
-              </>
-            );
-          })}
-        </Grid>
+                    </div>
 
+                    <Grid item xs={2} style={{ marginTop: "-5%" }}>
+                      {this.props.trashNote === false ? (
+                        <Button
+                          style={{
+                            marginLeft: "456%",
+                            marginTop: "-380%",
+                          }}
+                        >
+                          {this.props.pin === false ? (
+                            <img
+                              alt="Remy Sharp"
+                              style={{
+                                fontSize: "20%",
+                                marginTop: "16%",
+                                display: this.state.displypin,
+                              }}
+                              onClick={() => this.pinNote(value.id)}
+                              src={Pinicon}
+                            />
+                          ) : (
+                            <img
+                              alt="Remy Sharp"
+                              style={{
+                                fontSize: "20%",
+                                marginTop: "16%",
+                                display: this.state.displypin,
+                              }}
+                              onClick={() => this.unPinNote(value.id)}
+                              src={Unpinicon}
+                            />
+                          )}
+                        </Button>
+                      ) : (
+                        ""
+                      )}
+                    </Grid>
+                    {this.props.trashNote === false ? (
+                      <CardActions
+                        onClick={() => this.setState({ id: value.id })}
+                        style={{ marginTop: "4%" }}
+                      >
+                        <IconButton>
+                          <Remind reminder={this.getReminder}></Remind>
+                        </IconButton>
+                        <IconButton style={{ color: "black" }}>
+                          <PersonAddIcon></PersonAddIcon>
+                        </IconButton>
+                        <IconButton>
+                          <Colour color={this.getcolor}></Colour>
+                        </IconButton>
+                        {this.props.archiveNote === false ? (
+                          <IconButton
+                            style={{ marginLeft: "1%", color: "black" }}
+                          >
+                            <ArchiveIcon
+                              onClick={() => this.archive(value.id)}
+                            ></ArchiveIcon>
+                          </IconButton>
+                        ) : (
+                          <IconButton
+                            style={{ marginLeft: "-1%", color: "black" }}
+                          >
+                            <UnarchiveIcon
+                              onClick={() => this.unArchive(value.id)}
+                            ></UnarchiveIcon>
+                          </IconButton>
+                        )}
+
+                        <IconButton style={{ marginLeft: "-1%" }}>
+                          <More
+                            action={this.state.message}
+                            delete={this.isDelete}
+                          ></More>
+                        </IconButton>
+                      </CardActions>
+                    ) : (
+                      <CardActions
+                        onClick={() => this.setState({ id: value.id })}
+                      >
+                        <IconButton
+                          style={{ marginLeft: "-1%", color: "black" }}
+                        >
+                          <DeleteIcon
+                            onClick={() => this.deleteForever(value.id)}
+                          ></DeleteIcon>
+                        </IconButton>
+                        <IconButton
+                          style={{ marginLeft: "-1%", color: "black" }}
+                        >
+                          <RestoreFromTrashIcon
+                            onClick={() => this.Restore(value.id)}
+                          ></RestoreFromTrashIcon>
+                        </IconButton>
+                      </CardActions>
+                    )}
+                  </Card>
+                </Grid>
+              ) : (
+                ""
+              )}
+            </>
+          );
+        })}
         <Dialog
           open={this.state.open}
           onClose={this.thishandleClose}
@@ -394,18 +452,21 @@ class Cards extends React.Component {
               </CardContent>
 
               <div>
-                <CardActions>
-                  <Remind></Remind>
+                <CardActions className="cardicon">
+                  <Remind reminder={this.getReminder}></Remind>
                   <PersonAddIcon></PersonAddIcon>
                   <Colour color={this.getcolor}></Colour>
-                  <ArchiveIcon style={{ marginLeft: "3%" }}></ArchiveIcon>
-                  <More></More>
+                  <ArchiveIcon
+                    // style={{ marginLeft: "3%" }}
+                    onClick={() => this.archive(this.state.id)}
+                  ></ArchiveIcon>
+                  <More delete={this.isDelete}></More>
                   <Button
                     onClick={this.handleClose}
                     color="primary"
                     style={{
-                      marginLeft: "45%",
-                      marginTop: "1%",
+                      // marginLeft: "45%",
+                      // marginTop: "1%",
                       color: "black",
                     }}
                   >

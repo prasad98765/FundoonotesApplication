@@ -11,7 +11,9 @@ const Api = {
     restoreTrashNotes : '/notes/trashNotes',
     deleteForeverNotes : '/notes/deleteForeverNotes',
     archiveNotes : '/notes/archiveNotes',
-    pinUnpinNotes : '/notes/pinUnpinNotes'
+    pinUnpinNotes : '/notes/pinUnpinNotes',
+    updateReminderNotes : '/notes/addUpdateReminderNotes',
+    removeReminderNotes : '/notes/removeReminderNotes'
 }
 
 export default Api
