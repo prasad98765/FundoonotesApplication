@@ -1,8 +1,14 @@
 import React from "react";
+import { Grid } from "@material-ui/core/";
+
 import Navbar from "../../Compounts/Navbar.jsx";
 import Notes from "../../Compounts/CreateNote.jsx";
 import Sidebar from "../../Compounts/Sidebar";
 import Noteservice from "../../Services/NoteServices.js";
+import Lable from "../../Compounts/Lable.jsx";
+import Pin from "../../Compounts/PinCard.jsx";
+import Cards from "../../Compounts/Cards.jsx";
+
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
@@ -14,6 +20,8 @@ class Dashboard extends React.Component {
       trashNote: false,
       archiveNote: false,
       searchValue: "",
+      allLabls: [],
+      lable: false,
     };
     this.state.item = this.props.history.location.state;
   }
@@ -51,6 +59,13 @@ class Dashboard extends React.Component {
         allNotes: res.data.data.data.reverse(),
       });
     });
+
+    Noteservice.getNoteLabelList((res) => {
+      this.setState({
+        allLabls: res.data.data.details,
+      });
+      console.log("get all lable list", res.data.data.details);
+    });
   };
 
   onclickdrawer = (value) => {
@@ -60,7 +75,14 @@ class Dashboard extends React.Component {
       this.setState({ trashNote: true, archiveNote: false, condition: false });
     } else if (value === "Archive") {
       this.setState({ archiveNote: true, trashNote: false, condition: false });
+    } else if (value === "Edit labels") {
+      console.log("in Edit Lable");
+      this.setState({ lable: true });
     }
+  };
+
+  onClose = (value) => {
+    this.setState({ lable: false });
   };
 
   handleClose = () => {};
@@ -76,18 +98,41 @@ class Dashboard extends React.Component {
           menuOpen={this.handleDrawerOpen}
           menuClose={this.handleDrawerClose}
           drawerOpen={this.state.drawerOpen}
-          notes={this.state.allNotes}
-          update={this.componentWillMount}
           drawerclick={this.onclickdrawer}
-          trashNotes={this.state.trashNote}
-          archiveNotes={this.state.archiveNote}
-          searchValue={this.state.searchValue}
+          allLabls={this.state.allLabls}
         ></Sidebar>
         <Navbar
           details={this.state.item}
           menuOpen={this.handleDrawerOpen}
           searchValue={this.searchValue}
         ></Navbar>
+        <Grid container spacing={0}>
+          <Grid container item xs={12} spacing={0}>
+            <Pin
+              allNotes={this.state.allNotes}
+              update={this.componentWillMount}
+              trashNote={this.state.trashNote}
+              archiveNote={this.state.archiveNote}
+              searchValue={this.state.searchValue}
+            ></Pin>
+          </Grid>
+          <Grid container item xs={12} spacing={0}>
+            <Cards
+              pin={false}
+              allNotes={this.state.allNotes}
+              update={this.componentWillMount}
+              trashNote={this.state.trashNote}
+              archiveNote={this.state.archiveNote}
+              searchValue={this.state.searchValue}
+            ></Cards>
+          </Grid>
+        </Grid>
+        <Lable
+          allLabls={this.state.allLabls}
+          lable={this.state.lable}
+          update={this.componentWillMount}
+          onClose={this.onClose}
+        ></Lable>
       </>
     );
   }

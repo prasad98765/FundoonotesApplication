@@ -13,7 +13,11 @@ const Api = {
     archiveNotes : '/notes/archiveNotes',
     pinUnpinNotes : '/notes/pinUnpinNotes',
     updateReminderNotes : '/notes/addUpdateReminderNotes',
-    removeReminderNotes : '/notes/removeReminderNotes'
+    removeReminderNotes : '/notes/removeReminderNotes',
+    getNoteLabelList : '/noteLabels/getNoteLabelList',
+    noteLabels : '/noteLabels',
+    deleteNoteLabels : '/deleteNoteLabel',
+    updateNoteLabels : '/updateNoteLabel'
 }
 
 export default Api

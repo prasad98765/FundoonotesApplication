@@ -1,6 +1,6 @@
 import React from "react";
 import clsx from "clsx";
-import { makeStyles, Grid } from "@material-ui/core/";
+import { makeStyles } from "@material-ui/core/";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -10,9 +10,8 @@ import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
 import EmojiObjectsOutlinedIcon from "@material-ui/icons/EmojiObjectsOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
+import LabelOutlinedIcon from "@material-ui/icons/LabelOutlined";
 import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
-import Cards from "../Compounts/Cards.jsx";
-import Pin from "../Compounts/PinCard.jsx";
 import "../Compounts/compountStyle.scss";
 
 const drawerWidth = 180;
@@ -55,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MiniDrawer(props) {
   const classes = useStyles();
+  console.log("in the sidebar caLSS", props.allLabls);
   return (
     <>
       <div class="sidebar">
@@ -75,64 +75,59 @@ export default function MiniDrawer(props) {
           onMouseOut={props.menuClose}
         >
           <List>
-            {["Notes", "Reminders", "Edit labels", "Archive", "Trash"].map(
-              (text, index) => (
-                <ListItem
-                  button
-                  key={text}
-                  onClick={() => props.drawerclick(text)}
-                >
-                  <ListItemIcon>
-                    {index === 0 ? (
-                      <div>
-                        <EmojiObjectsOutlinedIcon></EmojiObjectsOutlinedIcon>
-                      </div>
-                    ) : index === 1 ? (
-                      <div>
-                        <NotificationsNoneIcon />
-                      </div>
-                    ) : index === 2 ? (
-                      <div>
-                        <EditOutlinedIcon />
-                      </div>
-                    ) : index === 3 ? (
-                      <div>
-                        <ArchiveOutlinedIcon />
-                      </div>
-                    ) : (
-                      <div>
-                        <DeleteOutlineOutlinedIcon />
-                      </div>
-                    )}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItem>
-              )
-            )}
+            <ListItem button onClick={() => props.drawerclick("Notes")}>
+              <ListItemIcon>
+                <EmojiObjectsOutlinedIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Notes"} />
+            </ListItem>
+            <ListItem button onClick={() => props.drawerclick("Reminders")}>
+              <ListItemIcon>
+                <NotificationsNoneIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Reminders"} />
+            </ListItem>
+
+            {props.allLabls.map((value, index) => {
+              return (
+                <>
+                  {value !== null ? (
+                    <ListItem
+                      button
+                      onClick={() => props.drawerclick(value.label)}
+                    >
+                      <ListItemIcon>
+                        <LabelOutlinedIcon />
+                      </ListItemIcon>
+                      <ListItemText primary={value.label} />
+                    </ListItem>
+                  ) : (
+                    ""
+                  )}
+                </>
+              );
+            })}
+            <ListItem button onClick={() => props.drawerclick("Edit labels")}>
+              <ListItemIcon>
+                <EditOutlinedIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Edit labels"} />
+            </ListItem>
+            <ListItem button onClick={() => props.drawerclick("Archive")}>
+              <ListItemIcon>
+                <ArchiveOutlinedIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Archive"} />
+            </ListItem>
+            <ListItem button onClick={() => props.drawerclick("Trash")}>
+              <ListItemIcon>
+                <DeleteOutlineOutlinedIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Trash"} />
+            </ListItem>
           </List>
         </Drawer>
       </div>
-      <Grid container spacing={0}>
-        <Grid container item xs={12} spacing={0}>
-          <Pin
-            allNotes={props.notes}
-            update={props.update}
-            trashNote={props.trashNotes}
-            archiveNote={props.archiveNotes}
-            searchValue={props.searchValue}
-          ></Pin>
-        </Grid>
-        <Grid container item xs={12} spacing={0}>
-          <Cards
-            pin={false}
-            allNotes={props.notes}
-            update={props.update}
-            trashNote={props.trashNotes}
-            archiveNote={props.archiveNotes}
-            searchValue={props.searchValue}
-          ></Cards>
-        </Grid>
-      </Grid>
     </>
   );
 }

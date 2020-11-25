@@ -145,6 +145,63 @@ class UserNoteServices {
         })
       }
 
+
+      getNoteLabelList = (callback) => {
+        return Axios.get(
+          `${Api.Url}${Api.getNoteLabelList}?access_token=${details.id}`
+        )
+        .then((response) => {
+          callback(response)
+        })
+        .catch((error)=> {
+          callback(error)
+        })
+      }
+      
+
+      noteLabels = (data,callback) => {
+        return Axios.post(
+          `${Api.Url}${Api.noteLabels}?access_token=${details.id}`,
+          data
+        )
+        .then((response) => {
+          callback(response)
+        })
+        .catch((error)=> {
+          callback(error)
+        })
+      }
+
+      deleteNoteLabels = (data,callback) => {
+        return Axios.delete(
+          `${Api.Url}/noteLabels/${data.id}${Api.deleteNoteLabels}?access_token=${details.id}`,
+          data
+        )
+        .then((response) => {
+          callback(response)
+        })
+        .catch((error)=> {
+          callback(error)
+        })
+      }
+
+        
+      
+      updateNoteLabels = (data,callback) => {
+        return Axios.post(
+          `${Api.Url}/noteLabels/${data.id}${Api.updateNoteLabels}?access_token=${details.id}`,
+          data
+        )
+        .then((response) => {
+          callback(response)
+        })
+        .catch((error)=> {
+          callback(error)
+        })
+      }
+
+      
+
    
 
       

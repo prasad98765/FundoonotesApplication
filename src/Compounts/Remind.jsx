@@ -1,14 +1,7 @@
 import React from "react";
 import "../Compounts/compountStyle.scss";
 import moment from "moment";
-import {
-  makeStyles,
-  Grid,
-  Typography,
-  Popover,
-  Box,
-  Link,
-} from "@material-ui/core/";
+import { makeStyles, Grid, Typography, Popover, Box } from "@material-ui/core/";
 import AddAlertIcon from "@material-ui/icons/AddAlert";
 const useStyles = makeStyles((theme) => ({
   typography: {
@@ -84,12 +77,19 @@ class RemindMe extends React.Component {
         >
           <Typography className={useStyles.typography}>
             <Box p={2}>
-              <h3 style={{ marginTop: "-2%", opacity: "80%" }}>Reminder:</h3>
+              <h3
+                style={{
+                  marginTop: "-2%",
+                  opacity: "80%",
+                }}
+              >
+                Reminder:
+              </h3>
 
               {this.state.remind.map((value, index) => {
                 return (
                   <div class="reminder">
-                    <Link
+                    <h4
                       variant="outlined"
                       onClick={() => this.getReminder(value)}
                     >
@@ -105,13 +105,13 @@ class RemindMe extends React.Component {
                           sm={6}
                           style={{ marginTop: "2.5%" }}
                         >
-                          <h4>{value}</h4>
+                          <h4>{value} </h4>
                         </Grid>
                         <Grid container item xs={12} sm={6} class="time">
                           <h4>{this.state.time}</h4>
                         </Grid>
                       </Grid>
-                    </Link>
+                    </h4>
                   </div>
                 );
               })}
