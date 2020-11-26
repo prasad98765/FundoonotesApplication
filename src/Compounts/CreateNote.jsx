@@ -98,7 +98,6 @@ class Cards extends React.Component {
   };
 
   render() {
-    console.log("get color", this.state.isarchived);
     return (
       <>
         <ClickAwayListener onClickAway={this.handleClickAway}>

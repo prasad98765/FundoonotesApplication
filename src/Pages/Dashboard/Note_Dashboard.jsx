@@ -1,6 +1,5 @@
 import React from "react";
 import { Grid } from "@material-ui/core/";
-
 import Navbar from "../../Compounts/Navbar.jsx";
 import Notes from "../../Compounts/CreateNote.jsx";
 import Sidebar from "../../Compounts/Sidebar";
@@ -19,6 +18,7 @@ class Dashboard extends React.Component {
       condition: true,
       trashNote: false,
       archiveNote: false,
+      reminderNote: "",
       searchValue: "",
       allLabls: [],
       lable: false,
@@ -64,20 +64,50 @@ class Dashboard extends React.Component {
       this.setState({
         allLabls: res.data.data.details,
       });
-      console.log("get all lable list", res.data.data.details);
     });
   };
 
   onclickdrawer = (value) => {
     if (value === "Notes") {
-      this.setState({ trashNote: false, archiveNote: false, condition: true });
+      this.componentWillMount();
+      this.setState({
+        reminderNote: "ab",
+        trashNote: false,
+        archiveNote: false,
+        condition: true,
+      });
     } else if (value === "Trash") {
-      this.setState({ trashNote: true, archiveNote: false, condition: false });
+      this.componentWillMount();
+      this.setState({
+        reminderNote: "ab",
+        trashNote: true,
+        archiveNote: false,
+        condition: false,
+      });
     } else if (value === "Archive") {
-      this.setState({ archiveNote: true, trashNote: false, condition: false });
+      this.componentWillMount();
+      this.setState({
+        reminderNote: "ab",
+        archiveNote: true,
+        trashNote: false,
+        condition: false,
+      });
     } else if (value === "Edit labels") {
-      console.log("in Edit Lable");
       this.setState({ lable: true });
+    } else if (value === "Reminders") {
+      this.componentWillMount();
+      this.setState({
+        reminderNote: null,
+        archiveNote: false,
+        condition: false,
+        trashNote: false,
+      });
+    } else {
+      Noteservice.getNotesListByLabels(value, (res) => {
+        this.setState({
+          allNotes: res.data.data.data,
+        });
+      });
     }
   };
 
@@ -85,7 +115,6 @@ class Dashboard extends React.Component {
     this.setState({ lable: false });
   };
 
-  handleClose = () => {};
   render() {
     return (
       <>
@@ -114,6 +143,8 @@ class Dashboard extends React.Component {
               trashNote={this.state.trashNote}
               archiveNote={this.state.archiveNote}
               searchValue={this.state.searchValue}
+              reminderNote={this.state.reminderNote}
+              allLabls={this.state.allLabls}
             ></Pin>
           </Grid>
           <Grid container item xs={12} spacing={0}>
@@ -124,6 +155,8 @@ class Dashboard extends React.Component {
               trashNote={this.state.trashNote}
               archiveNote={this.state.archiveNote}
               searchValue={this.state.searchValue}
+              reminderNote={this.state.reminderNote}
+              allLabls={this.state.allLabls}
             ></Cards>
           </Grid>
         </Grid>

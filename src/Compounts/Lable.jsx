@@ -1,5 +1,6 @@
 import React from "react";
 import Dialog from "@material-ui/core/Dialog";
+import Property from "../property.js";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { IconButton, Button } from "@material-ui/core/";
 import Input from "@material-ui/core/Input";
@@ -19,17 +20,10 @@ class Lable extends React.Component {
     this.state = {
       lable: "",
       Newlabel: "",
-      ab: true,
     };
   }
   handleChange = async (e) => {
     this.setState({ [e.target.name]: await e.target.value });
-  };
-  changeIcon = () => {
-    this.setState({ ab: false });
-  };
-  changeLableIcon = () => {
-    this.setState({ ab: true });
   };
 
   closeLable = () => {
@@ -49,7 +43,6 @@ class Lable extends React.Component {
   };
 
   deleteLable = (id) => {
-    console.log("delete lable", id);
     let data = {
       id: id,
     };
@@ -67,6 +60,7 @@ class Lable extends React.Component {
       id: id,
     };
     Noteservice.updateNoteLabels(data, (res) => {
+      this.setState({ snackbarOpen: true });
       this.props.update();
     });
   };
@@ -77,7 +71,7 @@ class Lable extends React.Component {
         <Dialog aria-labelledby="simple-dialog-title" open={this.props.lable}>
           <DialogTitle id="simple-dialog-title">Edit lable</DialogTitle>
           <DialogTitle id="simple-dialog-title" style={{ color: "white" }}>
-            rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+            {Property.log}
           </DialogTitle>
           <DialogTitle id="simple-dialog-title" style={{ color: "white" }}>
             <FormControl

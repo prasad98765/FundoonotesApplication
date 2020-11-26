@@ -1,5 +1,7 @@
 import React from "react";
 import "../Compounts/compountStyle.scss";
+import Property from "../property.js";
+
 import { Card, Button, Grid, Snackbar } from "@material-ui/core/";
 import Remind from "./Remind";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
@@ -35,6 +37,7 @@ class Cards extends React.Component {
       condition: this.props.trashNote,
       trashAction: true,
       snackbarMessage: "",
+      reminder: null,
     };
     this.state.allNotes = this.props.allNotes;
   }
@@ -48,7 +51,6 @@ class Cards extends React.Component {
       color: value,
     };
     Noteservice.changesColorNotes(data, (res) => {
-      console.log("get colour", value);
       this.props.update();
       this.setState({
         color: value,
@@ -185,7 +187,6 @@ class Cards extends React.Component {
   };
 
   handleDelete = (id) => {
-    console.log("after the cick remind button", id);
     let data = {
       noteIdList: [id],
       reminder: "",
@@ -213,8 +214,22 @@ class Cards extends React.Component {
     });
   };
 
+  handleLabelDelete = (noteId, labelId) => {
+    let data = {
+      NoteId: noteId,
+      lableId: labelId,
+    };
+    Noteservice.removeLableToNotes(data, (res) => {
+      this.setState({
+        snackbarOpen: true,
+        snackbarMessage: "Note Label Remove",
+      });
+      this.props.update();
+    });
+  };
+
   render() {
-    console.log();
+    console.log("prasad", this.state.reminder);
     return (
       <>
         <Snackbar
@@ -235,7 +250,8 @@ class Cards extends React.Component {
               value.isArchived === this.props.archiveNote &&
               value.title.includes(this.props.searchValue.replace(/ /g, "")) ===
                 true &&
-              value.isPined === this.props.pin ? (
+              value.isPined === this.props.pin &&
+              value.reminder[0] !== this.props.reminderNote ? (
                 <Grid class="cards" item xs={12} sm={6}>
                   <Card
                     style={{
@@ -281,28 +297,50 @@ class Cards extends React.Component {
                         />
                       </Typography>
                     </CardContent>
+
                     <div style={{ marginTop: "-10%", marginBottom: "-11%" }}>
                       {value.reminder[0] != null ? (
                         <Chip
                           icon={<AccessAlarmIcon />}
-                          label={value.reminder[0].substring(0, 16) + "8.00PM"}
+                          label={value.reminder[0].substring(4, 16) + "8.00PM"}
                           onDelete={() => this.handleDelete(value.id)}
                           color="transparent"
                           variant="outlined"
                           style={{
                             marginLeft: "6%",
-                            backgroundColor: "lightgray",
+                            backgroundColor: "transparent",
+                            fontWeight: "bold",
                           }}
                         />
                       ) : (
-                        <Chip
-                          // icon={<AccessAlarmIcon />}
-                          label=""
-                          // onDelete={this.handleDelete}
-                          color="transparent"
-                          variant="transparent"
-                          style={{ border: "none" }}
-                        />
+                        ""
+                      )}
+                    </div>
+                    <div style={{ marginTop: "13%", marginBottom: "-15%" }}>
+                      {value.noteLabels[0] != null &&
+                      this.props.trashNote === false ? (
+                        <>
+                          {value.noteLabels.map((labelvalue, index) => {
+                            return (
+                              <Chip
+                                onDelete={() =>
+                                  this.handleLabelDelete(
+                                    value.id,
+                                    labelvalue.id
+                                  )
+                                }
+                                label={labelvalue.label}
+                                style={{
+                                  marginLeft: "6%",
+                                  backgroundColor: "transparent",
+                                  fontWeight: "bold",
+                                }}
+                              />
+                            );
+                          })}
+                        </>
+                      ) : (
+                        ""
                       )}
                     </div>
 
@@ -311,7 +349,7 @@ class Cards extends React.Component {
                         <Button
                           style={{
                             marginLeft: "456%",
-                            marginTop: "-380%",
+                            marginTop: "-480%",
                           }}
                         >
                           {this.props.pin === false ? (
@@ -378,6 +416,9 @@ class Cards extends React.Component {
                           <More
                             action={this.state.message}
                             delete={this.isDelete}
+                            allLabls={this.props.allLabls}
+                            cardId={value.id}
+                            update={this.props.update}
                           ></More>
                         </IconButton>
                       </CardActions>
@@ -417,9 +458,7 @@ class Cards extends React.Component {
         >
           <div style={{ backgroundColor: this.state.color }}>
             <DialogContent>
-              <h1 style={{ color: this.state.color }}>
-                jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
-              </h1>
+              <h1 style={{ color: this.state.color }}>{Property.card}</h1>
               <CardContent style={{ marginTop: "-19%" }}>
                 <Typography color="textSecondary" gutterBottom>
                   <textarea

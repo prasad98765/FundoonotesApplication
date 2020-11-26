@@ -20,6 +20,8 @@ class Pin extends React.Component {
           trashNote={this.props.trashNote}
           archiveNote={this.props.archiveNote}
           searchValue={this.props.searchValue}
+          reminderNote={this.props.reminderNote}
+          allLabls={this.props.allLabls}
         ></Card>
       </>
     );

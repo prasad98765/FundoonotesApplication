@@ -200,10 +200,45 @@ class UserNoteServices {
         })
       }
 
-      
+    
+      addLableToNotes = (data,callback) => {
+        return Axios.post(
+          `${Api.Url}/notes/${data.NoteId}/addLabelToNotes/${data.lableId}/add?access_token=${details.id}`
+        )
+        .then((response) => {
+          callback(response)
+        })
+        .catch((error)=> {
+          callback(error)
+        })
+      }
 
-   
+      removeLableToNotes = (data,callback) => {
+        return Axios.post(
+          `${Api.Url}/notes/${data.NoteId}/addLabelToNotes/${data.lableId}/remove?access_token=${details.id}`
+        )
+        .then((response) => {
+          callback(response)
+        })
+        .catch((error)=> {
+          callback(error)
+        })
+      }
 
+
+    
+      getNotesListByLabels = (data,callback) => {
+        return Axios.post(
+          `${Api.Url}/notes/getNotesListByLabel/${data}?access_token=${details.id}`,
+          data
+        )
+        .then((response) => {
+          callback(response)
+        })
+        .catch((error)=> {
+          callback(error)
+        })
+      }
       
 
 

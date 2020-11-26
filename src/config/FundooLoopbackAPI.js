@@ -17,7 +17,7 @@ const Api = {
     getNoteLabelList : '/noteLabels/getNoteLabelList',
     noteLabels : '/noteLabels',
     deleteNoteLabels : '/deleteNoteLabel',
-    updateNoteLabels : '/updateNoteLabel'
+    updateNoteLabels : '/updateNoteLabel',
 }
 
 export default Api
