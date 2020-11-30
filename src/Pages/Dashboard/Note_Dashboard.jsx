@@ -24,6 +24,7 @@ class Dashboard extends React.Component {
       allLabls: [],
       lable: false,
       profileImage: "",
+      change: true,
     };
     this.state.item = this.props.history.location.state;
   }
@@ -120,7 +121,12 @@ class Dashboard extends React.Component {
     this.setState({ lable: false });
   };
 
+  changeView = (value) => {
+    this.setState({ change: value });
+  };
+
   render() {
+    console.log("kjkj", this.state.change);
     return (
       <>
         {this.state.condition === true ? (
@@ -145,6 +151,7 @@ class Dashboard extends React.Component {
           update={this.componentWillMount}
           searchValue={this.searchValue}
           imageUrl={this.state.profileImage}
+          changeView={this.changeView}
         ></Navbar>
         <Grid container spacing={0}>
           <Grid container item xs={12} spacing={0}>
@@ -156,6 +163,7 @@ class Dashboard extends React.Component {
               searchValue={this.state.searchValue}
               reminderNote={this.state.reminderNote}
               allLabls={this.state.allLabls}
+              change={this.state.change}
             ></Pin>
           </Grid>
           <Grid container item xs={12} spacing={0}>
@@ -168,6 +176,7 @@ class Dashboard extends React.Component {
               searchValue={this.state.searchValue}
               reminderNote={this.state.reminderNote}
               allLabls={this.state.allLabls}
+              change={this.state.change}
             ></Cards>
           </Grid>
         </Grid>

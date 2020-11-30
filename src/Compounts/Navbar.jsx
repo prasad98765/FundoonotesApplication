@@ -14,6 +14,7 @@ import { Avatar, Button, makeStyles } from "@material-ui/core/";
 import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state";
 import MenuIcon from "@material-ui/icons/Menu";
 import UserServicesAPI from "../Services/UserServicesAPI.js";
+import ViewComfyIcon from "@material-ui/icons/ViewComfy";
 
 const useStyles = makeStyles((theme) => ({
   large: {
@@ -28,6 +29,7 @@ class Navbar extends React.Component {
       item: null,
       value: "",
       file: null,
+      change: true,
     };
     this.state.item = this.props.details;
   }
@@ -54,8 +56,12 @@ class Navbar extends React.Component {
     });
   };
 
+  changeView = () => {
+    this.setState({ change: !this.state.change });
+    this.props.changeView(this.state.change);
+  };
+
   render() {
-    console.log(this.state.file);
     return (
       <>
         <AppBar style={{ backgroundColor: "white" }}>
@@ -76,8 +82,12 @@ class Navbar extends React.Component {
                 onChange={(newValue) => this.props.searchValue(newValue)}
               />
             </div>
-            <div class="menu" title="List view">
-              <MenuIcon></MenuIcon>
+            <div class="menu" title="List view" style={{ cursor: "pointer" }}>
+              {this.state.change === true ? (
+                <ViewComfyIcon onClick={this.changeView}></ViewComfyIcon>
+              ) : (
+                <MenuIcon onClick={this.changeView}></MenuIcon>
+              )}
             </div>
             <div color="inherit" class="profile">
               <PopupState variant="popover" popupId="demo-popup-popover">
@@ -90,11 +100,7 @@ class Navbar extends React.Component {
                       aria-haspopup="true"
                       color="inherit"
                     >
-                      <Avatar
-                        alt="Remy Sharp"
-                        src={this.props.imageUrl}
-                        className={useStyles.large}
-                      />
+                      <Avatar alt="Remy Sharp" src={this.props.imageUrl} />
                     </IconButton>
                     <Popover
                       {...bindPopover(popupState)}
@@ -123,15 +129,9 @@ class Navbar extends React.Component {
                               type="file"
                               onChange={this.changeProfileImage}
                             />
-                            <Fab
-                              color="primary"
-                              size="small"
-                              component="span"
-                              aria-label="add"
-                            >
+                            <Fab size="small" component="span" aria-label="add">
                               <Avatar
                                 alt="Remy Sharp"
-                                style={{ backgroundColor: "transparent" }}
                                 src={this.props.imageUrl}
                                 className={useStyles.large}
                               />

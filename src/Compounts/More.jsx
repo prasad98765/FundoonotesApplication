@@ -77,7 +77,6 @@ class More extends React.Component {
   }
 
   render() {
-    console.log("in More Class", this.state.checkedValues);
     return (
       <>
         <MoreVertIcon

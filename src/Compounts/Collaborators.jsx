@@ -1,4 +1,6 @@
 import React from "react";
+import Property from "../property.js";
+
 import { Button, CardContent, Avatar } from "@material-ui/core/";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -111,9 +113,7 @@ class Collaborators extends React.Component {
           <div style={{ backgroundColor: this.state.color }}>
             <DialogTitle id="alert-dialog-title">Collaborators</DialogTitle>
             <DialogContent>
-              <h1 style={{ color: "white" }}>
-                fffffffffffffffffffffffffffffffffffffff
-              </h1>
+              <h1 style={{ color: "white" }}>{Property.Collaborator}</h1>
 
               <CardContent style={{ marginTop: "-6%" }}>
                 <h4 style={{ marginTop: "-18%" }}>

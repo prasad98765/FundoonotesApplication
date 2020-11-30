@@ -10,7 +10,6 @@ import {
   InputAdornment,
 } from "@material-ui/core/";
 import Remind from "./Remind";
-// import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import PersonAddIcon from "../Compounts/Collaborators.jsx";
 import Colour from "./Displaycolor";
 import More from "./More";
@@ -46,6 +45,8 @@ class Cards extends React.Component {
       snackbarMessage: "",
       reminder: null,
       coll: [],
+      cardCss: "cards",
+      ReminderCss: "reminder",
     };
     this.state.allNotes = this.props.allNotes;
   }
@@ -67,7 +68,6 @@ class Cards extends React.Component {
   };
 
   handleClickOpen = (title, description, id, color, collaborators) => {
-    console.log("papapaapapapapapapac", color);
     if (!color) {
       this.setState({
         color: "white",
@@ -255,7 +255,15 @@ class Cards extends React.Component {
   getId = () => {};
 
   render() {
-    console.log("prasad", this.state.reminder);
+    if (this.props.change === true) {
+      console.log("in false", this.props.change);
+      this.state.cardCss = "cards";
+      this.state.ReminderCss = "reminder";
+    } else {
+      console.log("in true", this.props.change);
+      this.state.cardCss = "viewcards";
+      this.state.ReminderCss = "viewreminder";
+    }
     return (
       <>
         <Snackbar
@@ -270,7 +278,6 @@ class Cards extends React.Component {
         />
 
         {this.props.allNotes.map((value, index) => {
-          console.log(value.reminder[0]);
           return (
             <>
               {value.isDeleted === this.props.trashNote &&
@@ -279,7 +286,7 @@ class Cards extends React.Component {
                 true &&
               value.isPined === this.props.pin &&
               value.reminder[0] != this.props.reminderNote ? (
-                <Grid class="cards" item xs={12} sm={6}>
+                <Grid class={this.state.cardCss} item xs={12} sm={6}>
                   <Card
                     style={{
                       backgroundColor: value.color,
@@ -371,7 +378,7 @@ class Cards extends React.Component {
                       )}
                     </Grid>
 
-                    <div style={{ marginTop: "-10%", marginBottom: "-11%" }}>
+                    <div class={this.state.ReminderCss}>
                       {value.reminder[0] != null ? (
                         <Chip
                           icon={<AccessAlarmIcon />}

@@ -10,7 +10,6 @@ import {
   ClickAwayListener,
   Snackbar,
 } from "@material-ui/core";
-
 import Colour from "./Displaycolor";
 import Remind from "./Remind";
 import More from "./More";
