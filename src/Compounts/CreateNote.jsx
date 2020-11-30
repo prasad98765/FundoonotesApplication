@@ -1,6 +1,5 @@
 import React from "react";
 import "../Compounts/compountStyle.scss";
-
 import {
   Card,
   CardContent,
@@ -9,6 +8,7 @@ import {
   InputBase,
   Button,
   ClickAwayListener,
+  Snackbar,
 } from "@material-ui/core";
 
 import Colour from "./Displaycolor";
@@ -32,12 +32,15 @@ class Cards extends React.Component {
       show: "",
       pin: "none",
       message: "Take a note...",
-      color: "",
+      color: "#FFFFFF",
       title: "",
       description: "",
       isarchived: false,
       ispined: false,
       displypin: Pin,
+      reminder: "",
+      snackbarOpen: false,
+      labelId: [],
     };
   }
 
@@ -59,6 +62,19 @@ class Cards extends React.Component {
     this.setState({ setExpanded: !this.state.setExpanded });
   };
 
+  getReminder = (value) => {
+    this.setState({ reminder: value });
+    this.setState({
+      snackbarOpen: true,
+      snackbarMessage: "Note Reminder Added",
+    });
+  };
+
+  labelId = (value) => {
+    console.log("label id", value);
+    this.setState({ labelId: value });
+  };
+
   handleClickAway = () => {
     if (this.state.title !== "" || this.state.description !== "") {
       let noteDetails = {
@@ -67,7 +83,11 @@ class Cards extends React.Component {
         color: this.state.color,
         isArchived: this.state.isarchived,
         isPined: this.state.ispined,
+        reminder: this.state.reminder,
+        labelIdList: this.state.labelId,
+        collaberators: [],
       };
+      console.log(noteDetails);
       Noteservice.saveNote(noteDetails, (res) => {
         this.setState({
           title: "",
@@ -84,22 +104,55 @@ class Cards extends React.Component {
     this.setState({ setExpanded: false });
   };
   archived = async () => {
+    this.setState({
+      snackbarOpen: true,
+      snackbarMessage: "Note Archived",
+    });
     await this.setState({ isarchived: true });
-    this.handleClickAway();
   };
 
   getcolor = (value) => {
+    this.setState({
+      snackbarOpen: true,
+      snackbarMessage: "Note Color Added",
+    });
     this.setState({ color: value });
   };
 
   pinNote = () => {
+    this.setState({
+      snackbarOpen: true,
+      snackbarMessage: "Note Color Added",
+    });
     this.setState({ ispined: true });
     this.setState({ displypin: Unpinicon });
   };
 
+  getId = (id) => {
+    this.setState({ labelId: [id] });
+    console.log(id);
+  };
+
+  handleSnackbarClose = (event) => {
+    this.setState({
+      snackbarOpen: false,
+    });
+  };
+  update = () => {};
+
   render() {
     return (
       <>
+        <Snackbar
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+          open={this.state.snackbarOpen}
+          autoHideDuration={2000}
+          onClose={this.handleSnackbarClose}
+          message={<span id="message-id">{this.state.snackbarMessage}</span>}
+        />
         <ClickAwayListener onClickAway={this.handleClickAway}>
           <Card class="note" style={{ backgroundColor: this.state.color }}>
             <CardActions>
@@ -167,7 +220,7 @@ class Cards extends React.Component {
                   onChange={this.handleChange}
                   value={this.state.description}
                 />
-                <Remind></Remind>
+                <Remind reminder={this.getReminder}></Remind>
                 <PersonAddIcon
                   style={{
                     marginLeft: "4%",
@@ -186,7 +239,12 @@ class Cards extends React.Component {
                   }}
                   onClick={this.archived}
                 ></ArchiveIcon>
-                <More></More>
+                <More
+                  allLabls={this.props.allLabls}
+                  labelId={this.labelId}
+                  update={this.update}
+                  getId={this.getId}
+                ></More>
                 <div>
                   <Button
                     style={{ marginLeft: "87%", marginTop: "-9%" }}

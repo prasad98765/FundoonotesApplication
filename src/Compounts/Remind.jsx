@@ -1,7 +1,14 @@
 import React from "react";
 import "../Compounts/compountStyle.scss";
 import moment from "moment";
-import { makeStyles, Grid, Typography, Popover, Box } from "@material-ui/core/";
+import {
+  makeStyles,
+  Grid,
+  Typography,
+  Popover,
+  Box,
+  TextField,
+} from "@material-ui/core/";
 import AddAlertIcon from "@material-ui/icons/AddAlert";
 const useStyles = makeStyles((theme) => ({
   typography: {
@@ -18,8 +25,15 @@ class RemindMe extends React.Component {
       remind: ["Later today", "Tomorrow", "Next week"],
       time: "8 PM",
       todayDate: new Date().toJSON(),
+      setDateTime: null,
     };
   }
+
+  handleChange = async (e) => {
+    console.log(e.target.value);
+    this.setState({ setDateTime: await e.target.value });
+    this.props.reminder(this.state.setDateTime);
+  };
 
   handleClick = (event) => {
     this.setState({ open: true });
@@ -33,17 +47,17 @@ class RemindMe extends React.Component {
   getReminder = (value) => {
     if (value === "Later today") {
       this.props.reminder(
-        moment(this.state.todayDate).format("yyyy-MM-DD") + "T20:30:00.000Z"
+        moment(this.state.todayDate).format("yyyy-MM-DD") + "T08:00:00.000Z"
       );
     } else if (value === "Tomorrow") {
       this.props.reminder(
         moment(this.state.todayDate).add(1, "day").format("yyyy-MM-DD") +
-          "T20:30:00.000Z"
+          "T08:00:00.000Z"
       );
     } else if (value === "Next week") {
       this.props.reminder(
         moment(this.state.todayDate).add(7, "day").format("yyyy-MM-DD") +
-          "T20:30:00.000Z"
+          "T08:00:00.000Z"
       );
     }
   };
@@ -115,6 +129,20 @@ class RemindMe extends React.Component {
                   </div>
                 );
               })}
+              <form noValidate style={{ marginTop: "-13%" }}>
+                <TextField
+                  value="setDateTime"
+                  id="datetime-local"
+                  label="Select Date & Time"
+                  type="datetime-local"
+                  format="yyyy-MM-DD"
+                  onChange={this.handleChange}
+                  // className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </form>
             </Box>
           </Typography>
         </Popover>

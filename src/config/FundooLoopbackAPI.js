@@ -18,6 +18,8 @@ const Api = {
     noteLabels : '/noteLabels',
     deleteNoteLabels : '/deleteNoteLabel',
     updateNoteLabels : '/updateNoteLabel',
+    searchUserList : '/user/searchUserList',
+    uploadProfileImage : '/user/uploadProfileImage'
 }
 
 export default Api

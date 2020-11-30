@@ -23,13 +23,14 @@ class More extends React.Component {
       message: "",
       gilad: false,
       checkedValues: [],
+      labelId: null,
     };
     this.state.message = this.props.action;
   }
 
   handleClick = (event) => {
     if (!this.props.action) {
-      this.setState({ message: "Add label" });
+      this.setState({ message: "Add Drawming" });
     } else {
       this.setState({ message: "Delete Note" });
     }
@@ -63,6 +64,7 @@ class More extends React.Component {
         ? state.checkedValues.filter((c) => c !== x)
         : [...state.checkedValues, x],
     }));
+    this.props.getId(id);
     let data = {
       NoteId: this.props.cardId,
       lableId: id,

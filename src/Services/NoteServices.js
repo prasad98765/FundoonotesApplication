@@ -241,6 +241,38 @@ class UserNoteServices {
       }
       
 
+      addCollaboratorsNotes = (data,callback) => {
+        let userData = {
+          email : data.email,
+          firstName : data.firstName,
+          lastName : data.lastName,
+          userId : data.userId 
+        }
+        return Axios.post(
+          `${Api.Url}/notes/${data.noteId}/AddCollaboratorsNotes?access_token=${details.id}`,
+          userData
+        )
+        .then((response) => {
+          callback(response)
+        })
+        .catch((error)=> {
+          callback(error)
+        })
+      }
+
+      deleteCollaboratorsNotes = (data,callback) => {
+        return Axios.delete(
+          `${Api.Url}/notes/${data.noteId}/removeCollaboratorsNotes/${data.userId}?access_token=${details.id}`
+        )
+        .then((response) => {
+          callback(response)
+        })
+        .catch((error)=> {
+          callback(error)
+        })
+      }
+      
+
 
 }
 

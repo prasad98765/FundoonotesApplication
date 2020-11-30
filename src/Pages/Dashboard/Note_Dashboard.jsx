@@ -7,6 +7,7 @@ import Noteservice from "../../Services/NoteServices.js";
 import Lable from "../../Compounts/Lable.jsx";
 import Pin from "../../Compounts/PinCard.jsx";
 import Cards from "../../Compounts/Cards.jsx";
+const details = JSON.parse(localStorage.getItem("image"));
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -22,6 +23,7 @@ class Dashboard extends React.Component {
       searchValue: "",
       allLabls: [],
       lable: false,
+      profileImage: "",
     };
     this.state.item = this.props.history.location.state;
   }
@@ -65,6 +67,7 @@ class Dashboard extends React.Component {
         allLabls: res.data.data.details,
       });
     });
+    this.setState({ profileImage: details.imageUrl });
   };
 
   onclickdrawer = (value) => {
@@ -106,6 +109,8 @@ class Dashboard extends React.Component {
       Noteservice.getNotesListByLabels(value, (res) => {
         this.setState({
           allNotes: res.data.data.data,
+          condition: false,
+          reminderNote: "ab",
         });
       });
     }
@@ -119,7 +124,11 @@ class Dashboard extends React.Component {
     return (
       <>
         {this.state.condition === true ? (
-          <Notes note={this.componentWillMount}></Notes>
+          <Notes
+            note={this.componentWillMount}
+            allLabls={this.state.allLabls}
+            update={this.componentWillMount}
+          ></Notes>
         ) : (
           ""
         )}
@@ -133,7 +142,9 @@ class Dashboard extends React.Component {
         <Navbar
           details={this.state.item}
           menuOpen={this.handleDrawerOpen}
+          update={this.componentWillMount}
           searchValue={this.searchValue}
+          imageUrl={this.state.profileImage}
         ></Navbar>
         <Grid container spacing={0}>
           <Grid container item xs={12} spacing={0}>

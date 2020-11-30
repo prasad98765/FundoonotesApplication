@@ -2,9 +2,16 @@ import React from "react";
 import "../Compounts/compountStyle.scss";
 import Property from "../property.js";
 
-import { Card, Button, Grid, Snackbar } from "@material-ui/core/";
+import {
+  Card,
+  Button,
+  Grid,
+  Snackbar,
+  InputAdornment,
+} from "@material-ui/core/";
 import Remind from "./Remind";
-import PersonAddIcon from "@material-ui/icons/PersonAdd";
+// import PersonAddIcon from "@material-ui/icons/PersonAdd";
+import PersonAddIcon from "../Compounts/Collaborators.jsx";
 import Colour from "./Displaycolor";
 import More from "./More";
 import CardActions from "@material-ui/core/CardActions";
@@ -26,7 +33,7 @@ class Cards extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      color: null,
+      color: "",
       open: false,
       snackbarOpen: false,
       allNotes: [],
@@ -38,6 +45,7 @@ class Cards extends React.Component {
       trashAction: true,
       snackbarMessage: "",
       reminder: null,
+      coll: [],
     };
     this.state.allNotes = this.props.allNotes;
   }
@@ -58,13 +66,24 @@ class Cards extends React.Component {
     });
   };
 
-  handleClickOpen = (title, description, id, color) => {
+  handleClickOpen = (title, description, id, color, collaborators) => {
+    console.log("papapaapapapapapapac", color);
+    if (!color) {
+      this.setState({
+        color: "white",
+      });
+    } else {
+      this.setState({
+        color: color,
+      });
+    }
     this.setState({
       open: true,
       title: title,
       description: description,
       id: id,
       color: color,
+      coll: collaborators,
     });
   };
 
@@ -108,7 +127,11 @@ class Cards extends React.Component {
       isArchived: false,
     };
     Noteservice.trashNotes(data, (res) => {
-      this.setState({ snackbarOpen: true, snackbarMessage: "Note Trashed" });
+      this.setState({
+        snackbarOpen: true,
+        snackbarMessage: "Note Trashed",
+        open: false,
+      });
       this.props.update();
     });
   };
@@ -148,6 +171,7 @@ class Cards extends React.Component {
       this.setState({
         snackbarOpen: true,
         snackbarMessage: "Note archived",
+        open: false,
       });
       this.props.update();
     });
@@ -228,6 +252,8 @@ class Cards extends React.Component {
     });
   };
 
+  getId = () => {};
+
   render() {
     console.log("prasad", this.state.reminder);
     return (
@@ -244,6 +270,7 @@ class Cards extends React.Component {
         />
 
         {this.props.allNotes.map((value, index) => {
+          console.log(value.reminder[0]);
           return (
             <>
               {value.isDeleted === this.props.trashNote &&
@@ -251,7 +278,7 @@ class Cards extends React.Component {
               value.title.includes(this.props.searchValue.replace(/ /g, "")) ===
                 true &&
               value.isPined === this.props.pin &&
-              value.reminder[0] !== this.props.reminderNote ? (
+              value.reminder[0] != this.props.reminderNote ? (
                 <Grid class="cards" item xs={12} sm={6}>
                   <Card
                     style={{
@@ -264,7 +291,8 @@ class Cards extends React.Component {
                           value.title,
                           value.description,
                           value.id,
-                          value.color
+                          value.color,
+                          value.collaborators
                         )
                       }
                     >
@@ -280,6 +308,13 @@ class Cards extends React.Component {
                               border: "none",
                               resize: "none",
                             }}
+                            endAdornment={
+                              <>
+                                <InputAdornment position="end">
+                                  <h6>ab</h6>
+                                </InputAdornment>
+                              </>
+                            }
                           />
                         </Grid>
                       </Grid>
@@ -298,11 +333,52 @@ class Cards extends React.Component {
                       </Typography>
                     </CardContent>
 
+                    <Grid item xs={2} style={{ marginTop: "-5%" }}>
+                      {this.props.trashNote === false ? (
+                        <Button
+                          style={{
+                            marginLeft: "456%",
+                            marginTop: "-380%",
+                          }}
+                        >
+                          {this.props.pin === false ? (
+                            <img
+                              alt="Remy Sharp"
+                              style={{
+                                fontSize: "20%",
+                                marginTop: "0%",
+
+                                display: this.state.displypin,
+                              }}
+                              onClick={() => this.pinNote(value.id)}
+                              src={Pinicon}
+                            />
+                          ) : (
+                            <img
+                              alt="Remy Sharp"
+                              style={{
+                                fontSize: "20%",
+                                marginTop: "16%",
+                                display: this.state.displypin,
+                              }}
+                              onClick={() => this.unPinNote(value.id)}
+                              src={Unpinicon}
+                            />
+                          )}
+                        </Button>
+                      ) : (
+                        ""
+                      )}
+                    </Grid>
+
                     <div style={{ marginTop: "-10%", marginBottom: "-11%" }}>
                       {value.reminder[0] != null ? (
                         <Chip
                           icon={<AccessAlarmIcon />}
-                          label={value.reminder[0].substring(4, 16) + "8.00PM"}
+                          label={
+                            value.reminder[0].substring(4, 16) +
+                            value.reminder[0].substring(16, 21)
+                          }
                           onDelete={() => this.handleDelete(value.id)}
                           color="transparent"
                           variant="outlined"
@@ -316,7 +392,7 @@ class Cards extends React.Component {
                         ""
                       )}
                     </div>
-                    <div style={{ marginTop: "13%", marginBottom: "-15%" }}>
+                    <div style={{ marginTop: "13%" }}>
                       {value.noteLabels[0] != null &&
                       this.props.trashNote === false ? (
                         <>
@@ -344,42 +420,28 @@ class Cards extends React.Component {
                       )}
                     </div>
 
-                    <Grid item xs={2} style={{ marginTop: "-5%" }}>
-                      {this.props.trashNote === false ? (
-                        <Button
-                          style={{
-                            marginLeft: "456%",
-                            marginTop: "-480%",
-                          }}
-                        >
-                          {this.props.pin === false ? (
-                            <img
-                              alt="Remy Sharp"
-                              style={{
-                                fontSize: "20%",
-                                marginTop: "16%",
-                                display: this.state.displypin,
-                              }}
-                              onClick={() => this.pinNote(value.id)}
-                              src={Pinicon}
-                            />
-                          ) : (
-                            <img
-                              alt="Remy Sharp"
-                              style={{
-                                fontSize: "20%",
-                                marginTop: "16%",
-                                display: this.state.displypin,
-                              }}
-                              onClick={() => this.unPinNote(value.id)}
-                              src={Unpinicon}
-                            />
-                          )}
-                        </Button>
+                    <div style={{ marginTop: "0%" }}>
+                      {value.collaborators[0] != null &&
+                      this.props.trashNote === false ? (
+                        <>
+                          {value.collaborators.map((value, index) => {
+                            return (
+                              <Chip
+                                label={value.firstName.slice(0, 1)}
+                                style={{
+                                  marginLeft: "6%",
+                                  backgroundColor: "gray",
+                                  fontWeight: "bold",
+                                }}
+                              />
+                            );
+                          })}
+                        </>
                       ) : (
                         ""
                       )}
-                    </Grid>
+                    </div>
+
                     {this.props.trashNote === false ? (
                       <CardActions
                         onClick={() => this.setState({ id: value.id })}
@@ -389,7 +451,11 @@ class Cards extends React.Component {
                           <Remind reminder={this.getReminder}></Remind>
                         </IconButton>
                         <IconButton style={{ color: "black" }}>
-                          <PersonAddIcon></PersonAddIcon>
+                          <PersonAddIcon
+                            cardId={value.id}
+                            coll={value.collaborators}
+                            update={this.props.update}
+                          ></PersonAddIcon>
                         </IconButton>
                         <IconButton>
                           <Colour color={this.getcolor}></Colour>
@@ -419,6 +485,7 @@ class Cards extends React.Component {
                             allLabls={this.props.allLabls}
                             cardId={value.id}
                             update={this.props.update}
+                            getId={this.getId}
                           ></More>
                         </IconButton>
                       </CardActions>
@@ -493,13 +560,24 @@ class Cards extends React.Component {
               <div>
                 <CardActions className="cardicon">
                   <Remind reminder={this.getReminder}></Remind>
-                  <PersonAddIcon></PersonAddIcon>
+                  <PersonAddIcon
+                    coll={this.state.coll}
+                    cardId={this.state.id}
+                    update={this.props.update}
+                  ></PersonAddIcon>
                   <Colour color={this.getcolor}></Colour>
                   <ArchiveIcon
                     // style={{ marginLeft: "3%" }}
                     onClick={() => this.archive(this.state.id)}
                   ></ArchiveIcon>
-                  <More delete={this.isDelete}></More>
+                  <More
+                    action={this.state.message}
+                    delete={this.isDelete}
+                    allLabls={this.props.allLabls}
+                    update={this.props.update}
+                    cardId={this.state.id}
+                    getId={this.getId}
+                  ></More>
                   <Button
                     onClick={this.handleClose}
                     color="primary"

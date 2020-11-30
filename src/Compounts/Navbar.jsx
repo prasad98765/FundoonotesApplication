@@ -2,18 +2,19 @@ import React from "react";
 import "../Compounts/compountStyle.scss";
 import FormatAlignJustifyIcon from "@material-ui/icons/FormatAlignJustify";
 import Logo from "../Imgaes/googleLogo";
-import Profile from "../Imgaes/prasad.jpg";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
-import AccountCircle from "@material-ui/icons/AccountCircle";
 import Box from "@material-ui/core/Box";
 import Popover from "@material-ui/core/Popover";
 import SearchBar from "material-ui-search-bar";
+import Fab from "@material-ui/core/Fab";
 import { Avatar, Button, makeStyles } from "@material-ui/core/";
 import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state";
 import MenuIcon from "@material-ui/icons/Menu";
+import UserServicesAPI from "../Services/UserServicesAPI.js";
+
 const useStyles = makeStyles((theme) => ({
   large: {
     width: theme.spacing(7),
@@ -26,17 +27,35 @@ class Navbar extends React.Component {
     this.state = {
       item: null,
       value: "",
+      file: null,
     };
     this.state.item = this.props.details;
   }
 
   handleChange = async (e) => {
     console.log(e.target.value);
-    // this.setState({ [e.target.name]: await e.target.value });
+  };
+
+  changeProfileImage = (event) => {
+    this.setState({ file: event.target.files[0] });
+    const formData = new FormData();
+    formData.append("file", event.target.files[0]);
+
+    UserServicesAPI.uploadProfileImage(formData, (res) => {
+      console.log("image uploda backend", res.data.status.imageUrl);
+
+      var userdetails = {
+        imageUrl:
+          "http://fundoonotes.incubation.bridgelabz.com/" +
+          res.data.status.imageUrl,
+      };
+      localStorage.setItem("image", JSON.stringify(userdetails));
+      this.props.update();
+    });
   };
 
   render() {
-    console.log(this.state.value);
+    console.log(this.state.file);
     return (
       <>
         <AppBar style={{ backgroundColor: "white" }}>
@@ -71,7 +90,11 @@ class Navbar extends React.Component {
                       aria-haspopup="true"
                       color="inherit"
                     >
-                      <AccountCircle style={{ textAlign: "center" }} />
+                      <Avatar
+                        alt="Remy Sharp"
+                        src={this.props.imageUrl}
+                        className={useStyles.large}
+                      />
                     </IconButton>
                     <Popover
                       {...bindPopover(popupState)}
@@ -92,13 +115,28 @@ class Navbar extends React.Component {
                             height: "190px",
                           }}
                         >
-                          <Avatar
-                            style={{ marginLeft: "37%" }}
-                            alt="Remy Sharp"
-                            src={Profile}
-                            className={useStyles.large}
-                          />
-
+                          <label htmlFor="upload-photo">
+                            <input
+                              style={{ display: "none" }}
+                              id="upload-photo"
+                              name="upload-photo"
+                              type="file"
+                              onChange={this.changeProfileImage}
+                            />
+                            <Fab
+                              color="primary"
+                              size="small"
+                              component="span"
+                              aria-label="add"
+                            >
+                              <Avatar
+                                alt="Remy Sharp"
+                                style={{ backgroundColor: "transparent" }}
+                                src={this.props.imageUrl}
+                                className={useStyles.large}
+                              />
+                            </Fab>
+                          </label>
                           <h4 style={{ marginTop: "8%" }}>
                             {this.state.item.customerdetails.name} {}
                             {this.state.item.customerdetails.lastName}{" "}

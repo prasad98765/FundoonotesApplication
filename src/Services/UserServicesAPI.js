@@ -1,5 +1,6 @@
 import Axios from "axios";
 import Api from "../config/FundooLoopbackAPI.js"
+const details = JSON.parse(localStorage.getItem("details")); 
 
 
 class UserServices {
@@ -21,6 +22,7 @@ class UserServices {
         user
       )
         .then((response) => {
+          console.log("login data",response);
           callback(response);
         })
         .catch((error) => {
@@ -41,6 +43,32 @@ class UserServices {
           });
       }
 
+      searchUserList = async (user, callback)=>{
+        return  Axios.post(
+          `${Api.Url}${Api.searchUserList}?access_token=${details.id}`,
+            user
+          )
+            .then((response) => {
+              callback(response);
+            })
+            .catch((error) => {
+              callback(error);
+            });
+        }
+  
+        uploadProfileImage = async (user, callback)=>{
+          return  Axios.post(
+            `${Api.Url}${Api.uploadProfileImage}?access_token=${details.id}`,
+              user
+            )
+              .then((response) => {
+                callback(response);
+              })
+              .catch((error) => {
+                callback(error);
+              });
+          }
+    
     
   
 }

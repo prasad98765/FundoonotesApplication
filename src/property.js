@@ -1,6 +1,8 @@
+import Collaborator from "./Compounts/Collaborators"
+
 const Api = {
    log : "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
-   card : "jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj"
+   card : "jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj",
 }
 
 export default Api
